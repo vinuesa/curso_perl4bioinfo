@@ -1,0 +1,8 @@
+host=$(hostname)
+if [ $host == "Tenerife" ]; then
+   script_dir=/export/data/dbox/Dropbox/Cursos/perl4bioinfo/my_code
+else
+   script_dir=$HOME/Dropbox/Cursos/perl4bioinfo/my_code
+fi
+
+# $script_dir/run_aligners.pl GDP_12_prokEuc.faa
