@@ -1,0 +1,75 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+
+use File::Basename;
+use Cwd;
+use Carp;
+
+my $cwd      = cwd();
+my $hostname = '';
+
+if ($hostname eq "Tenerife")
+{ 
+   # BEGIN { unshift @INC, '/export/data/dbox/Dropbox/Cursos/perl4bioinfo/my_code' ;} 
+   use lib qw(/export/data/dbox/Dropbox/Cursos/perl4bioinfo/my_code) ;
+}
+else
+{
+   # >>> EDIT THIS LINE TO SET THE CORRECT PATH TO THE *pm FILES <<<
+   # BEGIN { unshift @INC, '/home/vinuesa/Dropbox/Cursos/perl4bioinfo/my_code' ;}
+   use lib '/home/vinuesa/Dropbox/Cursos/perl4bioinfo/my_code' ;
+}
+
+use PhyloTools3 qw(run_clustalo run_muscle run_FastTree);
+
+my $VERSION  = 0.2; # v0.2_16Oct2018
+my $progname = basename($0);
+
+print_help() unless @ARGV;
+
+my ($fasta_file, $seq_type, $alignment_algorithm) = @ARGV;
+
+if(! defined $alignment_algorithm){ $alignment_algorithm = 'clustalo' }
+
+croak "\n# ERROR: no file $fasta_file in dir $cwd!\n\n" if ! -s $fasta_file;
+croak "\n# ERROR: no seq_type defined as second argument\n\n" if ! defined $seq_type;
+
+
+if( $alignment_algorithm eq "muscle")
+{
+   my $mus_aln = run_muscle($fasta_file, 1);
+   run_FastTree($mus_aln, $seq_type);
+}
+else
+{
+  my $cluo_aln =  run_clustalo($fasta_file);
+  run_FastTree($cluo_aln, $seq_type);
+}
+
+#-----------------------------------------------------------
+sub print_help
+{
+  print <<"EOF";
+  
+  USAGE:
+    $progname version $VERSION requires 2 arguments:
+
+    - Required
+        1. A fasta file name 
+	2. Sequence type: <aa|nt>
+
+    - Optional
+        3. an alignment algorithm name <clustalo|muscle>; default: clustalo
+     
+  AIM:
+    will run clustalo or muscle to align the input fasta file 
+         and FastTree to infer phylogeny
+    
+  CWD:
+    $cwd    
+ 
+EOF
+   exit 0
+}
