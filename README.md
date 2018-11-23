@@ -6,4 +6,4 @@
 
 - En esta [liga](https://vinuesa.github.io/curso_perl4bioinfo/perl4bioinfo/) podr&aacute;s acceder al material did&aacute;ctico de este tema en formato HTML.
 
-- En esta otra, podrás acceder a la [presentación-Rpubs](https://vinuesa.github.io/curso_perl4bioinfo/perl4bioinfo/prepresentacion_modulos-rpubs.html)
+- En esta otra, podrás acceder a la [presentación-Rpubs](https://vinuesa.github.io/curso_perl4bioinfo/perl4bioinfo/Rpubs/)
