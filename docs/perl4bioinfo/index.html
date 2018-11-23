@@ -11,7 +11,7 @@
 
 <meta name="author" content="Pablo Vinuesa, CCG-UNAM (http://www.ccg.unam.mx/~vinuesa/, https://github.com/vinuesa)" />
 
-<meta name="date" content="2018-11-22" />
+<meta name="date" content="2018-11-23" />
 
 <title>Introducción al uso de módulos en Perl con aplicaciones para bioinformática</title>
 
@@ -124,7 +124,7 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Introducción al uso de módulos en Perl con aplicaciones para bioinformática</h1>
 <h4 class="author"><em>Pablo Vinuesa, CCG-UNAM (<a href="http://www.ccg.unam.mx/~vinuesa/" class="uri">http://www.ccg.unam.mx/~vinuesa/</a>, <a href="https://github.com/vinuesa" class="uri">https://github.com/vinuesa</a>)</em></h4>
-<h4 class="date"><em>2018-11-22</em></h4>
+<h4 class="date"><em>2018-11-23</em></h4>
 
 </div>
 
@@ -137,8 +137,8 @@ $(document).ready(function () {
 <li><a href="#binarios-a-instalar-usando-apt-distribuciones-debian-como-ubuntu"><span class="toc-section-number">1.4</span> binarios a instalar, usando <span class="math inline">\(apt\)</span> (distribuciones Debian, como Ubuntu)</a></li>
 </ul></li>
 <li><a href="#modulos-de-perl-conceptos-basicos"><span class="toc-section-number">2</span> Módulos de Perl – conceptos básicos</a><ul>
-<li><a href="#que-es-un-modulo"><span class="toc-section-number">2.1</span> ¿Qué es un módulo?</a></li>
-<li><a href="#que-es-un-paquete"><span class="toc-section-number">2.2</span> ¿Qué es un paquete?</a></li>
+<li><a href="#que-es-un-paquete"><span class="toc-section-number">2.1</span> ¿Qué es un paquete?</a></li>
+<li><a href="#que-es-un-modulo"><span class="toc-section-number">2.2</span> ¿Qué es un módulo?</a></li>
 <li><a href="#para-que-sirven-los-paquetes"><span class="toc-section-number">2.3</span> ¿Para qué sirven los paquetes?</a></li>
 <li><a href="#los-paquetes-como-separadores-del-espacio-de-nombres-ejemplo1"><span class="toc-section-number">2.4</span> Los paquetes como separadores del espacio de nombres – ejemplo1</a><ul>
 <li><a href="#programa-paquetes1.pl---uso-de-paquetes-para-particionar-el-espacio-de-simbolos"><span class="toc-section-number">2.4.1</span> Programa paquetes1.pl - uso de paquetes para particionar el espacio de símbolos</a></li>
@@ -218,6 +218,9 @@ $(document).ready(function () {
 <li><a href="#script-convert_seqformats_seqio.pl-para-interconvertir-formatos-de-secuencias"><span class="toc-section-number">6.5.3</span> Script <span class="math inline">\(convert\_seqFormats\_SeqIO.pl\)</span> para interconvertir formatos de secuencias</a></li>
 </ul></li>
 </ul></li>
+<li><a href="#ejercicio---construccion-de-un-modulo-para-filogenetica"><span class="toc-section-number">7</span> Ejercicio - construcción de un módulo para filogenética</a><ul>
+<li><a href="#escribir-run_phylotools.pl-que-llama-a-phylotools.pm"><span class="toc-section-number">7.0.1</span> Escribir <span class="math inline">\(run\_PhyloTools.pl\)</span> que llama a PhyloTools.pm</a></li>
+</ul></li>
 </ul>
 </div>
 
@@ -256,30 +259,32 @@ En Ubuntu, los puedes instalar usando:
 <pre style="background: whitesmoke">
 sudo apt install perldoc cpanminus bioperl libstatistics-descriptive-perl libstatistics-distributions-perl
 </pre>
+<p>Estos módulos están en el directorio <span class="math inline">\(lib\)</span> de la distribución GitHub.</p>
 </div>
 <div id="binarios-a-instalar-usando-apt-distribuciones-debian-como-ubuntu" class="section level2">
 <h2><span class="header-section-number">1.4</span> binarios a instalar, usando <span class="math inline">\(apt\)</span> (distribuciones Debian, como Ubuntu)</h2>
 <pre style="background: whitesmoke">
 sudo apt install muscle clustalo fasttree phyml
 </pre>
+<p>Estos binarios (Linux, 64bit) están en el directorio <span class="math inline">\(bin\)</span> de la distribución GitHub.</p>
 </div>
 </div>
 <div id="modulos-de-perl-conceptos-basicos" class="section level1">
 <h1><span class="header-section-number">2</span> Módulos de Perl – conceptos básicos</h1>
-<div id="que-es-un-modulo" class="section level2">
-<h2><span class="header-section-number">2.1</span> ¿Qué es un módulo?</h2>
-<p>De manera muy simple, podríamos definir un <em>módulo</em> como la unidad de re-uso y distribución de código en Perl. Más formalmente, se trata de un <strong>paquete</strong> definido en un archivo que lleva el mismo nombre del paquete y tiene la terminación <strong><span class="math inline">\(.pm\)</span></strong>, es decir, algo como <strong>NombreModulo.pm</strong></p>
-<p>Los módulos contienen funciones relacionadas y están diseñados para ser usados por programas que llaman a dichos módulos, o incluso otros módulos que llaman a las funciones contenidas en diversos módulos externos.</p>
-<p>Cada módulo tiene una interfaz pública, que permite el acceso a las funciones y variables definidas en ellos.</p>
-<p>Llamamos <strong>clases</strong> a los módulos con <em>interfaz dirigida a objetos</em>. Como tales, son <strong>paquetes</strong></p>
-</div>
 <div id="que-es-un-paquete" class="section level2">
-<h2><span class="header-section-number">2.2</span> ¿Qué es un paquete?</h2>
+<h2><span class="header-section-number">2.1</span> ¿Qué es un paquete?</h2>
 <p>Perl usa paquetes para particionar o dividir en compartimentos el espacio global de identificadores, es decir, de los nombres de variables, subrutinas, descriptores de archivos y formatos.</p>
 <p>Cuando escribimos un script de Perl, todas las variables y nombres de subrutinas o descriptores de archivos (file handles) están definidas en el paquete principal, llamado <strong>package main</strong>.</p>
 <p>Cada <em>identificador global</em> tiene de hecho dos partes: su <strong>nombre de paquete</strong> y su <strong>identificador</strong>. Estas dos “piezas” están separadas la una de la otra por un doble doble-punto <strong>::</strong>.</p>
 <p>Así por ejemplo, la variable <span class="math inline">\(\$stats::x\)</span> es la variable global <span class="math inline">\(\$x\)</span>, que reside en el paquete stats.</p>
 <p><span class="math inline">\(\$main::x\)</span> es la variable <span class="math inline">\(\$x\)</span> definida en el paquete main. Ambas variables son completamente independientes.</p>
+</div>
+<div id="que-es-un-modulo" class="section level2">
+<h2><span class="header-section-number">2.2</span> ¿Qué es un módulo?</h2>
+<p>De manera muy simple, podríamos definir un <em>módulo</em> como la unidad de re-uso y distribución de código en Perl. Más formalmente, se trata de un <strong>paquete</strong> definido en un archivo que lleva el mismo nombre del paquete y tiene la terminación <strong><span class="math inline">\(.pm\)</span></strong>, es decir, algo como <strong>NombreModulo.pm</strong></p>
+<p>Los módulos contienen funciones relacionadas y están diseñados para ser usados por programas que llaman a dichos módulos, o incluso otros módulos que llaman a las funciones contenidas en diversos módulos externos.</p>
+<p>Cada módulo tiene una interfaz pública, que permite el acceso a las funciones y variables definidas en ellos.</p>
+<p>Llamamos <strong>clases</strong> a los módulos con <em>interfaz dirigida a objetos</em>. Como tales, son <strong>paquetes</strong></p>
 </div>
 <div id="para-que-sirven-los-paquetes" class="section level2">
 <h2><span class="header-section-number">2.3</span> ¿Para qué sirven los paquetes?</h2>
@@ -1720,7 +1725,67 @@ while (my $seq = $in-&gt;next_seq) {
 ##      atgattgcac attataa                                                       17
 ## //</code></pre>
 <p>Para más ejemplos de uso de la clase <a href="https://bioperl.org/howtos/SeqIO_HOWTO.html"><span class="math inline">\(Bio::SeqIO\)</span></a>, vean el siguiente <em>HOWTO</em> en la página de bioperl.org <a href="https://bioperl.org/howtos/SeqIO_HOWTO.html" class="uri">https://bioperl.org/howtos/SeqIO_HOWTO.html</a></p>
+<p>En la página de <a href="https://bioperl.org/howtos/">BioPerl HOWTOs</a> encontrarás muchos ejemplos más, muy bien escritos. Para empezar, recomiendo estudiar los siguientes, en este órden</p>
+<ul>
+<li>Beginners HOWTO</li>
+<li>SeqIO HOWTO</li>
+<li>SearchIO HOWTO</li>
+<li>EUtilities Cookbook HOWTO</li>
+<li>Features and annotations HOWTO</li>
+</ul>
 </div>
+</div>
+</div>
+<div id="ejercicio---construccion-de-un-modulo-para-filogenetica" class="section level1">
+<h1><span class="header-section-number">7</span> Ejercicio - construcción de un módulo para filogenética</h1>
+<div id="escribir-run_phylotools.pl-que-llama-a-phylotools.pm" class="section level3">
+<h3><span class="header-section-number">7.0.1</span> Escribir <span class="math inline">\(run\_PhyloTools.pl\)</span> que llama a PhyloTools.pm</h3>
+<p>En el repositorio está el script <span class="math inline">\(run\_phylo\_pipeline1.pl\)</span> que han de modifcar para que:</p>
+<ol style="list-style-type: decimal">
+<li>Tenga una interfaz con Getopts::Std</li>
+<li>Llame a archivos de secuencia de DNA o Proteína</li>
+<li>Corra FastTree o Phyml</li>
+<li>Pueda hacer LRTs entre parejas de hipótesis anidadas, para seleccionar el mejor modelo</li>
+<li>Llame a PhyloTools.pm, que tiene las subrutinas ya pre-programadas para ello</li>
+</ol>
+<ul>
+<li><p>Exploren el script <span class="math inline">\(run\_phylo\_pipeline1.pl\)</span> para ver qué necesitan modificar.</p></li>
+<li><p>Va un ejemplo de corrida <span class="math inline">\(run\_phylo\_pipeline1.pl\)</span> sin argumentos</p></li>
+</ul>
+<pre class="bash"><code>. ./set_script_dir_by_hostname
+$script_dir/run_phylo_pipeline1.pl</code></pre>
+<pre><code>##   
+##   USAGE:
+##     run_phylo_pipeline1.pl version 0.2 requires 2 arguments:
+## 
+##     - Required
+##         1. A fasta file name 
+##  2. Sequence type: &lt;aa|nt&gt;
+## 
+##     - Optional
+##         3. an alignment algorithm name &lt;clustalo|muscle&gt;; default: clustalo
+##      
+##   AIM:
+##     will run clustalo or muscle to align the input fasta file 
+##          and FastTree to infer phylogeny
+##     
+##   CWD:
+##     /export/data/dbox/Dropbox/Cursos/perl4bioinfo    
+## </code></pre>
+<ul>
+<li>Va un ejemplo de corrida <span class="math inline">\(run\_phylo\_pipeline1.pl\)</span> con argumentos</li>
+</ul>
+<pre class="bash"><code>. ./set_script_dir_by_hostname
+$script_dir/run_phylo_pipeline1.pl GDP_12_prokEuc.faa aa clustalo</code></pre>
+<pre><code>## # sub run_clustalo is running /usr/local/bin/clustalo -i GDP_12_prokEuc.faa -o GDP_12_prokEuc_cluoAln.faa --force
+## # run_clustalo() returned aligned outfile GDP_12_prokEuc_cluoAln.faa
+## # sub run_FastTree is running: /usr/local/biotools/bin/FastTree -lg -gamma -quiet &lt; GDP_12_prokEuc_cluoAln.faa &gt; GDP_12_prokEuc_cluoAln_FTLGG.ph
+## # run_clustalo() returned aligned outfile GDP_12_prokEuc_cluoAln_FTLGG.ph</code></pre>
+<ul>
+<li>pueden visualizar y editar el alineamiento GDP_12_prokEuc_cluoAln.faa con <span class="math inline">\(seaview\)</span></li>
+<li>pueden visualizar y editar el árbol GDP_12_prokEuc_cluoAln_FTLGG.ph con <span class="math inline">\(figtree\)</span></li>
+</ul>
+<p>Es todo, ¡felices vacaciones!</p>
 </div>
 </div>
 
