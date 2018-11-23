@@ -759,7 +759,7 @@ hljs.initHighlightingOnLoad();
   <div class="slides">
 
 <section data-state="section" data-transition="default" data-transition-speed="fast">
-<h1>Introducción al uso de módulos en Perl con aplicaciones en bioinformática</h1><p>Pablo Vinuesa, CCG-UNAM (&lt;http:&#x2F;&#x2F;www.ccg.unam.mx&#x2F;~vinuesa&#x2F;&gt;, &lt;https:&#x2F;&#x2F;github.com&#x2F;vinuesa&gt;)<br/>&quot;2018-11-22&quot;</p>
+<h1>Introducción al uso de módulos en Perl con aplicaciones en bioinformática</h1><p>Pablo Vinuesa, CCG-UNAM (&lt;http:&#x2F;&#x2F;www.ccg.unam.mx&#x2F;~vinuesa&#x2F;&gt;, &lt;https:&#x2F;&#x2F;github.com&#x2F;vinuesa&gt;)<br/>&quot;2018-11-23&quot;</p>
 
 <div class="slideContent" >
 <h2>Presentación</h2>
@@ -796,6 +796,12 @@ git clone https://github.com/vinuesa/curso_perl4bioinfo.git
 sudo apt install git
 </pre>
 
+</div>
+
+</section>
+<section data-transition="default" data-transition-speed="fast">
+<h3>Dependencias a instalar: módulos</h3>
+<div class="slideContent" >
 <h2>Módulos del CPAN, requeridos para este tema</h2>
 
 <ul>
@@ -807,15 +813,17 @@ sudo apt install git
 
 <p>En Ubuntu, los puedes instalar usando:</p>
 
-<pre style="background: whitesmoke; font-size: 80%">
+<pre style="background: whitesmoke; font-size: 100%">
 sudo apt install perldoc cpanminus bioperl libstatistics-descriptive-perl libstatistics-distributions-perl
 </pre>
+
+<p>En el directorio \( lib/ \) de este repositorio <em>GitHub</em> hay una copia de las librerías</p>
 
 </div>
 
 </section>
 <section data-transition="default" data-transition-speed="fast">
-<h3>binarios a instalar</h3>
+<h3>Dependencias a instalar: binarios </h3>
 <div class="slideContent" >
 <p>Algunos de los módulos que vamos a desarrollar en este tema, serán usados para correr
 tuberías de análisis filogenéticos. Para ello necesitamos contar con los siguientes
@@ -837,24 +845,14 @@ sudo apt install muscle clustalo
 sudo apt install fasttree phyml
 </pre>
 
+<p>En el directorio \( bin/ \) de este repositorio <em>GitHub</em> hay una copia de los binarios</p>
+
 </div>
 
 </section>
 <section data-transition="default" data-transition-speed="fast">
 <h3>Módulos de Perl – conceptos básicos </h3>
 <div class="slideContent" >
-<h2>¿Qué es un módulo?</h2>
-
-<p>De manera muy simple, podríamos definir un <em>módulo</em> como la unidad de re-uso y distribución de código en Perl.
-Más formalmente, se trata de un <strong>paquete</strong> definido en un archivo que lleva el mismo nombre del
-paquete y tiene la terminación <strong>\( .pm \)</strong>, es decir, algo como <strong>NombreModulo.pm</strong></p>
-
-<p>Los módulos contienen funciones relacionadas y están diseñados para ser usados por programas que llaman a dichos módulos, o incluso otros módulos que llaman a las funciones contenidas en diversos módulos externos. </p>
-
-<p>Cada módulo tiene una interfaz pública, que permite el acceso a las funciones y variables definidas en ellos.</p>
-
-<p>Llamamos <strong>clases</strong> a los módulos con <em>interfaz dirigida a objetos</em>. Como tales, son <strong>paquetes</strong></p>
-
 <h2>¿Qué es un paquete?</h2>
 
 <p>Perl usa paquetes para particionar o dividir en compartimentos el espacio global de identificadores, es decir, de los nombres de variables, subrutinas, descriptores de archivos y formatos. </p>
@@ -866,7 +864,18 @@ Estas dos “piezas” están separadas la una de la otra por un doble doble-pun
 
 <p>Así por ejemplo, la variable <em>$stats::x</em> es la variable global <em>$x</em>, que reside en el paquete stats.</p>
 
-<p>$\\( main::x \) es la variable <em>$x</em> definida en el paquete main. Ambas variables son completamente independientes.</p>
+<p><em>$main::x</em> es la variable <em>$x</em> definida en el paquete main. Ambas variables son completamente independientes.</p>
+
+<h2>¿Qué es un módulo?</h2>
+
+<p>De manera muy simple, podríamos definir un <em>módulo</em> como la unidad de re-uso y distribución de código en Perl.
+Más formalmente, se trata de un <strong>paquete</strong> definido en un archivo que lleva el mismo nombre del
+paquete y tiene la terminación <strong>$.pm$</strong>, es decir, algo como <strong>NombreModulo.pm</strong></p>
+
+<p>Los módulos contienen funciones relacionadas y están diseñados para ser usados por programas que llaman a dichos módulos, o incluso otros módulos que llaman a las funciones contenidas en diversos módulos externos. </p>
+
+<p>Cada módulo tiene una interfaz pública, que permite el acceso a las funciones y variables definidas en ellos. 
+Llamamos <strong>clases</strong> a los módulos con <em>interfaz dirigida a objetos</em>. Como tales, son <strong>paquetes</strong></p>
 
 </div>
 
@@ -877,9 +886,13 @@ Estas dos “piezas” están separadas la una de la otra por un doble doble-pun
 <h2>¿Para qué sirven los paquetes?</h2>
 
 <p>Imagina que tenemos dos programas independientes y decidimos crear un tercero que combina las
-mejores características de ambos. Al copiar y pegar funciones y variables de ambos en el nuevo,
+mejores características de ambos. </p>
+
+<p>Al copiar y pegar funciones y variables de ambos en el nuevo,
 nos damos cuenta que comparten nombres, como la variable escalar <em>$contador</em> y el arreglo
-\( @misGenomas \). Si no se modifican sus nombres, habra <strong>colisión (interferencia) entre las variables</strong>.</p>
+\( @misGenomas \).</p>
+
+<p>Si no se modifican sus nombres, habrá <strong>colisión (interferencia) entre las variables</strong>.</p>
 
 <p>La solución son los <strong>paquetes</strong>, que particionan el espacio global de identificadores. 
 Asignando las variables, subrutinas y descriptores de archivos de cada
@@ -907,31 +920,53 @@ código, favoreciendo el re-uso de funciones (o métodos).</p></li>
 
 <p>Este miniprograma ilustra el concepto de paquetes como divisores del espacio de nombres para evitar colisiones entre símbolos.</p>
 
-<pre><code class="perl">#!/usr/bin/env perl
+<pre style="background: whitesmoke; font-size: 80%">
+#!/usr/bin/env perl
 
 # programa: paquetes1.pl
 # El concepto de paquetes como divisores del espacio de nombres para evitar colisiones entre simbolos
 
-# estamos en el paquete principal &quot;main&quot;
-$secuencia = &#39;MVLLIATG&#39;;
+# estamos en el paquete principal "main"
+$secuencia = 'MVLLIATG';
 
 # declaramos un nuevo paquete y declaramos una variable en dicho paquete
 package Seq1;
-$secuencia = &#39;AAAAAAAA&#39;;
+$secuencia = 'AAAAAAAA';
 
 # declaramos un segundo paquete y declaramos una variable en dicho paquete
 package Seq2;
-$secuencia = &#39;CCCCCCCC&#39;;
+$secuencia = 'CCCCCCCC';
 
 # regresamos al paquete main e imprimimos los valores de las 3 variables escalares secuencia
 package main;
 
 # imprimimos las secuencias, usando las variables completamente calificadas
-print &quot;\n\tmain es: $secuencia&quot;
-     .&quot;\n\tSeq1 es: $Seq1::secuencia&quot;
-     .&quot;\n\tSeq2 es: $Seq2::secuencia\n\n&quot;;
+print "\n\tmain es: $secuencia"
+     ."\n\tSeq1 es: $Seq1::secuencia"
+     ."\n\tSeq2 es: $Seq2::secuencia\n\n";
+</pre>
 
-</code></pre>
+</div>
+
+</section>
+<section data-transition="default" data-transition-speed="fast">
+<h3>Los paquetes como separadores del espacio de nombres</h3>
+<div class="slideContent" >
+<h3>Programa paquetes1.pl - uso de paquetes para particionar el espacio de símbolos</h3>
+
+<ul>
+<li>De nuevo la llamada a \( print() \)</li>
+</ul>
+
+<pre style="background: whitesmoke; font-size: 90%">
+print "\n\tmain es: $secuencia"
+     ."\n\tSeq1 es: $Seq1::secuencia"
+     ."\n\tSeq2 es: $Seq2::secuencia\n\n";
+</pre>
+
+<ul>
+<li>Veamos la salida del programa</li>
+</ul>
 
 <pre><code>
     main es: MVLLIATG
@@ -943,15 +978,17 @@ print &quot;\n\tmain es: $secuencia&quot;
 
 </section>
 <section data-transition="default" data-transition-speed="fast">
-<h3>Programa paquetes2.pl - llamada a un módulo</h3>
+<h3>Llamada a un módulo</h3>
 <div class="slideContent" >
+<h3>Programa paquetes2.pl</h3>
+
 <p>Veamos ahora cómo importar al script \( paquetes2.pl \) símbolos (variables) guardados en los archivos extermos Seq1.pm y Seq2.pm, cada uno de los cuales representa un <em>módulo</em> distinto (paquete guardado en un archivo).</p>
 
 <ul>
 <li>Echemos primero un vistazo a los archivos Seq1.pm y Seq2.pm.</li>
 </ul>
 
-<pre style="background: whitesmoke; font-size: 70%">
+<pre style="background: whitesmoke; font-size: 90%">
 # contents of Seq1.pm
 package Seq1;
 $secuencia = 'AAAAAAAA';
@@ -968,6 +1005,14 @@ $secuencia = 'CCCCCCCC';
 <p>Como ven, cada archivo inicia con la definición de un paquete con el mismo nombre que el archivo. </p>
 
 <p>Además, los archivos \( *.pm \) terminan con una línea que contiene <strong>&#39;1;&#39;</strong> Es decir, terminan con un valor verdadero.</p>
+
+</div>
+
+</section>
+<section data-transition="default" data-transition-speed="fast">
+<h3>Llamada a un módulo</h3>
+<div class="slideContent" >
+<h3>Programa paquetes2.pl - cont.</h3>
 
 <ul>
 <li>Veamos ahora cómo se llaman los paquetes externos desde el script \( paquetes2.pl \).</li>
@@ -988,13 +1033,13 @@ $secuencia = 'CCCCCCCC';
 
 </section>
 <section data-transition="default" data-transition-speed="fast">
-
-<div class="slideContent noTitle" >
+<h3>Llamada a un módulo - cont.</h3>
+<div class="slideContent" >
 <h3>Programa paquetes2.pl - llamada a un módulo - cont.</h3>
 
 <p>Ustedes tendrán que editar <strong>use lib &#39;/path/to/lib&#39;;</strong> para que apunte al directorio correcto.</p>
 
-<pre style="background: whitesmoke;  font-size: 65%">
+<pre style="background: whitesmoke;  font-size: 70%">
 #!/usr/bin/env perl
 use strict;
 use warnings;
@@ -1027,6 +1072,28 @@ print "\n\tmain es: $secuencia"
      ."\n\tSeq2 es: $Seq2::secuencia\n\n";
 </pre>
 
+</div>
+
+</section>
+<section data-transition="default" data-transition-speed="fast">
+<h3>Llamada a un módulo - cont.</h3>
+<div class="slideContent" >
+<h3>Programa paquetes2.pl - llamada a un módulo - cont.</h3>
+
+<ul>
+<li>de nuevo la llamada a \( print() \)</li>
+</ul>
+
+<pre style="background: whitesmoke;  font-size: 90%">
+print "\n\tmain es: $secuencia"
+     ."\n\tSeq1 es: $Seq1::secuencia"
+     ."\n\tSeq2 es: $Seq2::secuencia\n\n";
+</pre>
+
+<ul>
+<li>veamos la salida del progragma:</li>
+</ul>
+
 <pre><code>
     main es: MVLLIATG
     Seq1 es: AAAAAAAA
@@ -1037,8 +1104,8 @@ print "\n\tmain es: $secuencia"
 
 </section>
 <section data-transition="default" data-transition-speed="fast">
-
-<div class="slideContent noTitle" >
+<h3>Llamadas a paquetes con use o require</h3>
+<div class="slideContent" >
 <h2>Diferencias entre las directivas \( require \) y \( use \)</h2>
 
 <p>El módulo es la unidad de reciclado de código en Perl. Para acceder a su funcionalidad,
@@ -1105,17 +1172,14 @@ exportada por \( PhyloTools2.pm \) gracias al uso del <strong>módulo Exporter</
 
 </section>
 <section data-transition="default" data-transition-speed="fast">
-<h3>$PhyloTools1.pm$ y $run\_muscle.pl$ - un módulo que no exporta funciones</h3>
+<h3>Un módulo que no exporta funciones</h3>
 <div class="slideContent" >
 <ol>
 <li>Exploremos \( PhyloTools1.pm \) y corramos \( run\_muscle.pl \).</li>
 </ol>
 
-<pre style="background: whitesmoke; font-size: 62%">
-# Pablo Vinuesa, http://www.ccg.unam.mx/~vinuesa
-# 2018 CCG-UNAM, Mexico, 
+<pre style="background: whitesmoke; font-size: 70%">
 # Modulo de ejemplo del curso "Introduccion a la programacion en Perl para bioinformatica"
-
 package PhyloTools;
 use strict;
 use warnings;
@@ -1127,14 +1191,12 @@ my $muscle_bin = '/usr/bin/muscle';
 
 my @binaries = ($muscle_bin);
 
-
 foreach my $bin (@binaries)
 {
   check_is_installed($bin);
 }
-#--------------------------------------------------------------------------------------
+
 #---------------------------------- SUBROUTINES ---------------------------------------
-#--------------------------------------------------------------------------------------
 
 sub check_is_installed
 {
@@ -3025,6 +3087,102 @@ SQ   Sequence 17 BP; 7 A; 2 C; 2 G; 6 T; 0 other;
 
 <p>Para más ejemplos de uso de la clase <a href="https://bioperl.org/howtos/SeqIO_HOWTO.html">\( Bio::SeqIO \)</a>, vean 
 el siguiente <em>HOWTO</em> en la página de bioperl.org <a href="https://bioperl.org/howtos/">https://bioperl.org/howtos/</a></p>
+
+<p>En la página de <a href="https://bioperl.org/howtos/">BioPerl HOWTOs</a> encontrarás muchos ejemplos
+más, muy bien escritos. Para empezar, recomiendo estudiar los siguientes, en este órden</p>
+
+<ul>
+<li>Beginners HOWTO</li>
+<li>SeqIO HOWTO</li>
+<li>SearchIO HOWTO</li>
+<li>EUtilities Cookbook HOWTO</li>
+<li>Features and annotations HOWTO</li>
+</ul>
+
+</div>
+
+</section>
+<section data-transition="default" data-transition-speed="fast">
+<h3>Ejercicio - construcción de un módulo para filogenética</h3>
+<div class="slideContent" >
+<h3>Escrubir \( run\_PhyloTools.pl \) que llama a PhyloTools.pm</h3>
+
+<p>En el repositorio está el script \( run\_phylo\_pipeline1.pl \) que han de modifcar para que:</p>
+
+<ol>
+<li>Tenga una interfaz con Getopts::Std</li>
+<li>Llame a archivos de secuencia de DNA o Proteína</li>
+<li>Corra FastTree o Phyml</li>
+<li>Pueda hacer LRTs entre parejas de hipótesis anidadas, para seleccionar el mejor modelo</li>
+<li>Llame a PhyloTools.pm, que tiene las subrutinas ya pre-programadas para ello</li>
+</ol>
+
+<ul>
+<li>Exploren el script \( run\_phylo\_pipeline1.pl \) para ver qué necesitan modificar.</li>
+</ul>
+
+</div>
+
+</section>
+<section data-transition="default" data-transition-speed="fast">
+<h3>Ejercicio - construcción de un módulo para filogenética</h3>
+<div class="slideContent" >
+<h3>Escrubir \( run\_PhyloTools.pl \) que llama a PhyloTools.pm</h3>
+
+<ul>
+<li>Va un ejemplo de corrida \( run\_phylo\_pipeline1.pl \)</li>
+</ul>
+
+<pre><code class="bash">. ./set_script_dir_by_hostname
+$script_dir/run_phylo_pipeline1.pl
+</code></pre>
+
+<pre><code>
+  USAGE:
+    run_phylo_pipeline1.pl version 0.2 requires 2 arguments:
+
+    - Required
+        1. A fasta file name 
+    2. Sequence type: &lt;aa|nt&gt;
+
+    - Optional
+        3. an alignment algorithm name &lt;clustalo|muscle&gt;; default: clustalo
+
+  AIM:
+    will run clustalo or muscle to align the input fasta file 
+         and FastTree to infer phylogeny
+
+  CWD:
+    /export/data/dbox/Dropbox/Cursos/perl4bioinfo    
+
+</code></pre>
+
+</div>
+
+</section>
+<section data-transition="default" data-transition-speed="fast">
+<h3>Ejercicio - construcción de un módulo para filogenética</h3>
+<div class="slideContent" >
+<h3>Escrubir \( run\_PhyloTools.pl \) que llama a PhyloTools.pm</h3>
+
+<ul>
+<li>Va un ejemplo de corrida \( run\_phylo\_pipeline1.pl \) con argumentos</li>
+</ul>
+
+<pre><code class="bash">. ./set_script_dir_by_hostname
+$script_dir/run_phylo_pipeline1.pl GDP_12_prokEuc.faa aa clustalo
+</code></pre>
+
+<pre><code># sub run_clustalo is running /usr/local/bin/clustalo -i GDP_12_prokEuc.faa -o GDP_12_prokEuc_cluoAln.faa --force
+# run_clustalo() returned aligned outfile GDP_12_prokEuc_cluoAln.faa
+# sub run_FastTree is running: /usr/local/biotools/bin/FastTree -lg -gamma -quiet &lt; GDP_12_prokEuc_cluoAln.faa &gt; GDP_12_prokEuc_cluoAln_FTLGG.ph
+# run_clustalo() returned aligned outfile GDP_12_prokEuc_cluoAln_FTLGG.ph
+</code></pre>
+
+<ul>
+<li>pueden visualizar y editar el alineamiento GDP_12_prokEuc_cluoAln.faa con \( seaview \)</li>
+<li>pueden visualizar y editar el árbol GDP_12_prokEuc_cluoAln_FTLGG.ph con \( figtree \)</li>
+</ul>
 
 </div>
 
