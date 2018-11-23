@@ -11,7 +11,7 @@
 
 <meta name="author" content="Pablo Vinuesa, CCG-UNAM (http://www.ccg.unam.mx/~vinuesa/, https://github.com/vinuesa)" />
 
-<meta name="date" content="2018-11-21" />
+<meta name="date" content="2018-11-22" />
 
 <title>Introducción al uso de módulos en Perl con aplicaciones para bioinformática</title>
 
@@ -124,107 +124,157 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Introducción al uso de módulos en Perl con aplicaciones para bioinformática</h1>
 <h4 class="author"><em>Pablo Vinuesa, CCG-UNAM (<a href="http://www.ccg.unam.mx/~vinuesa/" class="uri">http://www.ccg.unam.mx/~vinuesa/</a>, <a href="https://github.com/vinuesa" class="uri">https://github.com/vinuesa</a>)</em></h4>
-<h4 class="date"><em>2018-11-21</em></h4>
+<h4 class="date"><em>2018-11-22</em></h4>
 
 </div>
 
 <div id="TOC">
 <ul>
-<li><a href="#modulos-de-perl-conceptos-basicos"><span class="toc-section-number">1</span> Módulos de Perl – conceptos básicos</a><ul>
-<li><a href="#que-es-un-modulo"><span class="toc-section-number">1.1</span> ¿Qué es un módulo?</a></li>
-<li><a href="#que-es-un-paquete"><span class="toc-section-number">1.2</span> ¿Qué es un paquete?</a></li>
-<li><a href="#para-que-sirven-los-paquetes"><span class="toc-section-number">1.3</span> ¿Para qué sirven los paquetes?</a></li>
-<li><a href="#los-paquetes-como-separadores-del-espacio-de-nombres-ejemplo1"><span class="toc-section-number">1.4</span> Los paquetes como separadores del espacio de nombres – ejemplo1</a><ul>
-<li><a href="#programa-paquetes1.pl---uso-de-paquetes-para-particionar-el-espacio-de-simbolos"><span class="toc-section-number">1.4.1</span> Programa paquetes1.pl - uso de paquetes para particionar el espacio de símbolos</a></li>
-<li><a href="#programa-paquetes2.pl---llamada-a-un-modulo"><span class="toc-section-number">1.4.2</span> Programa paquetes2.pl - llamada a un módulo</a></li>
-<li><a href="#diferencias-entre-las-directivas-require-y-use"><span class="toc-section-number">1.4.3</span> Diferencias entre las directivas <span class="math inline">\(require\)</span> y <span class="math inline">\(use\)</span></a></li>
+<li><a href="#presentacion"><span class="toc-section-number">1</span> Presentación</a><ul>
+<li><a href="#licencia-y-terminos-de-uso"><span class="toc-section-number">1.1</span> Licencia y términos de uso</a></li>
+<li><a href="#clonacion-del-repositorio"><span class="toc-section-number">1.2</span> Clonación del repositorio</a></li>
+<li><a href="#modulos-del-cpan-requeridos-para-este-tema"><span class="toc-section-number">1.3</span> Módulos del CPAN, requeridos para este tema</a></li>
+<li><a href="#binarios-a-instalar-usando-apt-distribuciones-debian-como-ubuntu"><span class="toc-section-number">1.4</span> binarios a instalar, usando <span class="math inline">\(apt\)</span> (distribuciones Debian, como Ubuntu)</a></li>
 </ul></li>
-<li><a href="#construccion-paso-a-paso-de-un-modulo"><span class="toc-section-number">1.5</span> Construcción, paso a paso, de un módulo</a><ul>
-<li><a href="#phylotools1.pm-y-run_muscle.pl---un-modulo-que-no-exporta-funciones"><span class="toc-section-number">1.5.1</span> <span class="math inline">\(PhyloTools1.pm\)</span> y <span class="math inline">\(run\_muscle.pl\)</span> - un módulo que no exporta funciones</a></li>
-<li><a href="#phylotools2.pm-y-run_aligners.pl---exportado-de-simbolos-con-exporter"><span class="toc-section-number">1.5.2</span> <span class="math inline">\(PhyloTools2.pm\)</span> y <span class="math inline">\(run\_aligners.pl\)</span> - exportado de símbolos con <span class="math inline">\(Exporter\)</span></a></li>
-<li><a href="#diferencias-entre-export-y-export_ok"><span class="toc-section-number">1.5.3</span> Diferencias entre <span class="math inline">\(@EXPORT\)</span> y <span class="math inline">\(@EXPORT\_OK\)</span></a></li>
-<li><a href="#diferencias-entre-declaraciones-lexica-my-y-global-our-de-variables-bajo-el-pragma-use-strict"><span class="toc-section-number">1.5.4</span> Diferencias entre declaraciones léxica <span class="math inline">\(my\)</span> y global <span class="math inline">\(our\)</span> de variables bajo el pragma <span class="math inline">\(use\ strict\)</span></a></li>
-<li><a href="#machote-minimalista-para-escribir-modulos-que-exportan-funciones"><span class="toc-section-number">1.5.5</span> Machote minimalista para escribir módulos que exportan funciones</a></li>
+<li><a href="#modulos-de-perl-conceptos-basicos"><span class="toc-section-number">2</span> Módulos de Perl – conceptos básicos</a><ul>
+<li><a href="#que-es-un-modulo"><span class="toc-section-number">2.1</span> ¿Qué es un módulo?</a></li>
+<li><a href="#que-es-un-paquete"><span class="toc-section-number">2.2</span> ¿Qué es un paquete?</a></li>
+<li><a href="#para-que-sirven-los-paquetes"><span class="toc-section-number">2.3</span> ¿Para qué sirven los paquetes?</a></li>
+<li><a href="#los-paquetes-como-separadores-del-espacio-de-nombres-ejemplo1"><span class="toc-section-number">2.4</span> Los paquetes como separadores del espacio de nombres – ejemplo1</a><ul>
+<li><a href="#programa-paquetes1.pl---uso-de-paquetes-para-particionar-el-espacio-de-simbolos"><span class="toc-section-number">2.4.1</span> Programa paquetes1.pl - uso de paquetes para particionar el espacio de símbolos</a></li>
+<li><a href="#programa-paquetes2.pl---llamada-a-un-modulo"><span class="toc-section-number">2.4.2</span> Programa paquetes2.pl - llamada a un módulo</a></li>
+<li><a href="#diferencias-entre-las-directivas-require-y-use"><span class="toc-section-number">2.4.3</span> Diferencias entre las directivas <span class="math inline">\(require\)</span> y <span class="math inline">\(use\)</span></a></li>
 </ul></li>
-<li><a href="#documentacion-de-modulos-con-pod"><span class="toc-section-number">1.6</span> Documentación de módulos con <span class="math inline">\(POD\)</span></a></li>
+<li><a href="#construccion-paso-a-paso-de-un-modulo"><span class="toc-section-number">2.5</span> Construcción, paso a paso, de un módulo</a><ul>
+<li><a href="#phylotools1.pm-y-run_muscle.pl---un-modulo-que-no-exporta-funciones"><span class="toc-section-number">2.5.1</span> <span class="math inline">\(PhyloTools1.pm\)</span> y <span class="math inline">\(run\_muscle.pl\)</span> - un módulo que no exporta funciones</a></li>
+<li><a href="#phylotools2.pm-y-run_aligners.pl---exportado-de-simbolos-con-exporter"><span class="toc-section-number">2.5.2</span> <span class="math inline">\(PhyloTools2.pm\)</span> y <span class="math inline">\(run\_aligners.pl\)</span> - exportado de símbolos con <span class="math inline">\(Exporter\)</span></a></li>
+<li><a href="#diferencias-entre-export-y-export_ok"><span class="toc-section-number">2.5.3</span> Diferencias entre <span class="math inline">\(@EXPORT\)</span> y <span class="math inline">\(@EXPORT\_OK\)</span></a></li>
+<li><a href="#diferencias-entre-declaraciones-lexica-my-y-global-our-de-variables-bajo-el-pragma-use-strict"><span class="toc-section-number">2.5.4</span> Diferencias entre declaraciones léxica <span class="math inline">\(my\)</span> y global <span class="math inline">\(our\)</span> de variables bajo el pragma <span class="math inline">\(use\ strict\)</span></a></li>
+<li><a href="#machote-minimalista-para-escribir-modulos-que-exportan-funciones"><span class="toc-section-number">2.5.5</span> Machote minimalista para escribir módulos que exportan funciones</a></li>
 </ul></li>
-<li><a href="#modulos-core-de-la-distribucion-estandar"><span class="toc-section-number">2</span> Módulos core de la distribución estándar</a><ul>
-<li><a href="#listar-modulos-de-la-distribucion-estandar"><span class="toc-section-number">2.1</span> Listar módulos de la distribución estándar</a></li>
-<li><a href="#uso-de-perldoc-para-explorar-la-documentacion-de-modulos-de-perl"><span class="toc-section-number">2.2</span> Uso de <span class="math inline">\(perldoc\)</span> para explorar la documentación de módulos de Perl</a><ul>
-<li><a href="#explora-y-aprende-perl-con-perldoc-ejemplos-de-uso"><span class="toc-section-number">2.2.1</span> Explora y aprende Perl con <span class="math inline">\(perldoc\)</span>, ejemplos de uso</a></li>
+<li><a href="#documentacion-de-modulos-con-pod"><span class="toc-section-number">2.6</span> Documentación de módulos con <span class="math inline">\(POD\)</span></a></li>
 </ul></li>
-<li><a href="#algunos-modulos-muy-utilizados-de-la-distribucion-estandar-listados-por-area-de-uso"><span class="toc-section-number">2.3</span> Algunos módulos muy utilizados de la distribución estándar, listados por área de uso</a><ul>
-<li><a href="#directorios-y-archivos"><span class="toc-section-number">2.3.1</span> Directorios y archivos</a></li>
-<li><a href="#procesado-de-cadenas-parseo-de-textos-y-listas"><span class="toc-section-number">2.3.2</span> Procesado de cadenas, parseo de textos y listas</a></li>
-<li><a href="#errores-y-avisos"><span class="toc-section-number">2.3.3</span> Errores y avisos</a></li>
-<li><a href="#interfaz-de-usuario-parseo-de-opciones-y-parametros"><span class="toc-section-number">2.3.4</span> Interfaz de usuario: parseo de opciones y parámetros</a></li>
-<li><a href="#web-html-xml-bases-de-datos"><span class="toc-section-number">2.3.5</span> Web, HTML, XML, bases de datos</a></li>
+<li><a href="#modulos-core-de-la-distribucion-estandar"><span class="toc-section-number">3</span> Módulos core de la distribución estándar</a><ul>
+<li><a href="#el-arreglo-inc"><span class="toc-section-number">3.1</span> El arreglo <span class="math inline">\(@INC\)</span></a></li>
+<li><a href="#listar-modulos-de-la-distribucion-estandar"><span class="toc-section-number">3.2</span> Listar módulos de la distribución estándar</a></li>
+<li><a href="#uso-de-perldoc-para-explorar-la-documentacion-de-modulos-de-perl"><span class="toc-section-number">3.3</span> Uso de <span class="math inline">\(perldoc\)</span> para explorar la documentación de módulos de Perl</a><ul>
+<li><a href="#explora-y-aprende-perl-con-perldoc-ejemplos-de-uso"><span class="toc-section-number">3.3.1</span> Explora y aprende Perl con <span class="math inline">\(perldoc\)</span>, ejemplos de uso</a></li>
 </ul></li>
-<li><a href="#uso-de-modulos-core-con-interfaz-funcional"><span class="toc-section-number">2.4</span> Uso de módulos core con interfaz funcional</a><ul>
-<li><a href="#filebasename"><span class="toc-section-number">2.4.1</span> <span class="math inline">\(File::Basename\)</span></a></li>
-<li><a href="#getoptstd---process-single-character-switches-with-switch-clustering"><span class="toc-section-number">2.4.2</span> <span class="math inline">\(Getopt::Std\)</span> - Process single-character switches with switch clustering</a><ul>
-<li><a href="#ejemplo-de-interfaz-getoptstd-para-el-script-lrt_calculator.pl"><span class="toc-section-number">2.4.2.1</span> Ejemplo de interfaz <span class="math inline">\(Getopt::Std\)</span> para el script <span class="math inline">\(LRT\_calculator.pl\)</span></a></li>
+<li><a href="#algunos-modulos-muy-utilizados-de-la-distribucion-estandar-listados-por-area-de-uso"><span class="toc-section-number">3.4</span> Algunos módulos muy utilizados de la distribución estándar, listados por área de uso</a><ul>
+<li><a href="#directorios-y-archivos"><span class="toc-section-number">3.4.1</span> Directorios y archivos</a></li>
+<li><a href="#procesado-de-cadenas-parseo-de-textos-y-listas"><span class="toc-section-number">3.4.2</span> Procesado de cadenas, parseo de textos y listas</a></li>
+<li><a href="#errores-y-avisos"><span class="toc-section-number">3.4.3</span> Errores y avisos</a></li>
+<li><a href="#interfaz-de-usuario-parseo-de-opciones-y-parametros"><span class="toc-section-number">3.4.4</span> Interfaz de usuario: parseo de opciones y parámetros</a></li>
+<li><a href="#web-html-xml-bases-de-datos"><span class="toc-section-number">3.4.5</span> Web, HTML, XML, bases de datos</a></li>
 </ul></li>
-</ul></li>
-</ul></li>
-<li><a href="#cpan---the-perl-comprehensive-archive-network"><span class="toc-section-number">3</span> CPAN - The Perl Comprehensive Archive Network</a><ul>
-<li><a href="#busqueda-de-modulos-en-cpan-usando-search-cpan"><span class="toc-section-number">3.1</span> Búsqueda de módulos en CPAN usando “SEARCH CPAN”</a><ul>
-<li><a href="#algunos-modulos-de-estadistica-y-matematicas-en-cpan"><span class="toc-section-number">3.1.1</span> Algunos módulos de estadística y matemáticas en CPAN</a><ul>
-<li><a href="#lrt_calculator.pl---uso-de-statisticsdistributions-para-calculo-de-lrts"><span class="toc-section-number">3.1.1.1</span> <span class="math inline">\(LRT\_calculator.pl\)</span> - uso de <span class="math inline">\(Statistics::Distributions\)</span> para cálculo de LRTs</a></li>
-</ul></li>
-</ul></li>
-<li><a href="#instalacion-de-modulos-cpan-y-su-llamada-desde-scripts"><span class="toc-section-number">3.2</span> Instalación de módulos CPAN y su llamada desde scripts</a><ul>
-<li><a href="#como-adminstrador-root-queremos-hacer-instalaciones-para-todos-los-usuarios"><span class="toc-section-number">3.2.1</span> Como adminstrador (<em>root</em>) queremos hacer instalaciones para todos los usuarios</a><ul>
-<li><a href="#usando-el-manejador-de-paquetes-de-linux-apt-en-sistemas-debian"><span class="toc-section-number">3.2.1.1</span> Usando el manejador de paquetes de Linux (<span class="math inline">\(apt\)</span> en sistemas Debian)</a></li>
-</ul></li>
-<li><a href="#como-usuario-queremos-hacer-una-instalacion-en-direcotrio-bajo-nuestro-home"><span class="toc-section-number">3.2.2</span> Como usuario, queremos hacer una instalación en direcotrio bajo nuestro <span class="math inline">\(\$HOME/\)</span></a><ul>
-<li><a href="#instalacion-manual-con-perl-makefile.pl"><span class="toc-section-number">3.2.2.1</span> Instalación manual con <span class="math inline">\(perl\ Makefile.PL\)</span></a></li>
-<li><a href="#instalacion-manual-con-perl-build.pl"><span class="toc-section-number">3.2.2.2</span> Instalación manual con <span class="math inline">\(perl\ Build.PL\)</span></a></li>
-<li><a href="#uso-de-paquete-cpanm-cpanminus-para-instalacion-de-modulos"><span class="toc-section-number">3.2.2.3</span> Uso de paquete <span class="math inline">\(cpanm\)</span> (CPANminus) para instalación de módulos</a></li>
-</ul></li>
-<li><a href="#uso-de-la-variable-de-ambiente-perl5lib"><span class="toc-section-number">3.2.3</span> Uso de la variable de ambiente <span class="math inline">\(PERL5LIB\)</span></a></li>
-</ul></li>
-<li><a href="#como-obtengo-la-lista-de-los-modulos-externos-instalados-en-el-sistema"><span class="toc-section-number">3.3</span> Cómo obtengo la lista de los módulos externos instalados en el sistema?</a></li>
-</ul></li>
-<li><a href="#uso-de-modulos-con-interfaz-dirigida-a-objetos"><span class="toc-section-number">4</span> Uso de módulos con interfaz dirigida a objetos</a><ul>
-<li><a href="#definiciones-simplificadas-de-conceptos-y-terminos-de-programacion-dirigida-a-objetos"><span class="toc-section-number">4.1</span> Definiciones simplificadas de conceptos y términos de programación dirigida a objetos</a><ul>
-<li><a href="#clases"><span class="toc-section-number">4.1.1</span> Clases</a></li>
-<li><a href="#objetos"><span class="toc-section-number">4.1.2</span> Objetos</a></li>
-<li><a href="#metodos"><span class="toc-section-number">4.1.3</span> Métodos</a></li>
-</ul></li>
-<li><a href="#uso-de-clases-una-perspectiva-de-usuario-del-uso-de-modulos-con-interfaz-dirigida-a-objetos"><span class="toc-section-number">4.2</span> Uso de clases: una perspectiva de usuario del uso de módulos con interfaz dirigida a objetos</a><ul>
-<li><a href="#uso-del-modulo-statisticsdescriptivediscrete-con-interfaz-dirigida-a-objetos"><span class="toc-section-number">4.2.1</span> Uso del módulo Statistics::Descriptive::Discrete con interfaz dirigida a objetos</a><ul>
-<li><a href="#uso-basico-de-clases-instanciado-de-un-objeto-y-uso-de-metodos-asociados"><span class="toc-section-number">4.2.1.1</span> Uso básico de clases: instanciado de un objeto y uso de métodos asociados</a></li>
+<li><a href="#uso-de-modulos-core-con-interfaz-funcional"><span class="toc-section-number">3.5</span> Uso de módulos core con interfaz funcional</a><ul>
+<li><a href="#filebasename"><span class="toc-section-number">3.5.1</span> <span class="math inline">\(File::Basename\)</span></a></li>
+<li><a href="#getoptstd---process-single-character-switches-with-switch-clustering"><span class="toc-section-number">3.5.2</span> <span class="math inline">\(Getopt::Std\)</span> - Process single-character switches with switch clustering</a><ul>
+<li><a href="#ejemplo-de-interfaz-getoptstd-para-el-script-lrt_calculator.pl"><span class="toc-section-number">3.5.2.1</span> Ejemplo de interfaz <span class="math inline">\(Getopt::Std\)</span> para el script <span class="math inline">\(LRT\_calculator.pl\)</span></a></li>
 </ul></li>
 </ul></li>
 </ul></li>
-<li><a href="#bioperl"><span class="toc-section-number">5</span> BioPerl</a><ul>
-<li><a href="#porque-una-interfaz-dirigida-a-objetos"><span class="toc-section-number">5.1</span> ¿Porqué una interfaz dirigida a objetos?</a></li>
-<li><a href="#instalacion-de-bioperl"><span class="toc-section-number">5.2</span> Instalación de BioPerl</a></li>
-<li><a href="#clases-un-tipo-especial-de-modulo"><span class="toc-section-number">5.3</span> Clases, un tipo especial de módulo</a></li>
-<li><a href="#creacion-de-un-objeto-de-secuencias-de-la-clase-bioseq"><span class="toc-section-number">5.4</span> Creación de un objeto de secuencias de la clase <span class="math inline">\(Bio::Seq\)</span></a><ul>
-<li><a href="#adicion-de-nuevos-atributos-al-objeto-de-la-clase-bioseq"><span class="toc-section-number">5.4.1</span> Adición de nuevos atributos al objeto de la clase <span class="math inline">\(Bio::Seq\)</span></a></li>
+<li><a href="#cpan---the-perl-comprehensive-archive-network"><span class="toc-section-number">4</span> CPAN - The Perl Comprehensive Archive Network</a><ul>
+<li><a href="#busqueda-de-modulos-en-cpan-usando-search-cpan"><span class="toc-section-number">4.1</span> Búsqueda de módulos en CPAN usando “SEARCH CPAN”</a><ul>
+<li><a href="#algunos-modulos-de-estadistica-y-matematicas-en-cpan"><span class="toc-section-number">4.1.1</span> Algunos módulos de estadística y matemáticas en CPAN</a><ul>
+<li><a href="#lrt_calculator.pl---uso-de-statisticsdistributions-para-calculo-de-lrts"><span class="toc-section-number">4.1.1.1</span> <span class="math inline">\(LRT\_calculator.pl\)</span> - uso de <span class="math inline">\(Statistics::Distributions\)</span> para cálculo de LRTs</a></li>
 </ul></li>
-<li><a href="#leer-e-imprimir-secuencias-con-metodos-de-la-clase-bioseqio"><span class="toc-section-number">5.5</span> Leer e imprimir secuencias con métodos de la clase <span class="math inline">\(Bio::SeqIO\)</span></a><ul>
-<li><a href="#cambiar-el-formato-de-las-secuencias-con-bioseqio"><span class="toc-section-number">5.5.1</span> Cambiar el formato de las secuencias con <span class="math inline">\(Bio::SeqIO\)</span></a></li>
-<li><a href="#importar-secuencias-desde-un-archivo."><span class="toc-section-number">5.5.2</span> Importar secuencias desde un archivo.</a></li>
-<li><a href="#script-convert_seqformats_seqio.pl-para-interconvertir-formatos-de-secuencias"><span class="toc-section-number">5.5.3</span> Script <span class="math inline">\(convert\_seqFormats\_SeqIO.pl\)</span> para interconvertir formatos de secuencias</a></li>
+</ul></li>
+<li><a href="#instalacion-de-modulos-cpan-y-su-llamada-desde-scripts"><span class="toc-section-number">4.2</span> Instalación de módulos CPAN y su llamada desde scripts</a><ul>
+<li><a href="#como-adminstrador-root-queremos-hacer-instalaciones-para-todos-los-usuarios"><span class="toc-section-number">4.2.1</span> Como adminstrador (<em>root</em>) queremos hacer instalaciones para todos los usuarios</a><ul>
+<li><a href="#usando-el-manejador-de-paquetes-de-linux-apt-en-sistemas-debian"><span class="toc-section-number">4.2.1.1</span> Usando el manejador de paquetes de Linux (<span class="math inline">\(apt\)</span> en sistemas Debian)</a></li>
+</ul></li>
+<li><a href="#como-usuario-queremos-hacer-una-instalacion-en-direcotrio-bajo-nuestro-home"><span class="toc-section-number">4.2.2</span> Como usuario, queremos hacer una instalación en direcotrio bajo nuestro <span class="math inline">\(\$HOME/\)</span></a><ul>
+<li><a href="#instalacion-manual-con-perl-makefile.pl"><span class="toc-section-number">4.2.2.1</span> Instalación manual con <span class="math inline">\(perl\ Makefile.PL\)</span></a></li>
+<li><a href="#instalacion-manual-con-perl-build.pl"><span class="toc-section-number">4.2.2.2</span> Instalación manual con <span class="math inline">\(perl\ Build.PL\)</span></a></li>
+<li><a href="#uso-de-paquete-cpanm-cpanminus-para-instalacion-de-modulos"><span class="toc-section-number">4.2.2.3</span> Uso de paquete <span class="math inline">\(cpanm\)</span> (CPANminus) para instalación de módulos</a></li>
+</ul></li>
+<li><a href="#uso-de-la-variable-de-ambiente-perl5lib"><span class="toc-section-number">4.2.3</span> Uso de la variable de ambiente <span class="math inline">\(PERL5LIB\)</span></a></li>
+</ul></li>
+<li><a href="#como-obtengo-la-lista-de-los-modulos-externos-instalados-en-el-sistema"><span class="toc-section-number">4.3</span> Cómo obtengo la lista de los módulos externos instalados en el sistema?</a></li>
+</ul></li>
+<li><a href="#uso-de-modulos-con-interfaz-dirigida-a-objetos"><span class="toc-section-number">5</span> Uso de módulos con interfaz dirigida a objetos</a><ul>
+<li><a href="#definiciones-simplificadas-de-conceptos-y-terminos-de-programacion-dirigida-a-objetos"><span class="toc-section-number">5.1</span> Definiciones simplificadas de conceptos y términos de programación dirigida a objetos</a><ul>
+<li><a href="#clases"><span class="toc-section-number">5.1.1</span> Clases</a></li>
+<li><a href="#objetos"><span class="toc-section-number">5.1.2</span> Objetos</a></li>
+<li><a href="#metodos"><span class="toc-section-number">5.1.3</span> Métodos</a></li>
+</ul></li>
+<li><a href="#uso-de-clases-una-perspectiva-de-usuario-del-uso-de-modulos-con-interfaz-dirigida-a-objetos"><span class="toc-section-number">5.2</span> Uso de clases: una perspectiva de usuario del uso de módulos con interfaz dirigida a objetos</a><ul>
+<li><a href="#uso-del-modulo-statisticsdescriptivediscrete-con-interfaz-dirigida-a-objetos"><span class="toc-section-number">5.2.1</span> Uso del módulo Statistics::Descriptive::Discrete con interfaz dirigida a objetos</a><ul>
+<li><a href="#uso-basico-de-clases-instanciado-de-un-objeto-y-uso-de-metodos-asociados"><span class="toc-section-number">5.2.1.1</span> Uso básico de clases: instanciado de un objeto y uso de métodos asociados</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><a href="#bioperl"><span class="toc-section-number">6</span> BioPerl</a><ul>
+<li><a href="#porque-una-interfaz-dirigida-a-objetos"><span class="toc-section-number">6.1</span> ¿Porqué una interfaz dirigida a objetos?</a></li>
+<li><a href="#instalacion-de-bioperl"><span class="toc-section-number">6.2</span> Instalación de BioPerl</a></li>
+<li><a href="#clases-un-tipo-especial-de-modulo"><span class="toc-section-number">6.3</span> Clases, un tipo especial de módulo</a></li>
+<li><a href="#creacion-de-un-objeto-de-secuencias-de-la-clase-bioseq"><span class="toc-section-number">6.4</span> Creación de un objeto de secuencias de la clase <span class="math inline">\(Bio::Seq\)</span></a><ul>
+<li><a href="#adicion-de-nuevos-atributos-al-objeto-de-la-clase-bioseq"><span class="toc-section-number">6.4.1</span> Adición de nuevos atributos al objeto de la clase <span class="math inline">\(Bio::Seq\)</span></a></li>
+</ul></li>
+<li><a href="#leer-e-imprimir-secuencias-con-metodos-de-la-clase-bioseqio"><span class="toc-section-number">6.5</span> Leer e imprimir secuencias con métodos de la clase <span class="math inline">\(Bio::SeqIO\)</span></a><ul>
+<li><a href="#cambiar-el-formato-de-las-secuencias-con-bioseqio"><span class="toc-section-number">6.5.1</span> Cambiar el formato de las secuencias con <span class="math inline">\(Bio::SeqIO\)</span></a></li>
+<li><a href="#importar-secuencias-desde-un-archivo."><span class="toc-section-number">6.5.2</span> Importar secuencias desde un archivo.</a></li>
+<li><a href="#script-convert_seqformats_seqio.pl-para-interconvertir-formatos-de-secuencias"><span class="toc-section-number">6.5.3</span> Script <span class="math inline">\(convert\_seqFormats\_SeqIO.pl\)</span> para interconvertir formatos de secuencias</a></li>
 </ul></li>
 </ul></li>
 </ul>
 </div>
 
+<div id="presentacion" class="section level1">
+<h1><span class="header-section-number">1</span> Presentación</h1>
+<p>Este material de esta presentación corresponde al último tema del <strong>Curso Fundamental de Posgrado</strong> impartido en el marco de los <strong>Programas de Posgrado en Ciencias Bioquímicas y Ciencias Biomédicas</strong> de la Universidad Nacional Autómoma de México (<a href="http://www.unam.mx/">UNAM</a>), semestre 2019-1, impartido en el Centro de Ciencias Genómicas (<a href="http://www.ccg.unam.mx/">CCG</a>), Cuernavaca, Morelos, México.</p>
+<div id="licencia-y-terminos-de-uso" class="section level2">
+<h2><span class="header-section-number">1.1</span> Licencia y términos de uso</h2>
+<p>El material docente del <a href="https://github.com/vinuesa/curso_perl4bioinfo">curso_perl4bioinfo</a> lo distribuyo públicamente a través de este <a href="https://github.com/vinuesa/curso_perl4bioinfo">repositorio GitHub</a> bajo la <a href="https://creativecommons.org/licenses/by-nc/4.0/"><strong>Licencia No Comercial Creative Commons 4.0</strong></a></p>
+<p><a href="http://creativecommons.org/licenses/by-nc/4.0/"><strong>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 Licencse</strong></a></p>
+<div class="figure">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFgAAAAfCAYAAABjyArgAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAdnJLH8AAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAABmtJREFUaN7tWltPG0cU5rkqiFdEpSBVrQCpFbRKX1olSOkPoE+tKqXiIU15K0qaqGmdQJCTKG0kZJFGoRLQFglVgWDA3HzBNtjGd68NIa888AMQv+BU36xnmF12vbvGNMhhpBHruZxlvjnznctsAxE1NTQ00HmtfSXCn/KP5cASrYZWyB9eo9BGkMKxMG0kohRLxWgrk6BULknpfJqyhQzllCzlijm1KlnKKhnK5NNsDMbGUzE2NxILM1n+sJ/Jxjt8a4u0sDpP88temlt6SS99s6zOLs7QzMKLuqkS0EfgBiJ+Wt8MUTQeoVhyk4GVzqcYgIVSnoo7CpVeFWl7d5t2XqsVz6VXJdaHMVkly+ZgLmREExEmE7L1IHuX5wTIALhOQW7QgpuIMg1MZpNMWwEaQHU/cNOVL69QY1PjsaOANvS5H7rZ2MJ2gW0KNDqejjNtXt9c14C8uLZA8yteFWTfEch3XHeoo6Pj2DvQhj67izsLcgTAoAUZXACTK2aZVnpGPdTa2mqbdzDW89TD5oJCoM0JAXJI0MWS30eLqyrI0OI/xp5Se0e7kNPT00MDAwOs4pm3Y8zo81HTRaHvrMgRAIMnQQtH4OaYJvZ+1asBr7m5mfr6+mhoaIgikQireEYb+uSxmBtPxihfUkGGJoMuVE5eo5XgsqCKf6b/pqamJnVeby/t7e2RvqANfRiDsUaLmpyaOFNyBMAwaOBL0AI0Vw8uwAOQBwcHVKlMTk5qgMbuAmRsGDYO74DhC0YDtLa+qlLF6oI4gtgouUjWWPMOLlu/IK5xejmekRH69utvTizHbM1mcgTAOL4wSuBcHG0Z3K6uLsMdNCvYBMyRNRkywcl4xxFVqFp8d9AlNOX17q4lwChcc2QOxDPaPunupj+fj2nAbWlpocZ3G+n2zZ9of3/flhyj/8esGMnRABxj1JBiBg2cK4NrpbV2QAYnw/AxqkjFKBJXtRhc3NGpaq+TTcRYbmj4YvgpaP/gQ3r/Qhtd/vwL6v/+OmvD6Xv08BF7np2ZsSXnpP+PBmCmvUqGUQM3aDjqiqJQtQUgc7qATMiGC8e1OLShajE3IPqC48k3yOiockMjLwZtt27cpJ9v3WYg88o110gjzeTIRZYl10pyNACDH/OlPHPF+KKw6yctnJ9Q4cLhhHAuDpfdNvTBMuuLQVSkKZijB0aWk0omGbCyDPzWg2wlB6X/h37DWkmOBmBEaMqOwnxZrr0yNcBbAM9gl1Bl8PV9IyMjmhdzLYZscDEiPpkmTgtgXqC5ALb7o4+F5sHgBfx+R3KsSkWAYdxwhHkQIR9JAGjk7wJMr9dr2CfP50cdshHxgYoSZZctGA3WnCLkcnh4SBPj4+wZmqs/4uDp/4UikE/Y3i2JBclayI1VW1sbI3MAjmccf97HPQ0AzvuMaAJhdU7Dw0Hq7Ow0NSpm2mvXOEFTAQS0F5XTBAzdvV9ddKH1PVtyrl+7ZlhtGzn4vsgr8AUBRP0ijTjZDl/LJwDvgE+8ldkSAA/evyfcIrsAW7lXMj247w8LNw0uG7TaqZwTu2lvEmAEHNxVsxNocK5zEiA8+e33Y4FGNXIqcW/FQMMuRcDwwXXDM0CVKULfZ5ciAPD0i+n6DpUrGblKhsyOkeM7rBq5InuXbOQA8FLAR1P/TmmyVtg0yMF8OWixStIAHDlJ8yblHHPTeIgM10p/zM3cNIDM2/V9KNBo2U1LS25aIBIQmTWWH16ao1/u1mG6kgcacpis92drGWhslgMNpC55Vo2nLevpdkMAnEgbh8pO4vFqQ2U5+V63AMvJnom/xmuf7Bn1MNlI9uBdPGUpJ975zUY9XR0JgFFdgy6Rrrz63VUNyE6SPtB6w3RlIUPDD4bfxtvlox8DN35kblSxioQ7+jBGTrhf/Owiowb42a5y3vetBhgVCXAEAwBZ1uRqrowAbr6Yo2djz+x+R2AYZOjH2JFj9tssmeRETqWklCXAAmRFvfQEJzu+9Bzll55Z2+AaAWG0MCcbVWm+3Y2qgRzjDtCFfG0P0Kyu7XFzwa7t8X1EIeOYFqzSlU43yuxvLeVUDTC73/q0m7yLXubCwU9WxIcnJenDkxJrkz88mfd56dLlS9V8anQiarCihGo0uAZyrP9hgPX4yWMKRUPSp1Plik+nChnWhzHVAHtaGnxmOfi81rAS0TvnQJze15X/AThizWB3h5mcAAAAAElFTkSuQmCC" alt="CC BY-NC 4.0 license" />
+<p class="caption">CC BY-NC 4.0 license</p>
+</div>
+</div>
+<div id="clonacion-del-repositorio" class="section level2">
+<h2><span class="header-section-number">1.2</span> Clonación del repositorio</h2>
+<p>Si tienes instalado <a href="https://git-scm.com/">git</a> en tu computadora, puedes clonar el repositorio con el comando:</p>
+<pre style="background: whitesmoke">
+git clone https://github.com/vinuesa/curso_perl4bioinfo.git
+</pre>
+Puedes instalar <span class="math inline">\(git\)</span> fácilmente en Ubuntu usando:
+<pre style="background: whitesmoke">
+sudo apt install git
+</pre>
+</div>
+<div id="modulos-del-cpan-requeridos-para-este-tema" class="section level2">
+<h2><span class="header-section-number">1.3</span> Módulos del CPAN, requeridos para este tema</h2>
+<ul>
+<li><span class="math inline">\(Statistics::Descriptive\)</span></li>
+<li><span class="math inline">\(Statistics::Distributions\)</span></li>
+<li><span class="math inline">\(Bio::Perl\)</span></li>
+<li><span class="math inline">\(cpanm\)</span></li>
+</ul>
+En Ubuntu, los puedes instalar usando:
+<pre style="background: whitesmoke">
+sudo apt install perldoc cpanminus bioperl libstatistics-descriptive-perl libstatistics-distributions-perl
+</pre>
+</div>
+<div id="binarios-a-instalar-usando-apt-distribuciones-debian-como-ubuntu" class="section level2">
+<h2><span class="header-section-number">1.4</span> binarios a instalar, usando <span class="math inline">\(apt\)</span> (distribuciones Debian, como Ubuntu)</h2>
+<pre style="background: whitesmoke">
+sudo apt install muscle clustalo fasttree phyml
+</pre>
+</div>
+</div>
 <div id="modulos-de-perl-conceptos-basicos" class="section level1">
-<h1><span class="header-section-number">1</span> Módulos de Perl – conceptos básicos</h1>
+<h1><span class="header-section-number">2</span> Módulos de Perl – conceptos básicos</h1>
 <div id="que-es-un-modulo" class="section level2">
-<h2><span class="header-section-number">1.1</span> ¿Qué es un módulo?</h2>
+<h2><span class="header-section-number">2.1</span> ¿Qué es un módulo?</h2>
 <p>De manera muy simple, podríamos definir un <em>módulo</em> como la unidad de re-uso y distribución de código en Perl. Más formalmente, se trata de un <strong>paquete</strong> definido en un archivo que lleva el mismo nombre del paquete y tiene la terminación <strong><span class="math inline">\(.pm\)</span></strong>, es decir, algo como <strong>NombreModulo.pm</strong></p>
 <p>Los módulos contienen funciones relacionadas y están diseñados para ser usados por programas que llaman a dichos módulos, o incluso otros módulos que llaman a las funciones contenidas en diversos módulos externos.</p>
 <p>Cada módulo tiene una interfaz pública, que permite el acceso a las funciones y variables definidas en ellos.</p>
-<p>Llamamos <strong>clases</strong> a los módulos con <em>interfaz dirigida a objetos</em>.</p>
+<p>Llamamos <strong>clases</strong> a los módulos con <em>interfaz dirigida a objetos</em>. Como tales, son <strong>paquetes</strong></p>
 </div>
 <div id="que-es-un-paquete" class="section level2">
-<h2><span class="header-section-number">1.2</span> ¿Qué es un paquete?</h2>
+<h2><span class="header-section-number">2.2</span> ¿Qué es un paquete?</h2>
 <p>Perl usa paquetes para particionar o dividir en compartimentos el espacio global de identificadores, es decir, de los nombres de variables, subrutinas, descriptores de archivos y formatos.</p>
 <p>Cuando escribimos un script de Perl, todas las variables y nombres de subrutinas o descriptores de archivos (file handles) están definidas en el paquete principal, llamado <strong>package main</strong>.</p>
 <p>Cada <em>identificador global</em> tiene de hecho dos partes: su <strong>nombre de paquete</strong> y su <strong>identificador</strong>. Estas dos “piezas” están separadas la una de la otra por un doble doble-punto <strong>::</strong>.</p>
@@ -232,7 +282,7 @@ $(document).ready(function () {
 <p><span class="math inline">\(\$main::x\)</span> es la variable <span class="math inline">\(\$x\)</span> definida en el paquete main. Ambas variables son completamente independientes.</p>
 </div>
 <div id="para-que-sirven-los-paquetes" class="section level2">
-<h2><span class="header-section-number">1.3</span> ¿Para qué sirven los paquetes?</h2>
+<h2><span class="header-section-number">2.3</span> ¿Para qué sirven los paquetes?</h2>
 <p>Imagina que tenemos dos programas independientes y decidimos crear un tercero que combina las mejores características de ambos. Al copiar y pegar funciones y variables de ambos en el nuevo, nos damos cuenta que comparten nombres, como la variable escalar <span class="math inline">\(\$contador\)</span> y el arreglo <span class="math inline">\(@misGenomas\)</span>. Si no se modifican sus nombres, habra <strong>colisión (interferencia) entre las variables</strong>.</p>
 <p>La solución son los <strong>paquetes</strong>, que particionan el espacio global de identificadores. Asignando las variables, subrutinas y descriptores de archivos de cada programa fuente a un paquete diferente, podremos usarlos sin problemas desde un tercer programa que los llama con su <strong>nombre completamente calificado</strong>, es decir, <strong>incluyendo el nombre del paquete</strong>.</p>
 <p>En resumen:</p>
@@ -242,9 +292,9 @@ $(document).ready(function () {
 </ol>
 </div>
 <div id="los-paquetes-como-separadores-del-espacio-de-nombres-ejemplo1" class="section level2">
-<h2><span class="header-section-number">1.4</span> Los paquetes como separadores del espacio de nombres – ejemplo1</h2>
+<h2><span class="header-section-number">2.4</span> Los paquetes como separadores del espacio de nombres – ejemplo1</h2>
 <div id="programa-paquetes1.pl---uso-de-paquetes-para-particionar-el-espacio-de-simbolos" class="section level3">
-<h3><span class="header-section-number">1.4.1</span> Programa paquetes1.pl - uso de paquetes para particionar el espacio de símbolos</h3>
+<h3><span class="header-section-number">2.4.1</span> Programa paquetes1.pl - uso de paquetes para particionar el espacio de símbolos</h3>
 <p>Este miniprograma ilustra el concepto de paquetes como divisores del espacio de nombres para evitar colisiones entre símbolos.</p>
 <pre class="perl"><code>#!/usr/bin/env perl
 
@@ -276,7 +326,7 @@ print &quot;\n\tmain es: $secuencia&quot;
 ##  Seq2 es: CCCCCCCC</code></pre>
 </div>
 <div id="programa-paquetes2.pl---llamada-a-un-modulo" class="section level3">
-<h3><span class="header-section-number">1.4.2</span> Programa paquetes2.pl - llamada a un módulo</h3>
+<h3><span class="header-section-number">2.4.2</span> Programa paquetes2.pl - llamada a un módulo</h3>
 <p>Veamos ahora cómo importar al script <span class="math inline">\(paquetes2.pl\)</span> símbolos (variables) guardados en los archivos extermos Seq1.pm y Seq2.pm, cada uno de los cuales representa un <em>módulo</em> distinto (paquete guardado en un archivo).</p>
 <ul>
 <li>Echemos primero un vistazo a los archivos Seq1.pm y Seq2.pm.</li>
@@ -344,7 +394,7 @@ print &quot;\n\tmain es: $secuencia&quot;
 ##  Seq2 es: CCCCCCCC</code></pre>
 </div>
 <div id="diferencias-entre-las-directivas-require-y-use" class="section level3">
-<h3><span class="header-section-number">1.4.3</span> Diferencias entre las directivas <span class="math inline">\(require\)</span> y <span class="math inline">\(use\)</span></h3>
+<h3><span class="header-section-number">2.4.3</span> Diferencias entre las directivas <span class="math inline">\(require\)</span> y <span class="math inline">\(use\)</span></h3>
 <p>El módulo es la unidad de reciclado de código en Perl. Para acceder a su funcionalidad, el módulo debe “exportar” funciones y variables, mientras que el script que quiere hacer uso de ella debe importar dichos símbolos.</p>
 <p>Las directivas <strong>use</strong> y <strong>require</strong> cargan el módulo en tu programa, pero tienen un efecto o semántica diferentes.</p>
 <ul>
@@ -360,7 +410,7 @@ print &quot;\n\tmain es: $secuencia&quot;
 </div>
 </div>
 <div id="construccion-paso-a-paso-de-un-modulo" class="section level2">
-<h2><span class="header-section-number">1.5</span> Construcción, paso a paso, de un módulo</h2>
+<h2><span class="header-section-number">2.5</span> Construcción, paso a paso, de un módulo</h2>
 <p>En esta sesión del curso vamos a ir escribiendo progresivamente el módulo <span class="math inline">\(PhyloTools\)</span> y el script <span class="math inline">\(run\_phyloTools.pl\)</span>.</p>
 <p>Con ellos podremos hacer <strong>un análisis filogenético completo</strong>, incluyendo el <strong>alineamiento múltiple de secuencias</strong>, la <strong>estima filogenética bajo máxima verosimilitud</strong>, usando diferentes algoritmos y modelos, e incluso <strong>evaluar el ajuste de diversos modelos a los datos</strong>, usando tanto pruebas de razones de versomilitud (<strong>LRTs</strong>) como pruebas basadas en el contenido de información de Akaike (<strong>AIC</strong>).</p>
 <p>Iremos construyendo dicho módulo y scipt poco a poco, explicando los componentes de un módulo.</p>
@@ -370,13 +420,13 @@ print &quot;\n\tmain es: $secuencia&quot;
 <p>En <span class="math inline">\(run\_aligners.pl\)</span> podemos simplemente llamar a la subrutina <span class="math inline">\(run\_muscle\)</span>, ya que es exportada por <span class="math inline">\(PhyloTools2.pm\)</span> gracias al uso del <strong>módulo Exporter</strong>, que viene con Perl.</p>
 <p>Veamos los detalles:</p>
 <div id="phylotools1.pm-y-run_muscle.pl---un-modulo-que-no-exporta-funciones" class="section level3">
-<h3><span class="header-section-number">1.5.1</span> <span class="math inline">\(PhyloTools1.pm\)</span> y <span class="math inline">\(run\_muscle.pl\)</span> - un módulo que no exporta funciones</h3>
+<h3><span class="header-section-number">2.5.1</span> <span class="math inline">\(PhyloTools1.pm\)</span> y <span class="math inline">\(run\_muscle.pl\)</span> - un módulo que no exporta funciones</h3>
 <ol style="list-style-type: decimal">
 <li>Exploremos <span class="math inline">\(PhyloTools1.pm\)</span> y corramos <span class="math inline">\(run\_muscle.pl\)</span>.</li>
 </ol>
 <pre><code>## # &gt;&gt;&gt; Contents of PhyloTools1.pm &lt;&lt;&lt; #
 ## # Pablo Vinuesa, http://www.ccg.unam.mx/~vinuesa
-## # 2012 CCG/UNAM, Mexico, 
+## # 2018 CCG-UNAM, Mexico, 
 ## # Modulo de ejemplo del curso &quot;Introduccion a la programacion en Perl para bioinformatica&quot;
 ## 
 ## package PhyloTools;
@@ -395,8 +445,6 @@ print &quot;\n\tmain es: $secuencia&quot;
 ## {
 ##   check_is_installed($bin);
 ## }
-## 
-## 
 ## #--------------------------------------------------------------------------------------
 ## #---------------------------------- SUBROUTINES ---------------------------------------
 ## #--------------------------------------------------------------------------------------
@@ -418,10 +466,10 @@ print &quot;\n\tmain es: $secuencia&quot;
 ## {
 ##    my($infile, $clean, $verbosity) = @_;
 ## 
-##     my $filename = basename($infile);
-##     my @file_name_parts;
-##     my( $file_basename, $file_ext) = split(/\./,$filename);
-##  
+##    my $filename = basename($infile);
+##    my @file_name_parts;
+##    my( $file_basename, $file_ext) = split(/\./,$filename);
+## 
 ##  
 ##    my $tmpfile1 = $file_basename . &quot;_tmp1.mus&quot;;
 ##    my $tmpfile2 = $file_basename . &quot;_tmp2.mus&quot;;
@@ -455,8 +503,6 @@ print &quot;\n\tmain es: $secuencia&quot;
 ##    }
 ## }
 ## #--------------------------------------------------------------------------------------
-## 
-## 
 ## 
 ## 1;</code></pre>
 <ol start="2" style="list-style-type: decimal">
@@ -543,12 +589,13 @@ print &quot;\n\tmain es: $secuencia&quot;
 ##     /export/data/dbox/Dropbox/Cursos/perl4bioinfo    
 ## </code></pre>
 <p>Ahora que sabemos que tenemos que pasar una extensión de archivo FASTA, volvamos a llamarlo:</p>
-<pre class="bash"><code>/export/data/dbox/Dropbox/Cursos/perl4bioinfo/my_code/run_muscle.pl GDP_12_prokEuc.faa</code></pre>
+<pre class="bash"><code>script_dir=/export/data/dbox/Dropbox/Cursos/perl4bioinfo/my_code/
+$script_dir/run_muscle.pl GDP_12_prokEuc.faa</code></pre>
 <pre><code>## # will run muscle to align file: GDP_12_prokEuc.faa
 ## # run_muscle() returned aligned outfile GDP_12_prokEuc_musAln.faa</code></pre>
 </div>
 <div id="phylotools2.pm-y-run_aligners.pl---exportado-de-simbolos-con-exporter" class="section level3">
-<h3><span class="header-section-number">1.5.2</span> <span class="math inline">\(PhyloTools2.pm\)</span> y <span class="math inline">\(run\_aligners.pl\)</span> - exportado de símbolos con <span class="math inline">\(Exporter\)</span></h3>
+<h3><span class="header-section-number">2.5.2</span> <span class="math inline">\(PhyloTools2.pm\)</span> y <span class="math inline">\(run\_aligners.pl\)</span> - exportado de símbolos con <span class="math inline">\(Exporter\)</span></h3>
 <p>Como comentábamos arriba, <span class="math inline">\(PhyloTools1.pm\)</span> no exporta las subrutinas, mientras que <span class="math inline">\(PhyloTools2.pm\)</span> sí lo hace, gracias al uso del módulo core <span class="math inline">\(Exporter\)</span>, tal y como se ve en la cabecera del archivo <span class="math inline">\(PhyloTools2.pm\)</span>, mostrada seguidamente:</p>
 <pre class="bash"><code>head -15 /export/data/dbox/Dropbox/Cursos/perl4bioinfo/my_code/PhyloTools2.pm</code></pre>
 <pre><code>## # Pablo Vinuesa, http://www.ccg.unam.mx/~vinuesa
@@ -655,23 +702,23 @@ foreach my $fasta (@fasta_files)
 ## # &amp;run_clustalo returned aligned outfile GDP_12_prokEuc_cluoAln.faa</code></pre>
 </div>
 <div id="diferencias-entre-export-y-export_ok" class="section level3">
-<h3><span class="header-section-number">1.5.3</span> Diferencias entre <span class="math inline">\(@EXPORT\)</span> y <span class="math inline">\(@EXPORT\_OK\)</span></h3>
+<h3><span class="header-section-number">2.5.3</span> Diferencias entre <span class="math inline">\(@EXPORT\)</span> y <span class="math inline">\(@EXPORT\_OK\)</span></h3>
 <p>Es importante resaltar que la interfaz de usuario del módulo <span class="math inline">\(miModulo.pm\)</span> puede:</p>
 <ol style="list-style-type: decimal">
-<li>Exportar variables por defecto con <span class="math inline">\(@EXPORT(&amp;myFunc1 \$VAR1);\)</span></li>
+<li>Exportar variables por defecto con <code><span class="citation">@EXPORT</span>(&amp;myFunc1 $VAR1);</code></li>
 </ol>
 <ul>
 <li>que implica que si desde el script hacemos <span class="math inline">\(use\ miModulo\)</span>, podemos simplemente usar <span class="math inline">\(myFunc()\)</span></li>
 </ul>
 <ol start="2" style="list-style-type: decimal">
-<li>Exportar solo variables requeridas por el script que las llama con <span class="math inline">\(@EXPORT_OK(&amp;myFunc1 \$VAR1);\)</span></li>
+<li>Exportar solo variables requeridas por el script que las llama con <code><span class="citation">@EXPORT_OK</span>(&amp;myFunc1 $VAR1);</code></li>
 </ol>
 <ul>
-<li>que implica que desde el script necesitamos importar explícitamente los símbolso que quermos con: <span class="math inline">\(use miModulo qw(&amp;myFunc1 \$VAR1);\)</span>. Entonces podemos simplemente usar <span class="math inline">\(myFunc()\)</span></li>
+<li>que implica que desde el script necesitamos importar explícitamente los símbolso que quermos con: <code>use miModulo qw(&amp;myFunc1 $VAR1);</code>. Entonces podemos simplemente usar <span class="math inline">\(myFunc()\)</span></li>
 </ul>
 </div>
 <div id="diferencias-entre-declaraciones-lexica-my-y-global-our-de-variables-bajo-el-pragma-use-strict" class="section level3">
-<h3><span class="header-section-number">1.5.4</span> Diferencias entre declaraciones léxica <span class="math inline">\(my\)</span> y global <span class="math inline">\(our\)</span> de variables bajo el pragma <span class="math inline">\(use\ strict\)</span></h3>
+<h3><span class="header-section-number">2.5.4</span> Diferencias entre declaraciones léxica <span class="math inline">\(my\)</span> y global <span class="math inline">\(our\)</span> de variables bajo el pragma <span class="math inline">\(use\ strict\)</span></h3>
 <ol style="list-style-type: decimal">
 <li>la declaración léxica de una variable con <span class="math inline">\(my\ \$variable\)</span> la localiza a un “scope” o bloque</li>
 <li>la declaración global de una variable con <span class="math inline">\(our\ \)</span><span class="math inline">\(variable\)</span> la hace global en el paquete y en el script que la llama</li>
@@ -694,7 +741,7 @@ foreach my $fasta (@fasta_files)
 </ol>
 </div>
 <div id="machote-minimalista-para-escribir-modulos-que-exportan-funciones" class="section level3">
-<h3><span class="header-section-number">1.5.5</span> Machote minimalista para escribir módulos que exportan funciones</h3>
+<h3><span class="header-section-number">2.5.5</span> Machote minimalista para escribir módulos que exportan funciones</h3>
 <pre style=" background: hsl(30,80%,90%)">
 package PackageName;
 use strit;
@@ -722,7 +769,7 @@ sub sub2
 </div>
 </div>
 <div id="documentacion-de-modulos-con-pod" class="section level2">
-<h2><span class="header-section-number">1.6</span> Documentación de módulos con <span class="math inline">\(POD\)</span></h2>
+<h2><span class="header-section-number">2.6</span> Documentación de módulos con <span class="math inline">\(POD\)</span></h2>
 <p>Un módulo no está completo si no tiene documentación.</p>
 <p>Los módulos de Perl y en general, toda la documentación de Perl se escribe en formato <strong>POD (Plain Old Documentation)</strong>. Se trata de un lenguaje de marcado que permite incluir bloques de documentación en un script of módulo de perl y su lectura desde la línea de comandos usando el programa perldoc.</p>
 <p>Cuando el intérprete perl encuentra un signo = al inicio de una linea, tal como <strong>=head1</strong>, cambia al modo de procesamiento de POD, hasta que encuentra una línea que inicia con <strong>=cut</strong>.</p>
@@ -736,10 +783,29 @@ sub sub2
 </div>
 </div>
 <div id="modulos-core-de-la-distribucion-estandar" class="section level1">
-<h1><span class="header-section-number">2</span> Módulos core de la distribución estándar</h1>
-<p>Perl viene con una gran cantidad de módulos pre-instalados y listos para ser usados. Por ejemplo, la mayor parte de los &gt; 66MB de la distribución v.5.14.2 corresponde a módulos, concretamente 652!</p>
+<h1><span class="header-section-number">3</span> Módulos core de la distribución estándar</h1>
+<div id="el-arreglo-inc" class="section level2">
+<h2><span class="header-section-number">3.1</span> El arreglo <span class="math inline">\(@INC\)</span></h2>
+<p>¿Dónde busca Perl los módulos instalados en el sistema?</p>
+<p>El compilar perl, se pasa una lista de directorios, que es sistema-específica, en la que se van a guardar los módulos estándar que se distribuyen con Perl, así como módulo instalados con poderes de superusuario.</p>
+<p>La lista de esos directorios la exporta Perl al arreglo <span class="math inline">\(@INC\)</span></p>
+<p>Para ver los detalles de configuración de la compilación del intérprete perl, usa la siguiente línea, que incluye, al final de la copiosa salida, los directorios que se incluyen en el arreglo <span class="math inline">\(@INC\)</span>.</p>
+<pre class="bash"><code>perl -V | tail -10; # imprime sólo las últimas líneas de la copiosa salida</code></pre>
+<pre><code>##     /usr/local/lib/x86_64-linux-gnu/perl/5.26.1
+##     /usr/local/share/perl/5.26.1
+##     /usr/lib/x86_64-linux-gnu/perl5/5.26
+##     /usr/share/perl5
+##     /usr/lib/x86_64-linux-gnu/perl/5.26
+##     /usr/share/perl/5.26
+##     /home/vinuesa/perl5/lib/perl5//5.26.0
+##     /home/vinuesa/perl5/lib/perl5//5.26.0/x86_64-linux-gnu-thread-multi
+##     /usr/local/lib/site_perl
+##     /usr/lib/x86_64-linux-gnu/perl-base</code></pre>
+<p>Cualquier módulo instalado en dichos directorios, será accesible desde cualquier script que se corra en el sistema, al invocar la directiva <span class="math inline">\(use\ module\)</span></p>
+</div>
 <div id="listar-modulos-de-la-distribucion-estandar" class="section level2">
-<h2><span class="header-section-number">2.1</span> Listar módulos de la distribución estándar</h2>
+<h2><span class="header-section-number">3.2</span> Listar módulos de la distribución estándar</h2>
+<p>Perl viene con una gran cantidad de módulos pre-instalados y listos para ser usados. Por ejemplo, la mayor parte de los &gt; 66MB de la distribución v.5.14.2 corresponde a módulos, concretamente 652!</p>
 <p>Puedes usar el módulo <span class="math inline">\(Module::CoreList\)</span> para ver o contar los módulos que vienen con cada distribución.</p>
 <p>¿Sabes qué versión de Perl estás corriendo?</p>
 <pre class="bash"><code>perl -v; # imprime la versión de Perl</code></pre>
@@ -775,10 +841,10 @@ lsb_release -a # imprime detalles de la distribución de Linux</code></pre>
 <p>Veremos cómo buscar módulos en CPAN y su instalación un poco más adelante. Ahora nos enfocaremos a explorar algunos módulos de la distribución estándar, aprendiendo a manejar <span class="math inline">\(perldoc\)</span> y a usar módulos con interfaz funcional y dirigida a objetos.</p>
 </div>
 <div id="uso-de-perldoc-para-explorar-la-documentacion-de-modulos-de-perl" class="section level2">
-<h2><span class="header-section-number">2.2</span> Uso de <span class="math inline">\(perldoc\)</span> para explorar la documentación de módulos de Perl</h2>
+<h2><span class="header-section-number">3.3</span> Uso de <span class="math inline">\(perldoc\)</span> para explorar la documentación de módulos de Perl</h2>
 <p><span class="math inline">\(perldoc\)</span> es un programa muy útil para explorar la copiosa documentación que viene con Perl y cada uno de sus módulos. Veamos algunos ejemplos:</p>
 <div id="explora-y-aprende-perl-con-perldoc-ejemplos-de-uso" class="section level3">
-<h3><span class="header-section-number">2.2.1</span> Explora y aprende Perl con <span class="math inline">\(perldoc\)</span>, ejemplos de uso</h3>
+<h3><span class="header-section-number">3.3.1</span> Explora y aprende Perl con <span class="math inline">\(perldoc\)</span>, ejemplos de uso</h3>
 <ul>
 <li>Explora la documentación de Perl: <span class="math inline">\(perldoc\ perl\)</span></li>
 <li>Ver el índice o tabla de contenidos de Perl: <span class="math inline">\(perldoc\ perltoc\)</span></li>
@@ -794,9 +860,9 @@ lsb_release -a # imprime detalles de la distribución de Linux</code></pre>
 </div>
 </div>
 <div id="algunos-modulos-muy-utilizados-de-la-distribucion-estandar-listados-por-area-de-uso" class="section level2">
-<h2><span class="header-section-number">2.3</span> Algunos módulos muy utilizados de la distribución estándar, listados por área de uso</h2>
+<h2><span class="header-section-number">3.4</span> Algunos módulos muy utilizados de la distribución estándar, listados por área de uso</h2>
 <div id="directorios-y-archivos" class="section level3">
-<h3><span class="header-section-number">2.3.1</span> Directorios y archivos</h3>
+<h3><span class="header-section-number">3.4.1</span> Directorios y archivos</h3>
 <ul>
 <li><span class="math inline">\(Cwd\)</span> Obtén el nombre de la ruta de acceso absoluta del directorio de trabajo actual</li>
 <li><span class="math inline">\(File::Compare\)</span> Compara el contenido de dos archivos</li>
@@ -806,7 +872,7 @@ lsb_release -a # imprime detalles de la distribución de Linux</code></pre>
 </ul>
 </div>
 <div id="procesado-de-cadenas-parseo-de-textos-y-listas" class="section level3">
-<h3><span class="header-section-number">2.3.2</span> Procesado de cadenas, parseo de textos y listas</h3>
+<h3><span class="header-section-number">3.4.2</span> Procesado de cadenas, parseo de textos y listas</h3>
 <ul>
 <li><span class="math inline">\(Text::CSV\_XS\)</span> Parseo de datos en formato CSV (separado por comas)</li>
 <li><span class="math inline">\(Text::Wrap\)</span> Formatea párrafos a un ancho determinado</li>
@@ -814,20 +880,20 @@ lsb_release -a # imprime detalles de la distribución de Linux</code></pre>
 </ul>
 </div>
 <div id="errores-y-avisos" class="section level3">
-<h3><span class="header-section-number">2.3.3</span> Errores y avisos</h3>
+<h3><span class="header-section-number">3.4.3</span> Errores y avisos</h3>
 <ul>
 <li><span class="math inline">\(Carp\)</span> provee rutinas de <span class="math inline">\(carp\)</span>, <span class="math inline">\(croak\)</span>, <span class="math inline">\(confess\)</span> y <span class="math inline">\(cluck\)</span> para morir o avisar de errors desde la perspectiva del que invoca las llamadas, dando la traza de la pila</li>
 </ul>
 </div>
 <div id="interfaz-de-usuario-parseo-de-opciones-y-parametros" class="section level3">
-<h3><span class="header-section-number">2.3.4</span> Interfaz de usuario: parseo de opciones y parámetros</h3>
+<h3><span class="header-section-number">3.4.4</span> Interfaz de usuario: parseo de opciones y parámetros</h3>
 <ul>
 <li><span class="math inline">\(Getopt::Long\)</span> Procesado de opciones de línea de comando en formato extendido –help|h</li>
 <li><span class="math inline">\(Getopt::Std\)</span> Procesado de switches de línea de comando de un solo carácter –f -fxz</li>
 </ul>
 </div>
 <div id="web-html-xml-bases-de-datos" class="section level3">
-<h3><span class="header-section-number">2.3.5</span> Web, HTML, XML, bases de datos</h3>
+<h3><span class="header-section-number">3.4.5</span> Web, HTML, XML, bases de datos</h3>
 <ul>
 <li><span class="math inline">\(Catalyst\)</span> Es el marco/framework de programación Web más popular de Perl</li>
 <li><span class="math inline">\(CGI\)</span> y <span class="math inline">\(CGI::Simple\)</span> Acceso a y procesado de formas CGI y generación de HTML</li>
@@ -843,9 +909,9 @@ lsb_release -a # imprime detalles de la distribución de Linux</code></pre>
 </div>
 </div>
 <div id="uso-de-modulos-core-con-interfaz-funcional" class="section level2">
-<h2><span class="header-section-number">2.4</span> Uso de módulos core con interfaz funcional</h2>
+<h2><span class="header-section-number">3.5</span> Uso de módulos core con interfaz funcional</h2>
 <div id="filebasename" class="section level3">
-<h3><span class="header-section-number">2.4.1</span> <span class="math inline">\(File::Basename\)</span></h3>
+<h3><span class="header-section-number">3.5.1</span> <span class="math inline">\(File::Basename\)</span></h3>
 <pre class="perl"><code>#!/usr/bin/env perl
 
 use File::Basename;
@@ -868,19 +934,21 @@ print &quot;$name | $basename | $dirname | $suffix\n&quot;
 <p>El módulo <span class="math inline">\(File::Basename\)</span> detecta sobre qué tipo de sistema está corriendo, parseando correctamente los delimitadores de directorio, bien sean tipo UNIX ‘/’ o tipo Windows ‘\’, permitiendo escribir código portable, que corre bien en cualquier tipo de sistema operativo.</p>
 </div>
 <div id="getoptstd---process-single-character-switches-with-switch-clustering" class="section level3">
-<h3><span class="header-section-number">2.4.2</span> <span class="math inline">\(Getopt::Std\)</span> - Process single-character switches with switch clustering</h3>
+<h3><span class="header-section-number">3.5.2</span> <span class="math inline">\(Getopt::Std\)</span> - Process single-character switches with switch clustering</h3>
 <p>A medida que nuestro código se hace más complejo y necesitamos pasarle más parámetros, hacerlo como argumentos posicionales en la línea de comandos se hace cada vez más problemático.</p>
 <p>Con el módulo base <span class="math inline">\(Getopt::Std\)</span> podemos pasar fácilmente switches y parámetros como se muestra la sección de <em>SYNOPSIS</em> de la ayuda del módulo, la cual imprimimos con ‘<span class="math inline">\(perldoc\ Getopt::Std\)</span>’:</p>
 <pre style=" background: hsl(30,80%,90%)">
 use Getopt::Std;
 
-getopts('oif:', \%opts); # -o &amp; -i are boolean flags, -f takes an argument. Values in %opts
+# -o &amp; -i are boolean flags, -f takes an argument. Values in %opts
+getopts('oif:', \%opts); 
 
 </pre>
 <div id="ejemplo-de-interfaz-getoptstd-para-el-script-lrt_calculator.pl" class="section level4">
-<h4><span class="header-section-number">2.4.2.1</span> Ejemplo de interfaz <span class="math inline">\(Getopt::Std\)</span> para el script <span class="math inline">\(LRT\_calculator.pl\)</span></h4>
+<h4><span class="header-section-number">3.5.2.1</span> Ejemplo de interfaz <span class="math inline">\(Getopt::Std\)</span> para el script <span class="math inline">\(LRT\_calculator.pl\)</span></h4>
 <p>Veamos como ejemplo el script <span class="math inline">\(LRT\_calculator.pl\)</span>. Si lo llamamos sin argumentos, imprime la ayuda:</p>
-<pre class="bash"><code>/export/data/dbox/Dropbox/Cursos/perl4bioinfo/my_code/LRT_calculator.pl</code></pre>
+<pre class="bash"><code>. ./set_script_dir_by_hostname
+$script_dir/LRT_calculator.pl</code></pre>
 <pre><code>## 
 ##      LRT_calculator.pl vers. 0.1 usage [options]:
 ##    -h  this help message
@@ -925,7 +993,8 @@ if(defined($opts{'a'})){ $a = $opts{'a'}; }
 
 </pre>
 <p>Y para finalizar, corramos el script:</p>
-<pre class="bash"><code>/export/data/dbox/Dropbox/Cursos/perl4bioinfo/my_code/LRT_calculator.pl -l -19955.541 -L -19950.1245 -d 4</code></pre>
+<pre class="bash"><code>. ./set_script_dir_by_hostname
+$script_dir/LRT_calculator.pl -l -19955.541 -L -19950.1245 -d 4</code></pre>
 <pre><code>##  LRT_calculator.pl v.0.1 running with the following parameters:
 ##     
 ##     lnL0=-19955.541, lnL1=-19950.1245, df=4, q=0.05
@@ -935,7 +1004,8 @@ if(defined($opts{'a'})){ $a = $opts{'a'}; }
 ## 
 ## &gt;&gt;&gt; Significant ChiSq test! pchisq(0.028506) &lt; alpha(0.05); LRT(10.8329999999987) &gt; crit.val(9.4877) ==&gt; reject the null model!</code></pre>
 <p>Noten que el órden de los parámetros no importa</p>
-<pre class="bash"><code>/export/data/dbox/Dropbox/Cursos/perl4bioinfo/my_code/LRT_calculator.pl -d 5 -L -19950.1245 -l -19955.541 -a 0.01</code></pre>
+<pre class="bash"><code>. ./set_script_dir_by_hostname
+$script_dir/LRT_calculator.pl -d 5 -L -19950.1245 -l -19955.541 -a 0.01</code></pre>
 <pre><code>##  LRT_calculator.pl v.0.1 running with the following parameters:
 ##     
 ##     lnL0=-19955.541, lnL1=-19950.1245, df=5, q=0.01
@@ -949,7 +1019,7 @@ if(defined($opts{'a'})){ $a = $opts{'a'}; }
 </div>
 </div>
 <div id="cpan---the-perl-comprehensive-archive-network" class="section level1">
-<h1><span class="header-section-number">3</span> CPAN - The Perl Comprehensive Archive Network</h1>
+<h1><span class="header-section-number">4</span> CPAN - The Perl Comprehensive Archive Network</h1>
 <p>Vimos arriba que la distribución estándar de Perl trae muchos módulos. Pero existen mucho más. <a href="https://www.cpan.org/"><strong>CPAN</strong></a> es el repositorio público de módulos de Perl. Lo accesan en <a href="https://www.cpan.org/" class="uri">https://www.cpan.org/</a>.</p>
 <pre><code>Welcome to CPAN
 
@@ -960,13 +1030,13 @@ in 39,172 distributions, written by 13,650 authors, mirrored on 261 servers.
 <p>¡No dejen de visitralo! Es un <strong>repositorio GIGANTESCO!</strong> Tiene mucha información y código: <strong>176,669 Perl modules!!!</strong> Todos los lenguajes modernos tienen sus repositorios. Pero CPAN posiblemente sea el más grande.</p>
 <p>Uno de los lemas de Perl es el de “<em>no reinventar la rueda</em>”. Un programador avanzado de Perl, además de dominar la sintaxis del lenguaje y conocer sus idiomas, tiene un conocimiento amplio de CPAN, haciendo uso extensivo de los recursos allí disponibles. Será realmente difícil que no encuentres un módulo en CPAN para ayudarte en resolver tus proyectos de programación.</p>
 <div id="busqueda-de-modulos-en-cpan-usando-search-cpan" class="section level2">
-<h2><span class="header-section-number">3.1</span> Búsqueda de módulos en CPAN usando “SEARCH CPAN”</h2>
+<h2><span class="header-section-number">4.1</span> Búsqueda de módulos en CPAN usando “SEARCH CPAN”</h2>
 <p>Para buscar módulos en CPAN, lo mejor es usar uno de los buscadores especializados como <a href="http://search.cpan.org/">Search-CPAN</a>! Visita <a href="http://search.cpan.org/" class="uri">http://search.cpan.org/</a>.</p>
 <p>En este buscador pueden buscar por nombre de módulo o autor.</p>
 <p>Una lista de <a href="http://thegestalt.org/simon/perl/wholecpan.html">“top-CPAN-authors”</a> pueden verla aquí: <a href="http://thegestalt.org/simon/perl/wholecpan.html" class="uri">http://thegestalt.org/simon/perl/wholecpan.html</a></p>
 <p>Por ejemplo, hagan una búsqueda con el término <em>Statistics</em> para ver qué módulos encuentran.</p>
 <div id="algunos-modulos-de-estadistica-y-matematicas-en-cpan" class="section level3">
-<h3><span class="header-section-number">3.1.1</span> Algunos módulos de estadística y matemáticas en CPAN</h3>
+<h3><span class="header-section-number">4.1.1</span> Algunos módulos de estadística y matemáticas en CPAN</h3>
 <ul>
 <li><span class="math inline">\(Statistics::*\)</span> Una gran gama de módulos</li>
 <li><span class="math inline">\(Statistics::Descriptive\)</span>- Module of basic descriptive statistical functions</li>
@@ -977,9 +1047,11 @@ in 39,172 distributions, written by 13,650 authors, mirrored on 261 servers.
 <li><span class="math inline">\(Math::BigInt\)</span> - Arbitrary size integer/float math package</li>
 </ul>
 <div id="lrt_calculator.pl---uso-de-statisticsdistributions-para-calculo-de-lrts" class="section level4">
-<h4><span class="header-section-number">3.1.1.1</span> <span class="math inline">\(LRT\_calculator.pl\)</span> - uso de <span class="math inline">\(Statistics::Distributions\)</span> para cálculo de LRTs</h4>
+<h4><span class="header-section-number">4.1.1.1</span> <span class="math inline">\(LRT\_calculator.pl\)</span> - uso de <span class="math inline">\(Statistics::Distributions\)</span> para cálculo de LRTs</h4>
 <p>Si bien ya habíamos corrido <span class="math inline">\(LRT\_calculator.pl\)</span>, no habiamos visto las líneas de llamada al módulo.</p>
-<p>Veamos primero la subrutina</p>
+<ul>
+<li>Veamos primero la subrutina</li>
+</ul>
 <pre style=" background: hsl(30,80%,90%)">
 use Statistics::Distributions;
 
@@ -995,28 +1067,28 @@ sub LRT_significance_calculator
    
    return($LRT,$pchisq,$qchisq);
 }
-
 </pre>
-<p>y ahora el código que la llama:</p>
+<ul>
+<li>y la llamada desde <span class="math inline">\(LRT\_calculator.pl\)</span>:</li>
+</ul>
 <pre style=" background: hsl(30,80%,90%)">
 my ($LRT,$pchisq,$qchisq)=LRT_significance_calculator($lnL0, $lnL1, $df, $a);
 
 if ($pchisq &lt;= $a){ print &quot;&gt;&gt;&gt; Significant ChiSq test! pchisq($pchisq) &lt; alpha($a); LRT($LRT) &gt; crit.val($qchisq) ==&gt; reject the null model! \n\n&quot;}
 else{ print &quot;&gt;&gt;&gt;Non-significant ChiSq test! pchisq($pchisq) &gt; alpha($a); LRT($LRT) &lt;= crit.val($qchisq) ==&gt; cannot reject the null model!\n\n&quot;}
-
 </pre>
 <p>Sencillo ¿veradad?. Revisen arriba, en la sección “<em>2.4.2 Getopt::StdGetopt::Std - Process single-character switches with switch clustering</em>” ejemplos de llamada al script <span class="math inline">\(LRT\_calculator.pl\)</span>.</p>
 </div>
 </div>
 </div>
 <div id="instalacion-de-modulos-cpan-y-su-llamada-desde-scripts" class="section level2">
-<h2><span class="header-section-number">3.2</span> Instalación de módulos CPAN y su llamada desde scripts</h2>
+<h2><span class="header-section-number">4.2</span> Instalación de módulos CPAN y su llamada desde scripts</h2>
 <p>Veamos ahora cómo insatalar módulos de CPAN. Tenemos varias opciones para ello. Sólo revisaremos algunas de ellas, en base a nuestros permisos y necesidades. Veamos algunos escenarios. Como ejemplo, veamos opciones para instalar el módulo <span class="math inline">\(Statistics::Distributions\)</span> usado por el script <span class="math inline">\(LRT\_calculator.pl\)</span> arriba mencionado.</p>
 <div id="como-adminstrador-root-queremos-hacer-instalaciones-para-todos-los-usuarios" class="section level3">
-<h3><span class="header-section-number">3.2.1</span> Como adminstrador (<em>root</em>) queremos hacer instalaciones para todos los usuarios</h3>
+<h3><span class="header-section-number">4.2.1</span> Como adminstrador (<em>root</em>) queremos hacer instalaciones para todos los usuarios</h3>
 <p>Aquí tenemos nuevamente varias opiciones.</p>
 <div id="usando-el-manejador-de-paquetes-de-linux-apt-en-sistemas-debian" class="section level4">
-<h4><span class="header-section-number">3.2.1.1</span> Usando el manejador de paquetes de Linux (<span class="math inline">\(apt\)</span> en sistemas Debian)</h4>
+<h4><span class="header-section-number">4.2.1.1</span> Usando el manejador de paquetes de Linux (<span class="math inline">\(apt\)</span> en sistemas Debian)</h4>
 <ol style="list-style-type: decimal">
 <li>busca cómo se llama el paquete con <span class="math inline">\(apt-cache\ search\)</span></li>
 </ol>
@@ -1033,14 +1105,14 @@ sudo apt install libstatistics-descriptive-perl
 </div>
 </div>
 <div id="como-usuario-queremos-hacer-una-instalacion-en-direcotrio-bajo-nuestro-home" class="section level3">
-<h3><span class="header-section-number">3.2.2</span> Como usuario, queremos hacer una instalación en direcotrio bajo nuestro <span class="math inline">\(\$HOME/\)</span></h3>
+<h3><span class="header-section-number">4.2.2</span> Como usuario, queremos hacer una instalación en direcotrio bajo nuestro <span class="math inline">\(\$HOME/\)</span></h3>
 <p>Cuando trabajamos en un servidor, generalmente no tenemos permisos de administrador, por lo que no podemos usar la opción indicada arriba. En ese escenario, podemos:</p>
 <ol style="list-style-type: decimal">
 <li>Contactar al administrador para que nos instale el módulo</li>
 <li>Generar un directorio bajo nuestro <span class="math inline">\(\$HOME\)</span>, donde instalamos los módulos.</li>
 </ol>
 <div id="instalacion-manual-con-perl-makefile.pl" class="section level4">
-<h4><span class="header-section-number">3.2.2.1</span> Instalación manual con <span class="math inline">\(perl\ Makefile.PL\)</span></h4>
+<h4><span class="header-section-number">4.2.2.1</span> Instalación manual con <span class="math inline">\(perl\ Makefile.PL\)</span></h4>
 <p>Veamos este segundo escenario. Vamos a instalar <a href="https://metacpan.org/pod/Statistics::Distributions#AVAILABILITY"><span class="math inline">\(Statistics::Distributions\)</span></a> que podemos encontrar aquí: <a href="https://metacpan.org/pod/Statistics" class="uri">https://metacpan.org/pod/Statistics</a>::Distributions#AVAILABILITY</p>
 <pre style=" background: hsl(30,80%,90%)">
 mkdir -p $HOME/CPAN/downloads
@@ -1059,7 +1131,7 @@ make install
 </pre>
 </div>
 <div id="instalacion-manual-con-perl-build.pl" class="section level4">
-<h4><span class="header-section-number">3.2.2.2</span> Instalación manual con <span class="math inline">\(perl\ Build.PL\)</span></h4>
+<h4><span class="header-section-number">4.2.2.2</span> Instalación manual con <span class="math inline">\(perl\ Build.PL\)</span></h4>
 <p>Algunas distribuciones usan un archivo <span class="math inline">\(Build.PL\)</span> para instalar módulos. El procedimiento es equivalente:</p>
 <pre style=" background: hsl(30,80%,90%)">
 perl Buil.PL --install_base = $HOME/CPAN/
@@ -1070,7 +1142,7 @@ Oerk Build install
 </pre>
 </div>
 <div id="uso-de-paquete-cpanm-cpanminus-para-instalacion-de-modulos" class="section level4">
-<h4><span class="header-section-number">3.2.2.3</span> Uso de paquete <span class="math inline">\(cpanm\)</span> (CPANminus) para instalación de módulos</h4>
+<h4><span class="header-section-number">4.2.2.3</span> Uso de paquete <span class="math inline">\(cpanm\)</span> (CPANminus) para instalación de módulos</h4>
 <p>Una opción muy conveniente (mi favorita) para manejar módulos es mediante el módulo <span class="math inline">\(cpanm\)</span> <a href="https://cpan.metacpan.org/authors/id/M/MI/MIYAGAWA/App-cpanminus-1.7044.tar.gz"><strong>CPANminus</strong></a>, que puedes descargar desde aquí: <a href="https://cpan.metacpan.org/authors/id/M/MI/MIYAGAWA/App-cpanminus-1.7044.tar.gz" class="uri">https://cpan.metacpan.org/authors/id/M/MI/MIYAGAWA/App-cpanminus-1.7044.tar.gz</a>. No es parte aún de la distribución estándar, pero es un módulo muy popular y útil.</p>
 <p>En sistemas Linux/Debian puedes instalarlo en tu máquina con:</p>
 <pre><code>sudo apt install cpanm</code></pre>
@@ -1092,7 +1164,7 @@ SYNOPSIS
       cpanm --from https://cpan.metacpan.org/ Plack    # use only the HTTPS mirror
 </code></pre>
 <p>Instalemos ahora el módulo <span class="math inline">\(Statistics::Descriptive\)</span> usando <span class="math inline">\(cpanm\)</span></p>
-<pre style=" background: hsl(30,80%,90%)">
+<pre style="background: whitesmoke">
 cpanm -i Statistics::Descriptive
 cpanm --local-lib=~/perl5 local::lib &amp;&amp; eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
 </pre>
@@ -1100,7 +1172,7 @@ cpanm --local-lib=~/perl5 local::lib &amp;&amp; eval $(perl -I ~/perl5/lib/perl5
 </div>
 </div>
 <div id="uso-de-la-variable-de-ambiente-perl5lib" class="section level3">
-<h3><span class="header-section-number">3.2.3</span> Uso de la variable de ambiente <span class="math inline">\(PERL5LIB\)</span></h3>
+<h3><span class="header-section-number">4.2.3</span> Uso de la variable de ambiente <span class="math inline">\(PERL5LIB\)</span></h3>
 <p>Si instalamos módulos como superusuario (<span class="math inline">\(su\)</span> o <span class="math inline">\(sudo\)</span>), éstos se instalan en uno de los directorios del arreglo especial <span class="math inline">\(@INC\)</span>, que contiene todas las rutas a directorios establecidos durante la compilación de Perl para albergar módulos.</p>
 <p>Podemos ver el contenido de <span class="citation">@INC</span> con el siguiente 1liner de Perl:</p>
 <pre style=" background: hsl(30,80%,90%)">
@@ -1121,7 +1193,7 @@ export PERL5LIB=$HOME/CPAN
 </div>
 </div>
 <div id="como-obtengo-la-lista-de-los-modulos-externos-instalados-en-el-sistema" class="section level2">
-<h2><span class="header-section-number">3.3</span> Cómo obtengo la lista de los módulos externos instalados en el sistema?</h2>
+<h2><span class="header-section-number">4.3</span> Cómo obtengo la lista de los módulos externos instalados en el sistema?</h2>
 <p>Podemos listar y explorar los módulos instalados por el usuario (independientes de la distribución estándar) usando cualquiera de las sigientes opciones.</p>
 <ol style="list-style-type: decimal">
 <li><span class="math inline">\(instmodsh\)</span> - un shell para explorar módulos instalados</li>
@@ -1137,7 +1209,7 @@ vi $(which instmodsh)
 <li>usando el módulo <span class="math inline">\(ExtUtils::Installed\)</span></li>
 </ol>
 <p>Veamos su documentación:</p>
-<pre style=" background: hsl(30,80%,90%)">
+<pre style="background: hsl(30,80%,90%)">
 perldoc ExtUtils::Installed
 </pre>
 <p>Corramos un <span class="math inline">\(perl\ 1-liner\)</span> llamando al módulo <span class="math inline">\(ExtUtils::Installed\)</span> para ver la lista de módulos</p>
@@ -1256,31 +1328,31 @@ perldoc ExtUtils::Installed
 </div>
 </div>
 <div id="uso-de-modulos-con-interfaz-dirigida-a-objetos" class="section level1">
-<h1><span class="header-section-number">4</span> Uso de módulos con interfaz dirigida a objetos</h1>
+<h1><span class="header-section-number">5</span> Uso de módulos con interfaz dirigida a objetos</h1>
 <p>Existen al menos dos paradigmas básicos de programación:</p>
 <ol style="list-style-type: decimal">
 <li><p><strong>Programación por procedimientos</strong> (la que hemos visto/usado hasta ahora) <a href="http://en.wikipedia.org/wiki/Procedural_programming" class="uri">http://en.wikipedia.org/wiki/Procedural_programming</a></p></li>
 <li><p><strong>Programación dirigida a objetos</strong>: las variables y código son encapsuladas en agrupaciones lógicas conocidas como clases. Las clases encapsulan descripciones generales de procesos u objetos de interés mediante la definición de interacciones entre objetos y sus métodos. <a href="http://en.wikipedia.org/wiki/Object-oriented_programming" class="uri">http://en.wikipedia.org/wiki/Object-oriented_programming</a></p></li>
 </ol>
 <div id="definiciones-simplificadas-de-conceptos-y-terminos-de-programacion-dirigida-a-objetos" class="section level2">
-<h2><span class="header-section-number">4.1</span> Definiciones simplificadas de conceptos y términos de programación dirigida a objetos</h2>
+<h2><span class="header-section-number">5.1</span> Definiciones simplificadas de conceptos y términos de programación dirigida a objetos</h2>
 <div id="clases" class="section level3">
-<h3><span class="header-section-number">4.1.1</span> Clases</h3>
+<h3><span class="header-section-number">5.1.1</span> Clases</h3>
 <p>Son módulos con una interfaz dirigida a objetos</p>
 </div>
 <div id="objetos" class="section level3">
-<h3><span class="header-section-number">4.1.2</span> Objetos</h3>
+<h3><span class="header-section-number">5.1.2</span> Objetos</h3>
 <p>Son un conjunto de datos con un acciones y atributos asociados. Representan instancias particulares de una clase. Las acciones son funciones que un objeto puede hacer con los datos, las cuales vienen codificadas en los métodos del objeto.</p>
 </div>
 <div id="metodos" class="section level3">
-<h3><span class="header-section-number">4.1.3</span> Métodos</h3>
+<h3><span class="header-section-number">5.1.3</span> Métodos</h3>
 <p>Son análogos a funciones, ya que tienen un nombre y reciben parámetros para operar sobre datos. Pero no son lo mismo ya que hay que llamarlos con una sintaxis particular que contiene el nombre de una clase (métodos de clases) o de un objeto (métodos de objetos).</p>
 </div>
 </div>
 <div id="uso-de-clases-una-perspectiva-de-usuario-del-uso-de-modulos-con-interfaz-dirigida-a-objetos" class="section level2">
-<h2><span class="header-section-number">4.2</span> Uso de clases: una perspectiva de usuario del uso de módulos con interfaz dirigida a objetos</h2>
+<h2><span class="header-section-number">5.2</span> Uso de clases: una perspectiva de usuario del uso de módulos con interfaz dirigida a objetos</h2>
 <div id="uso-del-modulo-statisticsdescriptivediscrete-con-interfaz-dirigida-a-objetos" class="section level3">
-<h3><span class="header-section-number">4.2.1</span> Uso del módulo Statistics::Descriptive::Discrete con interfaz dirigida a objetos</h3>
+<h3><span class="header-section-number">5.2.1</span> Uso del módulo Statistics::Descriptive::Discrete con interfaz dirigida a objetos</h3>
 <pre style=" background: hsl(30,80%,90%)">
 #!/usr/bin/env perl
 
@@ -1337,11 +1409,11 @@ mode = 4
 median = 4
 </pre>
 <div id="uso-basico-de-clases-instanciado-de-un-objeto-y-uso-de-metodos-asociados" class="section level4">
-<h4><span class="header-section-number">4.2.1.1</span> Uso básico de clases: instanciado de un objeto y uso de métodos asociados</h4>
+<h4><span class="header-section-number">5.2.1.1</span> Uso básico de clases: instanciado de un objeto y uso de métodos asociados</h4>
 <p>Sintaxis básica para el uso de clases (módulos con interfaz dirigida a objetos):</p>
 <ol style="list-style-type: decimal">
 <li>Importación de la clase
-<pre style=" background: hsl(30,80%,90%)">
+<pre style="background: hsl(30,80%,90%)">
   #use Class::Name
   use Statistics::Descriptive::Discrete;
 </pre></li>
@@ -1351,7 +1423,7 @@ median = 4
   my $stats = Statistics::Descriptive::Discrete-&gt;new(); # sin parámetros
 </pre></li>
 <li>Uso de métodos de un objeto para realizar las acciones deseadas con los datos
-<pre style=" background: hsl(30,80%,90%)">
+<pre style="background: hsl(30,80%,90%)">
 # $object-&gt;methodName(parameter1, parameter2);
 # $object-&gt;methodName(); # if no parameter required
 $stats-&gt;add_data(@digits);
@@ -1364,17 +1436,17 @@ print &quot;count = &quot;, $stats-&gt;count(), &quot;\n&quot;; # llamada al mé
 </div>
 </div>
 <div id="bioperl" class="section level1">
-<h1><span class="header-section-number">5</span> BioPerl</h1>
+<h1><span class="header-section-number">6</span> BioPerl</h1>
 <p>El projecto <a href="https://bioperl.org/">BioPerl</a> de código abierto es fruto de la colaboración entre bioinformáticos, biólogos y científicos del área de la computación con objetivo de desarrollar una plataforma de código para resolver todo tipo de problemas de bioinformática.</p>
 <p>El proyecto inició en 1995 y tuvo su lanzamiento inicial el 11 de Junio de 2002, por lo que claramente es el primer y mayor proyecto de código abierto para bioinformática actuamente existente.</p>
 <p>BioPerl es un proyecto activo financiado por la <a href="http://www.open-bio.org">Open Bioinformatics Foundation</a>, basado en módulos de Perl con el fin de facilitar la administración y manipulación de información relacionada con ciencias de la vida, en particular secuecias genómicas, análisis de genes y proteínas, e interacción con diversos tipos de bases de datos.</p>
 <p>En términos prácticos, <a href="https://bioperl.org/">BioPerl</a> es un gran <strong>repositorio de módulos de Perl para bioinformática con interfaz dirigida a objetos</strong>, llamados <strong>clases</strong>, que cuenta con una excelente <a href="https://bioperl.org/howtos/index.html">documentación y tutoriales</a>.</p>
 <div id="porque-una-interfaz-dirigida-a-objetos" class="section level2">
-<h2><span class="header-section-number">5.1</span> ¿Porqué una interfaz dirigida a objetos?</h2>
+<h2><span class="header-section-number">6.1</span> ¿Porqué una interfaz dirigida a objetos?</h2>
 <p>Resulta que diseñar y abstraer el código en términos de clases y objetos es la técnica de programación más flexible, y en última instancia simple y escalable, para trabajar con datos de gran complejidad, como son los biológicos. Cada “dato” tiene una gran cantidad de atributos, todos los cuales pueden ser modelados de manera consistente usando un sistema de clases o módulos con interfaz dirigida a objetos.</p>
 </div>
 <div id="instalacion-de-bioperl" class="section level2">
-<h2><span class="header-section-number">5.2</span> Instalación de BioPerl</h2>
+<h2><span class="header-section-number">6.2</span> Instalación de BioPerl</h2>
 <p>En sistemas Linux basados en Debian, la instalación de bioperl se puede hacer fácilmente usando el manejador de paquetes <span class="math inline">\(apt\)</span></p>
 <ol style="list-style-type: decimal">
 <li>Lista los paquetes relacionados al proyecto BioPerl
@@ -1389,7 +1461,7 @@ sudo apt install bioperl
 <p>Si tienes otros sistemas operativos, sigue las instrucciones en la página de <a href="https://bioperl.org/INSTALL.html">installation</a>, que encontrarás aquí: <a href="https://bioperl.org/INSTALL.html" class="uri">https://bioperl.org/INSTALL.html</a></p>
 </div>
 <div id="clases-un-tipo-especial-de-modulo" class="section level2">
-<h2><span class="header-section-number">5.3</span> Clases, un tipo especial de módulo</h2>
+<h2><span class="header-section-number">6.3</span> Clases, un tipo especial de módulo</h2>
 <p>Como se mencionó en la sección anterior, los módulos del proyecto BioPerl tiene una interfaz dirigida a objetos. Las <strong>clases</strong> son un tipo de módulo que incluye siempre, por definición, una subrutina ‘<span class="math inline">\(new\)</span>’, en español ‘<strong>constructor</strong>’, que <strong>genera las instancias de la clase</strong> al hacer la llamada <span class="math inline">\(my\ \)</span>object = -&gt;new()$.</p>
 <p>Desde un punto de vista conceptual, <strong>un objeto o instancia de una clase</strong> es un agregado de variables (atributos), con identidad propia, que además incorpora una serie de subrutinas (<strong>métodos</strong>) para interaccionar con el mundo exterior o acceder a los contenidos del mismo.</p>
 <p>En la práctica, una clase es un tipo de módulo que crea copias temporales de sí misma, que duran mientras corre el programa que la invoca, cada una con su propia identidad. A cada instancia o copia le llamamos ‘objeto’. Un ejemplo en Biología podría ser la clase de las proteínas, que son polímeros de aminoácidos, pero cada una, cada objeto perteneciente a la clase, como la calmodulina, tiene su propia función, secuencia y nombre.</p>
@@ -1397,7 +1469,7 @@ sudo apt install bioperl
 <p>Desde la óptica del usuario, lo relevante es entender que tenemos que generar <strong>objetos</strong> e interactuar con ellos mediante los <strong>métodos</strong> asociados.</p>
 </div>
 <div id="creacion-de-un-objeto-de-secuencias-de-la-clase-bioseq" class="section level2">
-<h2><span class="header-section-number">5.4</span> Creación de un objeto de secuencias de la clase <span class="math inline">\(Bio::Seq\)</span></h2>
+<h2><span class="header-section-number">6.4</span> Creación de un objeto de secuencias de la clase <span class="math inline">\(Bio::Seq\)</span></h2>
 <p>Dado que BioPerl cuenta con mucho módulos, tenemos que llamar al módulo adecuado para resolver nuestro problema. <span class="math inline">\(Bio::Seq\)</span> es la clase principal para trabajar con secuencias en BioPerl. SeqIO puede leer y escribir secuencias biológicas en múltiples formatos, y por tanto tambien transformarlas de un formato a otro.</p>
 <ol style="list-style-type: decimal">
 <li>Llamada al módulo/clase <span class="math inline">\(Bio::Seq\)</span></li>
@@ -1444,7 +1516,7 @@ print $seq_obj-&gt;seq;
 <p>El objeto <span class="math inline">\(\$seq\_obj\)</span> no sólo es un “contenedor” para la secuencia. Los objetos de la clase <span class="math inline">\(Bio::Seq\)</span> tienen el método <span class="math inline">\(seq()\)</span>, que imprime su contenido.</p>
 <p>Además, podemos añadir más <strong>atributos</strong> al objeto <span class="math inline">\(\$seq\_obj\)</span>, como se muestra seguidamente.</p>
 <div id="adicion-de-nuevos-atributos-al-objeto-de-la-clase-bioseq" class="section level3">
-<h3><span class="header-section-number">5.4.1</span> Adición de nuevos atributos al objeto de la clase <span class="math inline">\(Bio::Seq\)</span></h3>
+<h3><span class="header-section-number">6.4.1</span> Adición de nuevos atributos al objeto de la clase <span class="math inline">\(Bio::Seq\)</span></h3>
 <p>Típicamente una secuencia tiene varios atributos adicionales, como un <em>identificador</em> y una <em>descripción</em> con metadatos adiconales. Vamos a crear un nueva instancia de la clase <span class="math inline">\(Bio::Seq\)</span>, es decir, un nuevo objeto <span class="math inline">\(\$seq\_obj\)</span>, con esta información adicional.</p>
 <pre style=" background: hsl(30,80%,90%)">
 $seq_obj = Bio::Seq-&gt;new(-seq        =&gt; &quot;ATGATTGCACATTATAA&quot;,
@@ -1473,7 +1545,7 @@ print &quot;&gt;&quot;, $seq_obj-&gt;id,  &quot;|&quot;, $seq_obj-&gt;desc, &quo
 </div>
 </div>
 <div id="leer-e-imprimir-secuencias-con-metodos-de-la-clase-bioseqio" class="section level2">
-<h2><span class="header-section-number">5.5</span> Leer e imprimir secuencias con métodos de la clase <span class="math inline">\(Bio::SeqIO\)</span></h2>
+<h2><span class="header-section-number">6.5</span> Leer e imprimir secuencias con métodos de la clase <span class="math inline">\(Bio::SeqIO\)</span></h2>
 <p>Si queremos imprimir a un archivo el contenido del objeto <span class="math inline">\(\$seq\_obj\)</span> que generamos arriba, podemos hacer uso de un nuevo objeto, de la clase <span class="math inline">\(Bio::SeqIO\)</span>, especializado en leer desde y escribir en archivos. De ahi su nombre SeqIO(), que alude a “sequence Input/Output”</p>
 <pre style=" background: hsl(30,80%,90%)">
 use Bio::SeqIO;
@@ -1510,7 +1582,7 @@ $seqio_obj-&gt;write_seq($seq_obj);
 <pre><code>## &gt;XXX_0123 Bichococcus imaginarius, genX
 ## ATGATTGCACATTATAA</code></pre>
 <div id="cambiar-el-formato-de-las-secuencias-con-bioseqio" class="section level3">
-<h3><span class="header-section-number">5.5.1</span> Cambiar el formato de las secuencias con <span class="math inline">\(Bio::SeqIO\)</span></h3>
+<h3><span class="header-section-number">6.5.1</span> Cambiar el formato de las secuencias con <span class="math inline">\(Bio::SeqIO\)</span></h3>
 <p>Una gran ventaja de usar clases bien diseñadas, es que es muy fácil para el usuario cambiar atributos de un objeto. Por ejemplo, podemos pedirle a <span class="math inline">\(Bio::SeqIO\)</span> que nos imprima la secuencia ahora en formato GenBank. Para ello sólo necesitamos cambiar el atributo format del objeto <span class="math inline">\(\$seqio\)</span>, y usar un nuevo nombre de archivo de salida, como se muestra en el siguiente bloque.</p>
 <pre style=" background: hsl(30,80%,90%)">
 my $seqio_obj = Bio::SeqIO-&gt;new(-file   =&gt; '&gt;Bichococus_imaginarius_genX.gbk', 
@@ -1531,7 +1603,7 @@ my $seqio_obj = Bio::SeqIO->new(-file   => '>Bichococus_imaginarius_genX.gbk',
 <p>¿Ta’güeno, verdad?</p>
 </div>
 <div id="importar-secuencias-desde-un-archivo." class="section level3">
-<h3><span class="header-section-number">5.5.2</span> Importar secuencias desde un archivo.</h3>
+<h3><span class="header-section-number">6.5.2</span> Importar secuencias desde un archivo.</h3>
 <p>Para leer un archivo que tenemos en disco, usamos nuevamente la clase <span class="math inline">\(Bio::SeqIO\)</span></p>
 <p>Como ejemplo, leamos el archivo GenBank que acabamos de generar e imprimamos en formato GenBank</p>
 <pre class="perl"><code>#!/usr/bin/env perl 
@@ -1563,9 +1635,9 @@ while ( my $seq_obj = $seqio_obj-&gt;next_seq ) {
 ## ATGATTGCACATTATAA</code></pre>
 </div>
 <div id="script-convert_seqformats_seqio.pl-para-interconvertir-formatos-de-secuencias" class="section level3">
-<h3><span class="header-section-number">5.5.3</span> Script <span class="math inline">\(convert\_seqFormats\_SeqIO.pl\)</span> para interconvertir formatos de secuencias</h3>
+<h3><span class="header-section-number">6.5.3</span> Script <span class="math inline">\(convert\_seqFormats\_SeqIO.pl\)</span> para interconvertir formatos de secuencias</h3>
 <p>Con lo aprendido en secciones anteriores, debería ser fácil escribir un interconvertidor de formatos de secuencias.</p>
-<pre style=" background: whitesmoke">
+<pre style="background: whitesmoke">
 #!/usr/bin/env perl
 
 use strict;
@@ -1633,8 +1705,8 @@ while (my $seq = $in-&gt;next_seq) {
 <pre style="background: whitesmoke">
 ./convert_seqFormats_SeqIO.pl Bichococus_imaginarius_genX.gbk genbank Bichococus_imaginarius_genX.embl EMBL
 </pre>
-<p>Y podemos ver el resultado así:</p>
-<pre class="bash"><code>[ -s Bichococus_imaginarius_genX.embl ] &amp;&amp; cat Bichococus_imaginarius_genX.embl</code></pre>
+<p>Y podemos ver el resultado así</p>
+<pre class="bash"><code>[ -s Bichococus_imaginarius_genX.embl ] &amp;&amp; cat 'Bichococus_imaginarius_genX.embl'</code></pre>
 <pre><code>## ID   XXX_0123   standard; dna; UNK; 17 BP.
 ## XX
 ## AC   unknown;
@@ -1647,7 +1719,7 @@ while (my $seq = $in-&gt;next_seq) {
 ## SQ   Sequence 17 BP; 7 A; 2 C; 2 G; 6 T; 0 other;
 ##      atgattgcac attataa                                                       17
 ## //</code></pre>
-<p>Para más ejemplos de uso de la clase <a href="https://bioperl.org/howtos/SeqIO_HOWTO.html"><span class="math inline">\(Bio::SeqIO\)</span></a>, vean el siguiente <em>HOWTO</em> en la página de bioperl.org <a href="https://bioperl.org/howtos/SeqIO_HOWTO.html" class="uri">https://bioperl.org/howtos/SeqIO_HOWTO.html</a>.</p>
+<p>Para más ejemplos de uso de la clase <a href="https://bioperl.org/howtos/SeqIO_HOWTO.html"><span class="math inline">\(Bio::SeqIO\)</span></a>, vean el siguiente <em>HOWTO</em> en la página de bioperl.org <a href="https://bioperl.org/howtos/SeqIO_HOWTO.html" class="uri">https://bioperl.org/howtos/SeqIO_HOWTO.html</a></p>
 </div>
 </div>
 </div>
