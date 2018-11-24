@@ -37,6 +37,14 @@ repositorio con el comando:
 git clone https://github.com/vinuesa/curso_perl4bioinfo.git
 </pre>
 
+Para actualizar los contenidos de este repositorio en tu máquina, ve al
+directorio en el que clonaste el repositorio y ejecuta un $git\ pull$
+
+<pre style="background: whitesmoke">
+cd /path/GithubRepo/curso_perl4bioinfo
+git pull
+</pre>
+
 Puedes instalar $git$ fácilmente en Ubuntu usando:
 <pre style="background: whitesmoke">
 sudo apt install git
@@ -44,7 +52,7 @@ sudo apt install git
 
 Alternativamente, puedes descargar el archivo [master.zip](https://github.com/vinuesa/get_phylomarkers/archive/master.zip)
 
-## Módulos del CPAN, requeridos para este tema
+#### Módulos del CPAN, requeridos para este tema
 
 - $Statistics::Descriptive$
 - $Statistics::Distributions$
@@ -58,7 +66,7 @@ sudo apt install perldoc cpanminus bioperl libstatistics-descriptive-perl libsta
 
 Estos módulos están en el directorio $lib$ del repositorio GitHub.
 
-## binarios a instalar, usando $apt$ (distribuciones Debian, como Ubuntu)
+#### binarios a instalar, usando apt (distribuciones Debian, como Ubuntu)
 <pre style="background: whitesmoke">
 sudo apt install muscle clustalo fasttree phyml
 </pre>
