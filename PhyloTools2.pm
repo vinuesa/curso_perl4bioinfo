@@ -49,15 +49,14 @@ sub run_muscle
    my($infile, $clean, $verbosity) = @_;
 
    my $filename = basename($infile);
-   my @file_name_parts;
    my( $file_basename, $file_ext) = split(/\./,$filename);
 
    my $tmpfile1 = $file_basename . "_tmp1.mus";
    my $tmpfile2 = $file_basename . "_tmp2.mus";
    my $outfile  = $file_basename . "_musAln.$file_ext"; 
 
-   # run muscle with x2 refinement rounds after the primary alignment; note, -stable is not available anymore in muscle 3.8.31   
-   print "# &run_muscle is running $muscle_bin < $infile > $tmpfile1 -quiet ...\n" if $verbosity ;
+   # run muscle with x2 refinement rounds after the primary alignment; note, -stable is not available anymore in muscle 3.8.31
+   print "# sub run_muscle is running $muscle_bin < $infile > $tmpfile1 -quiet ...\n" if $verbosity ;
    system(" $muscle_bin < $infile > $tmpfile1 -quiet ");
    system(" $muscle_bin < $tmpfile1 > $tmpfile2 -refine -quiet ");
    system(" $muscle_bin < $tmpfile2 > $outfile -refine -quiet ");
@@ -65,19 +64,19 @@ sub run_muscle
    # clean file
    if($clean==1)
    { 
-      print "# will remove tmp files $tmpfile1, $tmpfile2\n" if $verbosity ;
-      unlink $tmpfile1, $tmpfile2; 
+     print "# will remove tmp files $tmpfile1, $tmpfile2\n" if $verbosity ;
+     unlink $tmpfile1, $tmpfile2; 
    }
 
    # check the output file is there
    if(! -s $outfile)
    { 
-      print "# ERROR; outfile $outfile is empty\n";
-      return; 
+     print "# ERROR; outfile $outfile is empty\n";
+     return; 
    }
    else
    { 
-      print "# &run_muscle returned aligned outfile $outfile\n";
+     print "# run_muscle() returned aligned outfile $outfile\n";
       return $outfile; 
    }
 }

@@ -22,14 +22,19 @@ else
    use lib '/home/vinuesa/Dropbox/Cursos/perl4bioinfo/my_code' ;
 }
 
-use PhyloTools2 qw(run_clustalo run_muscle);
+use PhyloTools2; # use PhyloTools2 qw(run_clustalo run_muscle); # <<< if using @EXPORT_OK()
 
-my $VERSION = 0.2; # v0.2_16Oct2018
+my $VERSION = 0.3; # v0.3_22Oct2018
 my $progname = basename($0);
 
 print_help() unless @ARGV;
 
 my ($fasta_file, $alignment_algorithm) = @ARGV;
+
+if( defined $alignment_algorithm && $alignment_algorithm ne 'clustalo' && $alignment_algorithm ne 'muscle' )
+{
+   croak "\n# ERROR: alignment algorithm must be either clustalo or muscle\n\n";
+}
 
 if(! defined $alignment_algorithm){ $alignment_algorithm = 'clustalo' }
 
