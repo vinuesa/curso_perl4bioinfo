@@ -1,6 +1,6 @@
 # Presentación: perl4bioinfo, Perl para bioinform&aacute;tica - UNAM, semestre 2019-1
 
-## Tema 14: Introducci&oacute;n al uso de m&oacute;dulos de Perl
+## Tema 14: Introducci&oacute;n al uso de m&oacute;dulos y clases de Perl
 
 ### Presentación
 
