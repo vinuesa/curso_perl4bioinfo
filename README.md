@@ -54,10 +54,10 @@ Alternativamente, puedes descargar el archivo [master.zip](https://github.com/vi
 
 #### Módulos del CPAN, requeridos para este tema
 
-- $Statistics::Descriptive$
-- $Statistics::Distributions$
-- $Bio::Perl$
-- $cpanm$
+- Statistics::Descriptive
+- Statistics::Distributions
+- Bio::Perl
+- cpanm
 
 En Ubuntu, los puedes instalar usando:
 <pre style="background: whitesmoke">
