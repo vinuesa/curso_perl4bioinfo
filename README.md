@@ -1,6 +1,6 @@
 # Presentación: perl4bioinfo, Perl para bioinform&aacute;tica - UNAM, semestre 2019-1
 
-## Tema 14: Introducci&oacute;n al uso de m&oacute;dulos de Perl
+## Tema 14: Introducci&oacute;n al uso de m&oacute;dulos y clases de Perl
 
 ### Presentación
 
@@ -54,10 +54,10 @@ Alternativamente, puedes descargar el archivo [master.zip](https://github.com/vi
 
 #### Módulos del CPAN, requeridos para este tema
 
-- $Statistics::Descriptive$
-- $Statistics::Distributions$
-- $Bio::Perl$
-- $cpanm$
+- Statistics::Descriptive
+- Statistics::Distributions
+- Bio::Perl
+- cpanm
 
 En Ubuntu, los puedes instalar usando:
 <pre style="background: whitesmoke">
