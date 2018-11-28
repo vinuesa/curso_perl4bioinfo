@@ -11,7 +11,7 @@
 
 <meta name="author" content="Pablo Vinuesa, CCG-UNAM (http://www.ccg.unam.mx/~vinuesa/, https://github.com/vinuesa)" />
 
-<meta name="date" content="2018-11-24" />
+<meta name="date" content="2018-11-25" />
 
 <title>Introducción al uso de módulos en Perl con aplicaciones para bioinformática</title>
 
@@ -124,7 +124,7 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Introducción al uso de módulos en Perl con aplicaciones para bioinformática</h1>
 <h4 class="author"><em>Pablo Vinuesa, CCG-UNAM (<a href="http://www.ccg.unam.mx/~vinuesa/" class="uri">http://www.ccg.unam.mx/~vinuesa/</a>, <a href="https://github.com/vinuesa" class="uri">https://github.com/vinuesa</a>)</em></h4>
-<h4 class="date"><em>2018-11-24</em></h4>
+<h4 class="date"><em>2018-11-25</em></h4>
 
 </div>
 
@@ -217,10 +217,15 @@ $(document).ready(function () {
 <li><a href="#importar-secuencias-desde-un-archivo."><span class="toc-section-number">6.5.2</span> Importar secuencias desde un archivo.</a></li>
 <li><a href="#script-convert_seqformats_seqio.pl-para-interconvertir-formatos-de-secuencias"><span class="toc-section-number">6.5.3</span> Script <span class="math inline">\(convert\_seqFormats\_SeqIO.pl\)</span> para interconvertir formatos de secuencias</a></li>
 </ul></li>
+<li><a href="#bioalignio-una-clase-para-trabajar-con-alineamientos-multiples"><span class="toc-section-number">6.6</span> <span class="math inline">\(Bio::AlignIO\)</span> una clase para trabajar con alineamientos múltiples</a><ul>
+<li><a href="#convert_aln_format_batch_bp.pl-para-interconversion-de-formatos"><span class="toc-section-number">6.6.1</span> <span class="math inline">\(convert\_aln\_format\_batch\_bp.pl\)</span> para interconversión de formatos</a></li>
+</ul></li>
+<li><a href="#howtos-de-bioperl---un-recurso-muy-util-para-aprender-a-programar-con-este-toolkit"><span class="toc-section-number">6.7</span> HOWTOs de <span class="math inline">\(Bio::Perl\)</span> - un recurso muy útil para aprender a programar con este toolkit</a></li>
 </ul></li>
 <li><a href="#ejercicio---construccion-de-un-modulo-para-filogenetica"><span class="toc-section-number">7</span> Ejercicio - construcción de un módulo para filogenética</a><ul>
 <li><a href="#escribir-run_phylotools.pl-que-llama-a-phylotools.pm"><span class="toc-section-number">7.0.1</span> Escribir <span class="math inline">\(run\_PhyloTools.pl\)</span> que llama a PhyloTools.pm</a></li>
 </ul></li>
+<li><a href="#get_homologues-y-get_phylomarkers"><span class="toc-section-number">8</span> GET_HOMOLOGUES y GET_PHYLOMARKERS</a></li>
 </ul>
 </div>
 
@@ -772,7 +777,7 @@ sub sub2
 </div>
 <div id="documentacion-de-modulos-con-pod" class="section level2">
 <h2><span class="header-section-number">2.6</span> Documentación de módulos con <span class="math inline">\(POD\)</span></h2>
-<p>Un módulo no está completo si no tiene documentación.</p>
+<p>Un módulo no está completo si está adecuadamente documentado.</p>
 <p>Los módulos de Perl y en general, toda la documentación de Perl se escribe en formato <strong>POD (Plain Old Documentation)</strong>. Se trata de un lenguaje de marcado que permite incluir bloques de documentación en un script of módulo de perl y su lectura desde la línea de comandos usando el programa perldoc.</p>
 <p>Cuando el intérprete perl encuentra un signo = al inicio de una linea, tal como <strong>=head1</strong>, cambia al modo de procesamiento de POD, hasta que encuentra una línea que inicia con <strong>=cut</strong>.</p>
 <p>Para compilar el código, perl ignora estos bloques (como muchos programadores …).</p>
@@ -793,14 +798,14 @@ sub sub2
 <p>La lista de esos directorios la exporta Perl al arreglo <span class="math inline">\(@INC\)</span></p>
 <p>Para ver los detalles de configuración de la compilación del intérprete perl, usa la siguiente línea, que incluye, al final de la copiosa salida, los directorios que se incluyen en el arreglo <span class="math inline">\(@INC\)</span>.</p>
 <pre class="bash"><code>perl -V | tail -10; # imprime sólo las últimas líneas de la copiosa salida</code></pre>
-<pre><code>##     /usr/local/lib/x86_64-linux-gnu/perl/5.26.1
+<pre><code>##   @INC:
+##     /etc/perl
+##     /usr/local/lib/x86_64-linux-gnu/perl/5.26.1
 ##     /usr/local/share/perl/5.26.1
 ##     /usr/lib/x86_64-linux-gnu/perl5/5.26
 ##     /usr/share/perl5
 ##     /usr/lib/x86_64-linux-gnu/perl/5.26
 ##     /usr/share/perl/5.26
-##     /home/vinuesa/perl5/lib/perl5//5.26.0
-##     /home/vinuesa/perl5/lib/perl5//5.26.0/x86_64-linux-gnu-thread-multi
 ##     /usr/local/lib/site_perl
 ##     /usr/lib/x86_64-linux-gnu/perl-base</code></pre>
 <p>Cualquier módulo instalado en dichos directorios, será accesible desde cualquier script que se corra en el sistema, al invocar la directiva <span class="math inline">\(use\ module\)</span></p>
@@ -1216,170 +1221,50 @@ perldoc ExtUtils::Installed
 </pre>
 <p>Corramos un <span class="math inline">\(perl\ 1-liner\)</span> llamando al módulo <span class="math inline">\(ExtUtils::Installed\)</span> para ver la lista de módulos</p>
 <pre class="bash"><code>perl -MExtUtils::Installed -e 'my ($inst) = ExtUtils::Installed-&gt;new( skip_cwd =&gt; 1 ); my (@modules) = $inst-&gt;modules(); print join &quot;\n&quot;,  @modules, &quot;\n&quot;;'</code></pre>
-<pre><code>## Archive::Tar
-## B::Debug
-## Bio
-## Bio::Coordinate
-## Bio::Graphics
-## Bio::NEXUS
-## Bio::Phylo
-## Bio::PrimerDesigner
-## Bio::Run
-## CGI::Session
-## Carp
-## Clone::PP
-## Compress::Raw::Bzip2
-## Compress::Raw::Zlib
-## File::NFSLock
-## GD::SVG
-## JSON
-## List::Vectorize
-## Math::BigInt
+<pre><code>## List::Vectorize
 ## Perl
-## Statistics::Descriptive
-## Statistics::Descriptive::Discrete
 ## Statistics::Distributions
 ## Statistics::Multtest
-## Statistics::R
-## Test::Harness
-## bignum</code></pre>
+## Statistics::R</code></pre>
 <ol start="3" style="list-style-type: decimal">
 <li>usando <span class="math inline">\(perldoc\ perllocal\)</span></li>
 </ol>
 <pre class="bash"><code>perldoc perllocal</code></pre>
 <pre><code>## stty: 'standard input': Inappropriate ioctl for device
-##   [1mSun Nov 18 22:34:15 2018: &quot;Module&quot; Test::Harness[0m
-##     *   &quot;installed into: /home/vinuesa/perl5/lib/perl5&quot;
+##   [1mSun Nov 11 20:25:10 2018: &quot;Module&quot; Statistics::Distributions[0m
+##     *   &quot;installed into: /usr/local/share/perl/5.26.1&quot;
 ## 
 ##     *   &quot;LINKTYPE: dynamic&quot;
 ## 
-##     *   &quot;VERSION: 3.42&quot;
-## 
-##     *   &quot;EXE_FILES: bin/prove&quot;
-## 
-##   [1mSun Nov 18 22:34:31 2018: &quot;Module&quot; Archive::Tar[0m
-##     *   &quot;installed into: /home/vinuesa/perl5/lib/perl5&quot;
-## 
-##     *   &quot;LINKTYPE: dynamic&quot;
-## 
-##     *   &quot;VERSION: 2.32&quot;
-## 
-##     *   &quot;EXE_FILES: bin/ptar bin/ptardiff bin/ptargrep&quot;
-## 
-##   [1mSun Nov 18 22:34:33 2018: &quot;Module&quot; B::Debug[0m
-##     *   &quot;installed into: /home/vinuesa/perl5/lib/perl5&quot;
-## 
-##     *   &quot;LINKTYPE: dynamic&quot;
-## 
-##     *   &quot;VERSION: 1.26&quot;
+##     *   &quot;VERSION: 1.02&quot;
 ## 
 ##     *   &quot;EXE_FILES: &quot;
 ## 
-##   [1mSun Nov 18 22:35:52 2018: &quot;Module&quot; Math::BigInt[0m
-##     *   &quot;installed into: /home/vinuesa/perl5/lib/perl5&quot;
+##   [1mSun Nov 11 20:25:56 2018: &quot;Module&quot; List::Vectorize[0m
+##     *   &quot;installed into: /usr/local/share/perl/5.26.1&quot;
 ## 
 ##     *   &quot;LINKTYPE: dynamic&quot;
 ## 
-##     *   &quot;VERSION: 1.999816&quot;
+##     *   &quot;VERSION: 1.05&quot;
+## 
+##     *   &quot;EXE_FILES: bin/l_intersect bin/l_sapply bin/l_setdiff bin/l_sort
+##         bin/l_subset bin/l_union bin/l_unique&quot;
+## 
+##   [1mSun Nov 11 20:25:58 2018: &quot;Module&quot; Statistics::Multtest[0m
+##     *   &quot;installed into: /usr/local/share/perl/5.26.1&quot;
+## 
+##     *   &quot;LINKTYPE: dynamic&quot;
+## 
+##     *   &quot;VERSION: 0.14&quot;
 ## 
 ##     *   &quot;EXE_FILES: &quot;
 ## 
-##   [1mSun Nov 18 22:35:56 2018: &quot;Module&quot; bignum[0m
-##     *   &quot;installed into: /home/vinuesa/perl5/lib/perl5&quot;
+##   [1mSun Nov 11 20:26:37 2018: &quot;Module&quot; Statistics::R[0m
+##     *   &quot;installed into: /usr/local/share/perl/5.26.1&quot;
 ## 
 ##     *   &quot;LINKTYPE: dynamic&quot;
 ## 
-##     *   &quot;VERSION: 0.51&quot;
-## 
-##     *   &quot;EXE_FILES: &quot;
-## 
-##   [1mSun Nov 18 22:35:59 2018: &quot;Module&quot; Carp[0m
-##     *   &quot;installed into: /home/vinuesa/perl5/lib/perl5&quot;
-## 
-##     *   &quot;LINKTYPE: dynamic&quot;
-## 
-##     *   &quot;VERSION: 1.50&quot;
-## 
-##     *   &quot;EXE_FILES: &quot;
-## 
-##   [1mSun Nov 18 22:36:09 2018: &quot;Module&quot; Compress::Raw::Bzip2[0m
-##     *   &quot;installed into: /home/vinuesa/perl5/lib/perl5&quot;
-## 
-##     *   &quot;LINKTYPE: dynamic&quot;
-## 
-##     *   &quot;VERSION: 2.081&quot;
-## 
-##     *   &quot;EXE_FILES: &quot;
-## 
-##   [1mSun Nov 18 22:36:17 2018: &quot;Module&quot; Compress::Raw::Zlib[0m
-##     *   &quot;installed into: /home/vinuesa/perl5/lib/perl5&quot;
-## 
-##     *   &quot;LINKTYPE: dynamic&quot;
-## 
-##     *   &quot;VERSION: 2.081&quot;
-## 
-##     *   &quot;EXE_FILES: &quot;
-## 
-##   [1mTue Nov 20 06:10:16 2018: &quot;Module&quot; Statistics::Descriptive::Discrete[0m
-##     *   &quot;installed into: /home/vinuesa/perl5/lib/perl5&quot;
-## 
-##     *   &quot;LINKTYPE: dynamic&quot;
-## 
-##     *   &quot;VERSION: 0.07&quot;
-## 
-##     *   &quot;EXE_FILES: &quot;
-## 
-##   [1mSat Nov 24 02:30:19 2018: &quot;Module&quot; Bio::Phylo[0m
-##     *   &quot;installed into: /home/vinuesa/perl5/lib/perl5&quot;
-## 
-##     *   &quot;LINKTYPE: dynamic&quot;
-## 
-##     *   &quot;VERSION: v2.0.1&quot;
-## 
-##     *   &quot;EXE_FILES: &quot;
-## 
-##   [1mSat Nov 24 02:35:56 2018: &quot;Module&quot; Clone::PP[0m
-##     *   &quot;installed into: /home/vinuesa/perl5/lib/perl5&quot;
-## 
-##     *   &quot;LINKTYPE: dynamic&quot;
-## 
-##     *   &quot;VERSION: 1.07&quot;
-## 
-##     *   &quot;EXE_FILES: &quot;
-## 
-##   [1mSat Nov 24 03:12:42 2018: &quot;Module&quot; Bio::Coordinate[0m
-##     *   &quot;installed into: /home/vinuesa/perl5/lib/perl5&quot;
-## 
-##     *   &quot;LINKTYPE: dynamic&quot;
-## 
-##     *   &quot;VERSION: 1.007001&quot;
-## 
-##     *   &quot;EXE_FILES: &quot;
-## 
-##   [1mSat Nov 24 03:12:56 2018: &quot;Module&quot; JSON[0m
-##     *   &quot;installed into: /home/vinuesa/perl5/lib/perl5&quot;
-## 
-##     *   &quot;LINKTYPE: dynamic&quot;
-## 
-##     *   &quot;VERSION: 2.97001&quot;
-## 
-##     *   &quot;EXE_FILES: &quot;
-## 
-##   [1mSat Nov 24 03:18:27 2018: &quot;Module&quot; GD::SVG[0m
-##     *   &quot;installed into: /home/vinuesa/perl5/lib/perl5&quot;
-## 
-##     *   &quot;LINKTYPE: dynamic&quot;
-## 
-##     *   &quot;VERSION: 0.33&quot;
-## 
-##     *   &quot;EXE_FILES: &quot;
-## 
-##   [1mSat Nov 24 03:20:08 2018: &quot;Module&quot; File::NFSLock[0m
-##     *   &quot;installed into: /home/vinuesa/perl5/lib/perl5&quot;
-## 
-##     *   &quot;LINKTYPE: dynamic&quot;
-## 
-##     *   &quot;VERSION: 1.29&quot;
+##     *   &quot;VERSION: 0.34&quot;
 ## 
 ##     *   &quot;EXE_FILES: &quot;</code></pre>
 <ol start="4" style="list-style-type: decimal">
@@ -1776,16 +1661,16 @@ while (my $seq = $in-&gt;next_seq) {
 }
 </pre>
 <p>Una llamada al script, para convertir el archivo Bichococus_imaginarius_genX.gbk en formato GenBank a formato EMBL, sería así:</p>
-<pre style="background: whitesmoke">
-./convert_seqFormats_SeqIO.pl Bichococus_imaginarius_genX.gbk genbank Bichococus_imaginarius_genX.embl EMBL
-</pre>
+<pre class="bash"><code>. ./set_script_dir_by_hostname
+$script_dir/convert_seqFormats_SeqIO.pl Bichococus_imaginarius_genX.gbk genbank Bichococus_imaginarius_genX.embl EMBL</code></pre>
 <p>Y podemos ver el resultado así</p>
 <pre class="bash"><code>[ -s Bichococus_imaginarius_genX.embl ] &amp;&amp; cat 'Bichococus_imaginarius_genX.embl'</code></pre>
-<pre><code>## ID   XXX_0123   standard; dna; UNK; 17 BP.
+<pre><code>## ID   XXX_0123; SV 1; linear; unassigned DNA; STD; UNC; 17 BP.
 ## XX
 ## AC   unknown;
 ## XX
 ## DE   Bichococcus imaginarius, genX
+## XX
 ## XX
 ## FH   Key             Location/Qualifiers
 ## FH
@@ -1794,6 +1679,140 @@ while (my $seq = $in-&gt;next_seq) {
 ##      atgattgcac attataa                                                       17
 ## //</code></pre>
 <p>Para más ejemplos de uso de la clase <a href="https://bioperl.org/howtos/SeqIO_HOWTO.html"><span class="math inline">\(Bio::SeqIO\)</span></a>, vean el siguiente <em>HOWTO</em> en la página de bioperl.org <a href="https://bioperl.org/howtos/SeqIO_HOWTO.html" class="uri">https://bioperl.org/howtos/SeqIO_HOWTO.html</a></p>
+</div>
+</div>
+<div id="bioalignio-una-clase-para-trabajar-con-alineamientos-multiples" class="section level2">
+<h2><span class="header-section-number">6.6</span> <span class="math inline">\(Bio::AlignIO\)</span> una clase para trabajar con alineamientos múltiples</h2>
+<p>La clase <span class="math inline">\(Bio::AlignIO\)</span> está especializada en trabajar con una gran gama de formatos de alineamintos múltiples.</p>
+<p>Tiene un diseño e interfaz que comparte muchas características con el módulo <span class="math inline">\(Bio::SeqIO\)</span>, por lo que les resultará fácil de utilizar después de lo que hemos aprendido en secciones anteriores.</p>
+Veamos la synopsis mostrada con el comando <span class="math inline">\(perldoc\ Bio::AlignIO\)</span>:
+<pre style=" background: hsl(30,80%,90%); font-size: 95%">
+SYNOPSIS
+   use Bio::AlignIO;
+
+   $inputfilename = &quot;testaln.fasta&quot;;
+   $in  = Bio::AlignIO-&gt;new(-file   =&gt; $inputfilename ,
+                -format =&gt; 'fasta');
+   $out = Bio::AlignIO-&gt;new(-file   =&gt; &quot;&gt;out.aln.pfam&quot; ,
+                -format =&gt; 'pfam');
+
+   while ( my $aln = $in-&gt;next_aln() ) {
+       $out-&gt;write_aln($aln);
+   }
+</pre>
+<p>Les debe de resultar familiar, ¿verdad?.</p>
+<div id="convert_aln_format_batch_bp.pl-para-interconversion-de-formatos" class="section level3">
+<h3><span class="header-section-number">6.6.1</span> <span class="math inline">\(convert\_aln\_format\_batch\_bp.pl\)</span> para interconversión de formatos</h3>
+<pre style=" background: hsl(30,80%,90%); font-size: 80%">
+#!/usr/bin/env perl
+# Use BioPerl's Bio::AlignIO to convert between multiple sequence alignment formats
+use strict;
+use warnings;
+use Bio::AlignIO;    # assumes the class in found in @INC or exported by $PERL5LIB       
+
+# 1) Declare variable, get input arguments from the command line and print help if needed
+
+if ($#ARGV &lt; 3)
+{
+    print &quot;Usage: $0 inputformat infile_ext outputformat outputfile_ext\n
+              Supported formats include:
+
+              bl2seq      Bl2seq Blast output
+              clustalw    clustalw (.aln) format
+              emboss      EMBOSS water and needle format
+              fasta       FASTA format
+              maf         Multiple Alignment Format
+              mase        mase (seaview) format
+              mega        MEGA format
+              meme        MEME format
+              msf         msf (GCG) format
+              nexus       Swofford et al NEXUS format
+              pfam        Pfam sequence alignment format
+              phylip      Felsenstein PHYLIP format
+              prodom      prodom (protein domain) format
+              psi         PSI?BLAST format
+              selex       selex (hmmer) format
+              stockholm   stockholm format\n\n\n&quot;;
+    exit;
+}    
+
+my($inputformat, $infile_ext, $outputformat, $outputfile_ext)=@ARGV;
+my @infiles = &lt;*$infile_ext&gt;;
+my($basename,$counter);
+
+
+# 2) Process all files in cwd having infile_ext, converting them from inputformat to outputformat 
+#    with the outputfile_ext provided at the command line
+
+foreach my $infile ( @infiles )
+{  
+    $basename = (split(/\./, $infile))[0]; 
+        
+    my $in  = Bio::AlignIO-&gt;new(-file =&gt; $basename . &quot;.$infile_ext&quot;,   -format =&gt; $inputformat);
+    my $out = Bio::AlignIO-&gt;new(-file =&gt; &quot;&gt;$basename.$outputfile_ext&quot;, -format =&gt; $outputformat);
+
+    while ( my $aln = $in-&gt;next_aln() ) 
+    {
+            $out-&gt;write_aln($aln);
+    }
+    $counter++;
+}
+
+print &quot;\n\t# I'm done: $counter $inputformat input files with $infile_ext extension were converted to $outputformat format with $outputfile_ext extension\n\n&quot;;
+</pre>
+<p>Y finalmente veamos cómo se usa:</p>
+<ul>
+<li>llamada sin argumentos para ver la ayuda:</li>
+</ul>
+<pre class="bash"><code>my_code/convert_aln_format_batch_bp.pl</code></pre>
+<pre><code>## Usage: my_code/convert_aln_format_batch_bp.pl inputformat infile_ext outputformat outputfile_ext
+## 
+##            Supported formats include:
+## 
+##               bl2seq      Bl2seq Blast output
+##               clustalw    clustalw (.aln) format
+##               emboss      EMBOSS water and needle format
+##               fasta       FASTA format
+##               maf         Multiple Alignment Format
+##               mase        mase (seaview) format
+##               mega        MEGA format
+##               meme        MEME format
+##               msf         msf (GCG) format
+##               nexus       Swofford et al NEXUS format
+##               pfam        Pfam sequence alignment format
+##               phylip      Felsenstein PHYLIP format
+##               prodom      prodom (protein domain) format
+##               psi         PSI?BLAST format
+##               selex       selex (hmmer) format
+##               stockholm   stockholm format</code></pre>
+<ul>
+<li>llamada con argumentos: convierte todos los archivos FASTA con terminación faa a formato PHYLIP con extensión phy</li>
+</ul>
+<pre class="bash"><code>my_code/convert_aln_format_batch_bp.pl fasta faa phylip phy</code></pre>
+<pre><code>## 
+##  # I'm done: 3 fasta input files with faa extension were converted to phylip format with phy extension</code></pre>
+<ul>
+<li>y visualizar la salida:</li>
+</ul>
+<pre class="bash"><code>head -3 *phy</code></pre>
+<pre><code>## ==&gt; GDP_12_prokEuc_cluoAln.phy &lt;==
+##  12 234
+## gpd1yeast/   IAKVVAENQN VKYLPGITLP DNLVANPDLI DSVKDVDIIV FNIPHQFLPR ICSQLKGHVD 
+## gpdadrome/   IAKIVGANEN VKYLKGHKLP PNV-AVPDLV EAAKNADILI FVVPHQFIPN FCKQLLGKIK 
+## 
+## ==&gt; GDP_12_prokEuc_musAln.phy &lt;==
+##  12 237
+## gpd1yeast/   IAKVVAENQN VKYLPGITLP DNLVANPDL- --IDSVKDVD IIVFNIPHQF LPRICSQLKG 
+## gpdacaeel/   IARIVGSTEN IKYLPGKVLP NNVVAVTDL- --VESCEGSN VLVFVVPHQF VKGICEKLVG 
+## 
+## ==&gt; GDP_12_prokEuc.phy &lt;==
+##  12 234
+## gpd1yeast/   IAKVVAENQN VKYLPGITLP DNLVANPDLI DSVKDVDIIV FNIPHQFLPR ICSQLKGHVD 
+## gpdadrome/   IAKIVGANEN VKYLKGHKLP PN-VAVPDLV EAAKNADILI FVVPHQFIPN FCKQLLGKIK</code></pre>
+</div>
+</div>
+<div id="howtos-de-bioperl---un-recurso-muy-util-para-aprender-a-programar-con-este-toolkit" class="section level2">
+<h2><span class="header-section-number">6.7</span> HOWTOs de <span class="math inline">\(Bio::Perl\)</span> - un recurso muy útil para aprender a programar con este toolkit</h2>
 <p>En la página de <a href="https://bioperl.org/howtos/">BioPerl HOWTOs</a> encontrarás muchos ejemplos más, muy bien escritos. Para empezar, recomiendo estudiar los siguientes, en este órden</p>
 <ul>
 <li>Beginners HOWTO</li>
@@ -1802,7 +1821,6 @@ while (my $seq = $in-&gt;next_seq) {
 <li>EUtilities Cookbook HOWTO</li>
 <li>Features and annotations HOWTO</li>
 </ul>
-</div>
 </div>
 </div>
 <div id="ejercicio---construccion-de-un-modulo-para-filogenetica" class="section level1">
@@ -1856,8 +1874,18 @@ $script_dir/run_phylo_pipeline1.pl GDP_12_prokEuc.faa aa clustalo</code></pre>
 <li>pueden visualizar y editar el alineamiento GDP_12_prokEuc_cluoAln.faa con <span class="math inline">\(seaview\)</span></li>
 <li>pueden visualizar y editar el árbol GDP_12_prokEuc_cluoAln_FTLGG.ph con <span class="math inline">\(figtree\)</span></li>
 </ul>
-<p>Es todo, les deseamos mucho éxito en su futuro como programadores de Perl!</p>
 </div>
+</div>
+<div id="get_homologues-y-get_phylomarkers" class="section level1">
+<h1><span class="header-section-number">8</span> GET_HOMOLOGUES y GET_PHYLOMARKERS</h1>
+<p>Para finalizar, una sugerencia:</p>
+<p>si estás interesado en correr <strong>análisis de pan-genómica</strong>, incluyendo el <strong>cálculo de clusters de genes core y accesorios</strong>, y/o en estimar <strong>filogenias genómicas</strong> a partir de genes core o <strong>filogenias pan-genómicas</strong>, quiero exploren <a href="https://github.com/eead-csic-compbio/get_homologues">GET_HOMOLOUGUES</a> y <a href="https://github.com/vinuesa/get_phylomarkers">GET_PHYLOMARKERS</a>, los cuales podrán descargar desde ni repositorio <a href="https://github.com/vinuesa">GitHub</a>.</p>
+<p>Estos paquetes de software están bien documentados e incluyen tutorales, que puedes accesar aquí:</p>
+<ul>
+<li><a href="http://digital.csic.es/handle/10261/146411">GET_HOMOLOGUES</a></li>
+<li><a href="https://vinuesa.github.io/get_phylomarkers/#get_phylomarkers-tutorial">GET_PHYLOMARKERS</a></li>
+</ul>
+<p>Es todo, les deseamos que disfruten su preoceso de aprendizaje de programación en Perl!</p>
 </div>
 
 
