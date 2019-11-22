@@ -38,14 +38,14 @@ git clone https://github.com/vinuesa/curso_perl4bioinfo.git
 </pre>
 
 Para actualizar los contenidos de este repositorio en tu máquina, ve al
-directorio en el que clonaste el repositorio y ejecuta un $git pull$
+directorio en el que clonaste el repositorio y ejecuta un <i>git pull</i>
 
 <pre style="background: whitesmoke">
 cd /path/GithubRepo/curso_perl4bioinfo
 git pull
 </pre>
 
-Puedes instalar $git$ fácilmente en Ubuntu usando:
+Puedes instalar <i>git</i> fácilmente en Ubuntu usando:
 <pre style="background: whitesmoke">
 sudo apt install git
 </pre>
