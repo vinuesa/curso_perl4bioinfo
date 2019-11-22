@@ -8,7 +8,7 @@ package PhyloTools3;
 use strict;
 use warnings;
 
-our $VERSION = '0.2'; # v0.2 17 Nov. 2018
+our $VERSION = '0.3'; # v0.2 20 Nov. 2019
 our(@ISA, @EXPORT);
 use Exporter;
 
@@ -22,7 +22,7 @@ use Carp;
 my $muscle_bin   = '/usr/bin/muscle';
 my $clustalo_bin = '/usr/local/bin/clustalo';
 my $phyml_bin    = '/usr/local/bin/phyml';
-my $FastTree_bin = '/usr/local/biotools/bin/FastTree';
+my $FastTree_bin = '/usr/local/bin/FastTree';
 
 my @binaries = ($muscle_bin, $clustalo_bin, $FastTree_bin);
 
@@ -92,7 +92,7 @@ In the calling script use:
  # >>> Edit as required for your system <<< #
    my $muscle_bin   = '/usr/bin/muscle';
    my $clustalo_bin = '/usr/local/bin/clustalo';
-   my $FastTree_bin = '/usr/local/biotools/bin/FastTree';
+   my $FastTree_bin = '/usr/local/bin/FastTree';
 
 =cut
 
