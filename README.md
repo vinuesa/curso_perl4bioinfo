@@ -1,4 +1,4 @@
-# Presentación: perl4bioinfo, Perl para bioinform&aacute;tica - UNAM, semestre 2019-1
+# Presentación: perl4bioinfo, Perl para bioinform&aacute;tica - UNAM, semestre 2020-1
 
 ## Tema 14: Introducci&oacute;n al uso de m&oacute;dulos y clases de Perl
 
@@ -38,7 +38,7 @@ git clone https://github.com/vinuesa/curso_perl4bioinfo.git
 </pre>
 
 Para actualizar los contenidos de este repositorio en tu máquina, ve al
-directorio en el que clonaste el repositorio y ejecuta un $git\ pull$
+directorio en el que clonaste el repositorio y ejecuta un $git pull$
 
 <pre style="background: whitesmoke">
 cd /path/GithubRepo/curso_perl4bioinfo
