@@ -2549,7 +2549,7 @@ u objetos de interés mediante la definición de interacciones entre objetos y s
 
 <h3>Objetos</h3>
 
-<p>Son un conjunto de datos con un conjunto de acciones y atributos asociados.
+<p>Son un conjunto de datos con acciones y atributos asociados.
 Representan <strong>instancias particulares de una clase</strong>. Las acciones son funciones que
     un objeto puede hacer con los datos, las cuales vienen codificadas en los <strong>métodos</strong> del objeto.</p>
 
@@ -2568,6 +2568,10 @@ objetos</strong>).</p>
 <div class="slideContent" >
 <h3>Uso del módulo Statistics::Descriptive::Discrete con interfaz dirigida a objetos</h3>
 
+<ul>
+<li>veamos el script statisticsDescriptiveDiscrete.pl</li>
+</ul>
+
 <pre style=" background: whitesmoke; font-size: 70%">
 #!/usr/bin/env perl
 use strict;
@@ -2575,7 +2579,7 @@ use warnings;
 use File::Basename;
 use Statistics::Descriptive::Discrete;
 
-my $progname = basename($0);
+my $progname = basename($0); # statisticsDescriptiveDiscrete.pl
 my $VERSION  = '0.01';
 my $stats    = Statistics::Descriptive::Discrete->new();
 
@@ -2615,7 +2619,7 @@ print "median = ",             $stats->median(),             "\n";
 <h3>Uso del módulo Statistics::Descriptive::Discrete con interfaz dirigida a objetos</h3>
 
 <ul>
-<li>la salida del script</li>
+<li>la salida del script statisticsDescriptiveDiscrete.pl</li>
 </ul>
 
 <pre style="color:blue;  display: block; font-family: monospace; white-space: pre; margin: 1em 0; font-size: 90%">
