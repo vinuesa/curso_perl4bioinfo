@@ -778,7 +778,7 @@ hljs.initHighlightingOnLoad();
   });
 </script>
 
-<script type="text/javascript" src="presentacion_modulos_Rpres_files/mathjax-26/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+<script type="text/javascript" src="presentacion_modulos_files/mathjax-26/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 
   
@@ -794,15 +794,15 @@ hljs.initHighlightingOnLoad();
   <div class="slides">
 
 <section data-state="section" data-transition="default" data-transition-speed="fast">
-<h1>Introducción al uso de módulos en Perl con aplicaciones en bioinformática</h1><p>Pablo Vinuesa, CCG-UNAM (&lt;http:&#x2F;&#x2F;www.ccg.unam.mx&#x2F;~vinuesa&#x2F;&gt;, &lt;https:&#x2F;&#x2F;github.com&#x2F;vinuesa&gt;)<br/>&quot;2018-11-25&quot;</p>
+<h1>Introducción al uso de módulos en Perl con aplicaciones en bioinformática</h1><p>Pablo Vinuesa, CCG-UNAM (&lt;http:&#x2F;&#x2F;www.ccg.unam.mx&#x2F;~vinuesa&#x2F;&gt;, &lt;https:&#x2F;&#x2F;github.com&#x2F;vinuesa&gt;) @pvinmex<br/>&quot;2019-11-21&quot;</p>
 
 <div class="slideContent" >
 <h2>Presentación</h2>
 
-<p>Este material de esta presentación corresponde al último tema del <strong>Curso Fundamental de Posgrado</strong> 
-impartido en el marco de los <strong>Programas de Posgrado en Ciencias Bioquímicas y Ciencias Biomédicas</strong>
-de la Universidad Nacional Autómoma de México (<a href="http://www.unam.mx/">UNAM</a>), semestre 2019-1, 
-impartido en el Centro de Ciencias Genómicas (<a href="http://www.ccg.unam.mx/">CCG</a>), Cuernavaca, Morelos, México.</p>
+<p>Este material didáctico corresponde al último tema del <strong>Curso Fundamental de Posgrado</strong> 
+ofrecido en el marco de los <strong>Programas de Posgrado en Ciencias Bioquímicas y Ciencias Biomédicas</strong>
+de la Universidad Nacional Autómoma de México (<a href="http://www.unam.mx/">UNAM</a>), semestre 2020-1, 
+e impartido en el Centro de Ciencias Genómicas (<a href="http://www.ccg.unam.mx/">CCG</a>), Cuernavaca, Morelos, México.</p>
 
 </div>
 
@@ -831,13 +831,13 @@ git clone https://github.com/vinuesa/curso_perl4bioinfo.git
 sudo apt install git
 </pre>
 
-<p>Alternativamente, puedes descargar el archivo <a href="https://github.com/vinuesa/get_phylomarkers/archive/master.zip">master.zip</a></p>
+<p>Alternativamente, puedes descargar el archivo <a href="https://github.com/vinuesa/curso_perl4bioinfo/archive/master.zip">master.zip</a></p>
 
 </div>
 
 </section>
 <section data-transition="default" data-transition-speed="fast">
-<h3>Dependencias a instalar: módulos</h3>
+<h3>Dependencias a instalar: módulos de Perl</h3>
 <div class="slideContent" >
 <h2>Módulos del CPAN, requeridos para este tema</h2>
 
@@ -894,24 +894,24 @@ sudo apt install fasttree phyml
 
 <p>Perl usa paquetes para particionar o dividir en compartimentos el espacio global de identificadores, es decir, de los nombres de variables, subrutinas, descriptores de archivos y formatos. </p>
 
-<p>Cuando escribimos un script de Perl, todas las variables y nombres de subrutinas o descriptores de archivos (file handles) están definidas en el paquete principal, llamado <strong>package main</strong>.</p>
+<p>Cuando ejecutamos un script de Perl, todas las variables y nombres de subrutinas o descriptores de archivos (file handles) están definidos en el paquete principal, llamado <strong>package main</strong>.</p>
 
 <p>Cada <em>identificador global</em> tiene de hecho dos partes: su <strong>nombre de paquete</strong> y su <strong>identificador</strong>.
 Estas dos “piezas” están separadas la una de la otra por un doble doble-punto <strong>::</strong> </p>
 
-<p>Así por ejemplo, la variable <em>$stats::x</em> es la variable global <em>$x</em>, que reside en el paquete stats.</p>
+<p>Así por ejemplo, la variable <em>$stats::x</em> es la variable global <em>$x</em>, que reside en el paquete \( stats \).</p>
 
-<p><em>$main::x</em> es la variable <em>$x</em> definida en el paquete main. Ambas variables son completamente independientes.</p>
+<p><em>$main::x</em> es la variable <em>$x</em> definida en el paquete \( main \). Ambas variables son completamente independientes.</p>
 
 <h2>¿Qué es un módulo?</h2>
 
-<p>De manera muy simple, podríamos definir un <em>módulo</em> como la unidad de re-uso y distribución de código en Perl.
+<p>De manera muy simple, podríamos definir a un <em>módulo</em> como la unidad de re-uso y distribución de código en Perl.
 Más formalmente, se trata de un <strong>paquete</strong> definido en un archivo que lleva el mismo nombre del
-paquete y tiene la terminación <strong>$.pm$</strong>, es decir, algo como <strong>NombrePaquete.pm</strong></p>
+paquete y tiene la terminación <strong>\( .pm \)</strong>, es decir, algo como <strong>NombrePaquete.pm</strong></p>
 
 <p>Los módulos contienen funciones relacionadas y están diseñados para ser usados por programas que llaman a dichos módulos, o incluso otros módulos que llaman a las funciones contenidas en diversos módulos externos. </p>
 
-<p>Cada módulo tiene una interfaz pública, que permite el acceso a las funciones y variables definidas en ellos. 
+<p>Cada módulo tiene una <strong>interfaz pública</strong>, que permite el acceso a las funciones y variables definidas en ellos. 
 Llamamos <strong>clases</strong> a los módulos con <em>interfaz dirigida a objetos</em>. Como tales, son <strong>paquetes</strong></p>
 
 </div>
@@ -963,7 +963,7 @@ código, favoreciendo el re-uso de funciones (o métodos).</p></li>
 #!/usr/bin/env perl
 
 # programa: paquetes1.pl
-# El concepto de paquetes como divisores del espacio de nombres para evitar colisiones entre simbolos
+# El concepto de paquetes como divisores del espacio de nombres para evitar colisiones entre símbolos
 
 # estamos en el paquete principal "main"
 $secuencia = 'MVLLIATG';
@@ -1076,7 +1076,7 @@ $secuencia = 'CCCCCCCC';
 <div class="slideContent" >
 <h3>Programa paquetes2.pl - llamada a un módulo - cont.</h3>
 
-<p>Ustedes tendrán que editar <strong>use lib &#39;/path/to/lib&#39;;</strong> para que apunte al directorio correcto.</p>
+<p>Ustedes tendrán que editar <strong>use lib &#39;/path/to/lib&#39;;</strong> para que apunte al directorio en el que han guardado los archivos *.pm.</p>
 
 <pre style="background: whitesmoke;  font-size: 70%">
 #!/usr/bin/env perl
@@ -1086,13 +1086,13 @@ use warnings;
 my $host = `hostname`;
 
 # programa: paquetes2.pl
-# El concepto de paquetes como divisores del espacio de nombres para evitar colisiones entre simbolos.
-# Importanmos simbolos desde dos paquetes externos usando la directiva 'use paquete;'.
-# Estos paquetes estan guardados en los archivos Seq1.pm y Seq2.pm, y por tanto representan modulos
+# El concepto de paquetes como divisores del espacio de nombres para evitar colisiones entre símbolos.
+# Importanmos símbolos desde dos paquetes externos usando la directiva 'use paquete;'.
+# Estos paquetes estan guardados en los archivos Seq1.pm y Seq2.pm, y por tanto representan módulos
 # (aunque todavia muy primitivos y poco funcionales, ...)
 
-if ($host eq "Tenerife"){ 
-   use lib qw(/export/data/dbox/Dropbox/Cursos/perl4bioinfo/my_code);
+if ($host eq "alisio"){ 
+   use lib qw(/home/vinuesa/Dropbox/Cursos/perl4bioinfo/my_code);
 }
 else{
    # >>> EDITEN ESTA LINEA PARA APUNTAR AL PATH CORRECTO 
@@ -1156,7 +1156,7 @@ o semántica diferentes.</p>
 
 <ul>
 <li>\( require \) carga los módulos durnte el tiempo de ejecución</li>
-<li>\( use \) carga los módulos durnte el compilado del programa, mucho antes de que se ejecute</li>
+<li>\( use \) carga los módulos durante el compilado del programa, mucho antes de que se ejecute</li>
 </ul>
 
 <p>¿Qué significa ésto?</p>
@@ -1180,9 +1180,9 @@ paquete del script que las importa.</p>
 
 </section>
 <section data-transition="default" data-transition-speed="fast">
-<h3>Construcción, paso a paso, de un módulo</h3>
+<h3>Construcción de un módulo, paso a paso</h3>
 <div class="slideContent" >
-<p>En esta sesión del curso vamos a ir escribiendo progresivamente el módulo \( PhyloTools \) y el script
+<p>En esta sesión vamos a ir escribiendo progresivamente el módulo \( PhyloTools \) y el script
 \( run\_phyloTools.pl \). </p>
 
 <p>Con ellos podremos hacer <strong>un análisis filogenético completo</strong>, 
@@ -1191,7 +1191,8 @@ usando diferentes algoritmos y modelos, e incluso <strong>evaluar el ajuste de d
 usando tanto pruebas de razones de versomilitud (<strong>LRTs</strong>) como pruebas basadas en el 
 contenido de información de Akaike (<strong>AIC</strong>).</p>
 
-<p>Iremos construyendo dicho módulo y scipt poco a poco, explicando los componentes de un módulo.</p>
+<p>Iremos construyendo dicho módulo y el scipt que lo llama paso a paso, 
+explicando en el camino los componentes de un módulo.</p>
 
 <p>Para empezar, descarguen y exploren los programas run_muscle.pl, \( run\_aligners.pl \), 
 así como los módulos asociados \( PhyloTools1.pm \) y \( PhyloTools2.pm \)</p>
@@ -1322,10 +1323,10 @@ my $cwd = getcwd;
 my $host = `hostname`;
 
 # >>> Note the use of a BEGIN{ } block, to set the path in @INC at compile time!
-if ($host eq "Tenerife")
+if ($host eq "alisio")
 { 
-   # BEGIN { unshift @INC, '/export/data/dbox/Dropbox/Cursos/perl4bioinfo/my_code' ;} 
-   use lib qw(/export/data/dbox/Dropbox/Cursos/perl4bioinfo/my_code) ;
+   # BEGIN { unshift @INC, '/home/vinuesa/Dropbox/Cursos/perl4bioinfo/my_code' ;} 
+   use lib qw(/home/vinuesa/Dropbox/Cursos/perl4bioinfo/my_code) ;
 }
 else
 {
@@ -1387,7 +1388,7 @@ Modificar el path en \( PhyloTools1.pm \) si no se encuentra en /usr/bin.</li>
 suyos o usar las secuencias que pueden encontrar en el directorio /seq de la distribución
 en GitHub.</li>
 <li>Deben correr el script en el directorio en el que se encuentran las secuencias</li>
-<li>Llamen al script usando el la ruta absoluta correcta, apuntando a donde lo hayan descargado</li>
+<li>Llamen al script usando el la ruta absoluta correcta a donde lo hayan descargado</li>
 </ol>
 
 </div>
@@ -1409,7 +1410,7 @@ función \( print\_help \), mostrada arriba.</p>
     will run muscle to align the provided fasta file
 
   CWD:
-    /export/data/dbox/Dropbox/Cursos/perl4bioinfo    
+    /home/vinuesa/Cursos/perl4bioinfo    
 
 </code></pre>
 
@@ -1417,8 +1418,8 @@ función \( print\_help \), mostrada arriba.</p>
 a llamarlo:</p>
 
 <pre><code class="bash">host=$(hostname)
-if [ $host == &quot;Tenerife&quot; ]; then
-   script_dir=/export/data/dbox/Dropbox/Cursos/perl4bioinfo/my_code/
+if [ $host == &quot;alisio&quot; ]; then
+   script_dir=/home/vinuesa/Dropbox/Cursos/perl4bioinfo/my_code/
 else
    script_dir=$HOME/Dropbox/Cursos/perl4bioinfo/my_code/
 fi
@@ -1517,10 +1518,10 @@ use Carp;
 my $cwd = cwd();
 my $hostname = '';
 
-if ($hostname eq "Tenerife")
+if ($hostname eq "alisio")
 { 
-   # BEGIN { unshift @INC, '/export/data/dbox/Dropbox/Cursos/perl4bioinfo/my_code' ;} 
-   use lib qw(/export/data/dbox/Dropbox/Cursos/perl4bioinfo/my_code) ;
+   # BEGIN { unshift @INC, '/home/vinuesa/Dropbox/Cursos/perl4bioinfo/my_code' ;} 
+   use lib qw(/home/vinuesa/Dropbox/Cursos/perl4bioinfo/my_code) ;
 }
 else
 {
@@ -1572,8 +1573,8 @@ else
 <p>Corramos el script sin argumentos para ver la ayuda:</p>
 
 <pre><code class="bash">host=$(hostname)
-if [ $host == &quot;Tenerife&quot; ]; then
-   script_dir=/export/data/dbox/Dropbox/Cursos/perl4bioinfo/my_code
+if [ $host == &quot;alisio&quot; ]; then
+   script_dir=/home/vinuesa/Dropbox/Cursos/perl4bioinfo/my_code
 else
    script_dir=$HOME/Dropbox/Cursos/perl4bioinfo/my_code
 fi
@@ -1595,7 +1596,7 @@ $script_dir/run_aligners.pl
     will run clustalo or muscle to align the input fasta file
 
   CWD:
-    /export/data/dbox/Dropbox/Cursos/perl4bioinfo    
+    /home/vinuesa/Cursos/perl4bioinfo    
 
 </code></pre>
 
@@ -1608,8 +1609,8 @@ $script_dir/run_aligners.pl
 <p>Ahora con argumentos:</p>
 
 <pre><code class="bash">host=$(hostname)
-if [ $host == &quot;Tenerife&quot; ]; then
-   script_dir=/export/data/dbox/Dropbox/Cursos/perl4bioinfo/my_code
+if [ $host == &quot;alisio&quot; ]; then
+   script_dir=/home/vinuesa/Dropbox/Cursos/perl4bioinfo/my_code
 else
    script_dir=$HOME/Dropbox/Cursos/perl4bioinfo/my_code
 fi
@@ -1654,8 +1655,8 @@ $script_dir/run_aligners.pl GDP_12_prokEuc.faa
 <h3>Diferencias entre declaraciones léxica \( my \) y global \( our \) de variables bajo el pragma \( use\ strict \)</h3>
 
 <ol>
-<li>la declaración léxica de una variable con <em>my $variable</em> la localiza a un &ldquo;scope&rdquo; o bloque</li>
-<li>la declaración global de una variable con <em>our $variable</em> la hace global en el paquete
+<li>la <strong>declaración léxica</strong> de una variable con <em>my $variable</em> la localiza a un &ldquo;scope&rdquo; o bloque</li>
+<li>la <strong>declaración global</strong> de una variable con <em>our $variable</em> la hace global en el paquete
 y en el script que la llama</li>
 </ol>
 
@@ -1733,18 +1734,18 @@ sub sub2
 
 </section>
 <section data-transition="default" data-transition-speed="fast">
-<h3>Documentación de módulos con POD</h3>
+<h3>Documentación de módulos con $POD$</h3>
 <div class="slideContent" >
-<h2>Un módulo no está completo si está adecuadamente documentado.</h2>
+<h2>Un módulo no está completo si no tiene documentación.</h2>
 
-<p>Los módulos de Perl y en general, toda la documentación de Perl se escribe en formato
+<p>En general, toda la documentación de Perl se escribe en formato
 <strong>POD (Plain Old Documentation)</strong>.</p>
 
 <p>Se trata de un lenguaje de marcado que permite incluir bloques de documentación en un 
-script of módulo de perl y su lectura desde la línea de comandos usando el programa perldoc.</p>
+script o módulo de perl y su lectura desde la línea de comandos usando el programa \( perldoc \).</p>
 
 <ul>
-<li>cuando el intérprete perl encuentra un signo = al inicio de una linea, tal como <strong>=head1</strong></li>
+<li>cuando el intérprete \( perl \) encuentra un signo = al inicio de una linea, tal como <strong>=head1</strong></li>
 <li>cambia al modo de procesamiento de POD, hasta que encuentra una línea que inicia con <strong>=cut</strong></li>
 </ul>
 
@@ -1774,7 +1775,7 @@ como módulo instalados con poderes de superusuario. </p>
 
 <p>La lista de esos directorios la exporta Perl al arreglo \( @INC \)</p>
 
-<p>Para ver los detalles de configuración de la compilación del intérprete perl, 
+<p>Para ver los detalles de configuración de la compilación del intérprete \( perl \), 
 usa la siguiente línea, que incluye, al final de la copiosa salida, los directorios
 que se incluyen en el arreglo \( @INC \).</p>
 
@@ -1793,8 +1794,8 @@ que se incluyen en el arreglo \( @INC \).</p>
     /usr/lib/x86_64-linux-gnu/perl-base
 </code></pre>
 
-<p>Cualquier módulo instalado en dichos directorios, será accesible desde cualquier 
-script que se corra en el sistema, al invocar la directiva \( use\ module \)</p>
+<p>Cualquier módulo instalado en dichos directorios será accesible desde cualquier 
+script que se corra en el sistema al invocar la directiva \( use\ module \)</p>
 
 <!--
 
@@ -1829,7 +1830,7 @@ concretamente 652!</p>
 
 <pre><code>
 This is perl 5, version 26, subversion 1 (v5.26.1) built for x86_64-linux-gnu-thread-multi
-(with 63 registered patches, see perl -V for more detail)
+(with 67 registered patches, see perl -V for more detail)
 
 Copyright 1987-2017, Larry Wall
 
@@ -1854,11 +1855,11 @@ echo &#39;----------------------------------------------------------------------
 lsb_release -a # imprime detalles de la distribución de Linux
 </code></pre>
 
-<pre><code>Linux Tenerife 4.15.0-39-generic #42-Ubuntu SMP Tue Oct 23 15:48:01 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux
+<pre><code>Linux alisio 4.15.0-70-generic #79-Ubuntu SMP Tue Nov 12 10:36:11 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
 -----------------------------------------------------------------------
-LSB Version:    core-9.20170808ubuntu1-noarch:security-9.20170808ubuntu1-noarch
+No LSB modules are available.
 Distributor ID: Ubuntu
-Description:    Ubuntu 18.04.1 LTS
+Description:    Ubuntu 18.04.3 LTS
 Release:    18.04
 Codename:   bionic
 </code></pre>
@@ -1883,7 +1884,7 @@ Codename:   bionic
 cualquiera de los ~200,000 módulos existentes en <strong>CPAN (Comprehensive Perl Archive Network)</strong>.</p>
 
 <p>En conjunto, estos módulos permiten al programador de Perl escribir con gran facilidad programas
-para todo tipo de operaciones, desde programación Web y de bases de datos a estadística, graficado
+para todo tipo de aplicaciones, desde programación Web y de bases de datos a estadística, graficado
 y bioinformática, por mencionar sólo algunas de las áreas relevantes para este curso.</p>
 
 <p>Veremos cómo buscar módulos en CPAN y su instalación un poco más adelante. Ahora nos
@@ -1943,8 +1944,8 @@ uno de sus módulos. Veamos algunos ejemplos:</p>
 <h3>Errores y avisos</h3>
 
 <ul>
-<li>\( Carp \) provee rutinas de \( carp \), \( croak \), \( confess \) y \( cluck \) para morir o avisar de 
-errors desde la perspectiva del que invoca las llamadas, dando la traza de la pila</li>
+<li>\( Carp \) provee las funciones \( carp \), \( croak \), \( confess \) y \( cluck \) para morir o avisar de 
+errores desde la perspectiva del que invoca las llamadas, dando la traza de la pila</li>
 </ul>
 
 </div>
@@ -2172,15 +2173,15 @@ $script_dir/LRT_calculator.pl -d 5 -L -19950.1245 -l -19955.541 -a 0.01
 
 <pre><code>Welcome to CPAN
 
-The Comprehensive Perl Archive Network (CPAN) currently has 176,669 Perl modules
-in 39,172 distributions, written by 13,650 authors, mirrored on 261 servers. 
+The Comprehensive Perl Archive Network (CPAN) currently has 184,975 Perl modules
+in 40,530 distributions, written by 13,870 authors, mirrored on 255 servers. 
 
 ...
 </code></pre>
 
 <p>¡No dejen de visitralo! Es un <strong>repositorio GIGANTESCO!</strong> </p>
 
-<p>Tiene mucha información y código: <strong>176,669 módulos!!!</strong></p>
+<p>Tiene mucha información y código: <strong>184,975 módulos!!!</strong></p>
 
 <p>Todos los lenguajes modernos tienen sus repositorios. Pero CPAN posiblemente sea el más grande.</p>
 
@@ -2357,7 +2358,7 @@ El procedimiento es equivalente:</p>
 perl Buil.PL --install_base = $HOME/CPAN/
 perl Build
 Perl Build test
-Oerk Build install
+Perl Build install
 </pre>
 
 </div>
@@ -2426,7 +2427,7 @@ cpanm --local-lib=~/perl5 local::lib && eval $(perl -I ~/perl5/lib/perl5/ -Mloca
 
 <p>Si instalamos módulos como superusuario (\( su \) o \( sudo \)), éstos se instalan en uno de los directorios 
 del arreglo especial \( @INC \), que contiene todas las rutas a directorios establecidos durante 
-la compilación de Perl para albergar módulos.</p>
+la compilación de \( perl \) para albergar módulos.</p>
 
 <p>Podemos ver el contenido de @INC con el siguiente 1liner de Perl:</p>
 
@@ -2548,16 +2549,16 @@ u objetos de interés mediante la definición de interacciones entre objetos y s
 
 <h3>Objetos</h3>
 
-<p>Son un conjunto de datos con un acciones y atributos asociados.
+<p>Son un conjunto de datos con un conjunto de acciones y atributos asociados.
 Representan <strong>instancias particulares de una clase</strong>. Las acciones son funciones que
-    un objeto puede hacer con los datos, las cuales vienen codificadas en los métodos del objeto.</p>
+    un objeto puede hacer con los datos, las cuales vienen codificadas en los <strong>métodos</strong> del objeto.</p>
 
 <h3>Métodos</h3>
 
 <p>Son <strong>análogos a funciones</strong>, ya que tienen un nombre y reciben parámetros para operar
 sobre datos. Pero no son lo mismo ya que hay que llamarlos con una sintaxis particular
-que contiene el nombre de una clase (métodos de clases) o de un objeto (métodos de
-objetos).</p>
+que contiene el nombre de una clase (<strong>métodos de clases</strong>) o de un objeto (<strong>métodos de
+objetos</strong>).</p>
 
 </div>
 
@@ -2649,7 +2650,7 @@ median = 4
 use Statistics::Descriptive::Discrete;
 </pre></li>
 <li><p>Generación de una nueva instancia de la clase, es decir, generación de un objeto de la clase
-mediante un método de clase llamado constructor:</p>
+mediante un método de clase llamado <em>constructor</em>:</p>
 
 <pre style=" background: hsl(30,80%,90%); font-size: 95%">
 # my $object = Class::Name->new(parameter1, parameter2 …); # con params.
@@ -2672,14 +2673,14 @@ print "count = ", $stats->count(), "\n"; # llamada al método count del objeto $
 <section data-transition="default" data-transition-speed="fast">
 <h3>BioPerl</h3>
 <div class="slideContent" >
-<p>El projecto <a href="https://bioperl.org/">BioPerl</a> de código abierto es fruto de la colaboración 
-entre bioinformáticos, biólogos y científicos del área de la computación con objetivo de
+<p>El projecto <a href="https://bioperl.org/">BioPerl</a> de código fuente abierto es fruto de la colaboración 
+entre bioinformáticos, biólogos y científicos del área de la computación con el objetivo de
 desarrollar una plataforma de código para resolver todo tipo de problemas de bioinformática. </p>
 
-<p>El proyecto inició en 1995 y tuvo su lanzamiento inicial el 11 de Junio de 2002, por lo que
+<p>El proyecto inició en 1995 y tuvo su lanzamiento oficial el 11 de Junio de 2002, por lo que
 claramente es el primer y mayor proyecto de código abierto para bioinformática actuamente existente.</p>
 
-<p>BioPerl es un proyecto activo financiado por la <a href="http://www.open-bio.org">Open Bioinformatics Foundation</a>, 
+<p>BioPerl es un proyecto activo, financiado por la <a href="http://www.open-bio.org">Open Bioinformatics Foundation</a>, 
 basado en módulos de Perl con el fin de facilitar la administración y 
 manipulación de información relacionada con ciencias de la vida, en particular secuecias
 genómicas, análisis de genes y proteínas, e interacción con diversos tipos de bases de datos.</p>
@@ -2745,12 +2746,12 @@ cpanm Bio::Perl
 
 <p>Desde un punto de vista conceptual, <strong>un objeto o instancia de una clase</strong> es un agregado de variables (atributos), con identidad propia, que además incorpora una serie de subrutinas (<strong>métodos</strong>) para interaccionar con el mundo exterior o acceder a los contenidos del mismo. </p>
 
-<p>En la práctica, una clase es un tipo de módulo que crea copias temporales de sí misma, que duran mientras corre el programa que la invoca, cada una con su propia identidad. A cada instancia o copia le llamamos &#39;objeto&#39;. </p>
+<p>En la práctica, una clase es un tipo de módulo que crea copias temporales de sí mismo, que duran mientras corre el programa que la invoca, cada una con su propia identidad. A cada instancia o copia de la clase le llamamos &#39;objeto&#39;. </p>
 
 <p>Un ejemplo en Biología podría ser la clase de las proteínas, que son polímeros de aminoácidos, pero cada una, cada objeto perteneciente a la clase, como la calmodulina, tiene su propia función, secuencia y nombre. </p>
 
 <p>En este tema no podemos describir cómo se programan clases, nos limitaremos a aprender a usarlas.
-Pero es importante señalar que un módulo con interfaz dirigida a objetos, generalmente no 
+Es importante señalar que un módulo con interfaz dirigida a objetos, generalmente no 
 utiliza el mecanismo de imporación-exportación descrito arriba para módulos tradicionales.</p>
 
 <p>La interfaz dirigida a objetos se basa en el uso de constructores, destructores, métodos, 
@@ -2769,7 +2770,7 @@ interactuar con ellos mediante los <strong>métodos</strong> asociados. </p>
 
 <p>Dado que BioPerl cuenta con mucho módulos, tenemos que llamar al módulo adecuado para
 resolver nuestro problema. \( Bio::Seq \) es la clase principal para trabajar con secuencias
-en BioPerl. SeqIO puede leer y escribir secuencias biológicas en múltiples formatos, y por 
+en BioPerl. \( Bio::SeqIO \) puede leer y escribir secuencias biológicas en múltiples formatos, y por 
 tanto tambien transformarlas de un formato a otro.</p>
 
 <ol>
@@ -2850,7 +2851,7 @@ con entradas de bases de datos como Blast o GenBank.</p></li>
 <h3>Adición de nuevos atributos al objeto de la clase \( Bio::Seq \)</h3>
 
 <p>Típicamente una secuencia tiene varios atributos adicionales, como un <em>identificador</em> y una
-<em>descripción</em> con metadatos adiconales. Vamos a crear un nueva instancia de la clase \( Bio::Seq \),
+<em>descripción</em> con metadatos adicionales. Vamos a crear un nueva instancia de la clase \( Bio::Seq \),
 es decir, un nuevo objeto $\\( seq\_obj \), con esta información adicional.</p>
 
 <pre style=" background: hsl(30,80%,90%); font-size: 90%">
@@ -2921,7 +2922,7 @@ my $seq_obj = Bio::Seq->new(-seq        => "ATGATTGCACATTATAA",
 
 # 3. imprimimos la secuencia en formato FASTA usando una instancia de Bio::SeqIO
 # 3.1 generamos un nuevo objeto de la clase  Bio::SeqIO
-my $seqio_obj = Bio::SeqIO->new(-file   => '>Bichococus_imaginarius_genX.fasta', 
+my $seqio_obj = Bio::SeqIO->new(-file   => '>Bichococcus_imaginarius_genX.fasta', 
                                 -format => 'fasta' );
 </pre>
 
@@ -2939,7 +2940,7 @@ my $seqio_obj = Bio::SeqIO->new(-file   => '>Bichococus_imaginarius_genX.fasta',
 $seqio_obj->write_seq($seq_obj);
 </pre>
 
-<pre><code class="bash">[ -s Bichococus_imaginarius_genX.fasta ] &amp;&amp; cat Bichococus_imaginarius_genX.fasta
+<pre><code class="bash">[ -s Bichococcus_imaginarius_genX.fasta ] &amp;&amp; cat Bichococcus_imaginarius_genX.fasta
 </code></pre>
 
 <pre><code>&gt;XXX_0123 Bichococcus imaginarius, genX
@@ -2961,7 +2962,7 @@ que nos imprima la secuencia ahora en formato GenBank. </p>
 <p>Para ello sólo necesitamos cambiar el atributo format del objeto $\\( seqio \), y usar un nuevo nombre de archivo de salida, como se muestra en el siguiente bloque.</p>
 
 <pre style="background: hsl(30,80%,90%); font-size: 95%">
-my $seqio_obj = Bio::SeqIO->new(-file   => '>Bichococus_imaginarius_genX.gbk', 
+my $seqio_obj = Bio::SeqIO->new(-file   => '>Bichococcus_imaginarius_genX.gbk', 
                                 -format => 'genbank' );
 </pre>
 
@@ -2997,7 +2998,7 @@ use Bio::SeqIO;
 
 # 2. leamos la la secuencia en formato GenBank usando una instancia de Bio::SeqIO
 # 2.1  generando un nuevo objeto de la clase  Bio::SeqIO
-my $seqio_obj = Bio::SeqIO-&gt;new(-file   =&gt; &#39;Bichococus_imaginarius_genX.gbk&#39;, 
+my $seqio_obj = Bio::SeqIO-&gt;new(-file   =&gt; &#39;Bichococcus_imaginarius_genX.gbk&#39;, 
                                 -format =&gt; &#39;genbank&#39; );
 
 # 2.2 usamos el método next_seq() del objeto $seqio_obj leer el contenido del
@@ -3105,24 +3106,23 @@ while (my $seq = $in->next_seq) {
 <div class="slideContent" >
 <h3>Script \( convert\_seqFormats\_SeqIO.pl \) para interconvertir formatos de secuencias</h3>
 
-<p>Una llamada al script, para convertir el archivo Bichococus_imaginarius_genX.gbk en formato GenBank
+<p>Una llamada al script, para convertir el archivo Bichococcus_imaginarius_genX.gbk en formato GenBank
 a formato EMBL, sería así:</p>
 
-<pre><code class="bash">. ./set_script_dir_by_hostname
-$script_dir/convert_seqFormats_SeqIO.pl Bichococus_imaginarius_genX.gbk genbank Bichococus_imaginarius_genX.embl EMBL
+<pre style="background: whitesmoke; font-size: 90%">
+./convert_seqFormats_SeqIO.pl Bichococcus_imaginarius_genX.gbk genbank Bichococcus_imaginarius_genX.embl EMBL
+</pre>
+
+<p>Y podemos ver el resultado as&iacute;</p>
+
+<pre><code class="bash">[ -s Bichococcus_imaginarius_genX.embl ] &amp;&amp; cat &#39;Bichococcus_imaginarius_genX.embl&#39;
 </code></pre>
 
-<p>Y podemos ver el resultado así:</p>
-
-<pre><code class="bash">[ -s Bichococus_imaginarius_genX.embl ] &amp;&amp; cat &#39;Bichococus_imaginarius_genX.embl&#39;
-</code></pre>
-
-<pre><code>ID   XXX_0123; SV 1; linear; unassigned DNA; STD; UNC; 17 BP.
+<pre><code>ID   XXX_0123   standard; dna; UNK; 17 BP.
 XX
 AC   unknown;
 XX
 DE   Bichococcus imaginarius, genX
-XX
 XX
 FH   Key             Location/Qualifiers
 FH
@@ -3138,201 +3138,7 @@ SQ   Sequence 17 BP; 7 A; 2 C; 2 G; 6 T; 0 other;
 <section data-transition="default" data-transition-speed="fast">
 <h3>BioPerl - cont.</h3>
 <div class="slideContent" >
-<h2>\( Bio::AlignIO \) una clase para trabajar con alineamientos múltiples</h2>
-
-<p>La clase \( Bio::AlignIO \) está especializada en trabajar con una gran gama de formatos 
-de alineamintos múltiples. </p>
-
-<p>Tiene un diseño e interfaz que comparte muchas características 
-con el módulo \( Bio::SeqIO \), por lo que les resultará fácil de utilizar después de lo que 
-hemos aprendido en secciones anteriores.</p>
-
-<p>Veamos la synopsis mostrada con el comando \( perldoc\ Bio::AlignIO \):</p>
-
-<pre style=" background: hsl(30,80%,90%); font-size: 95%">
-SYNOPSIS
-   use Bio::AlignIO;
-
-   $inputfilename = "testaln.fasta";
-   $in  = Bio::AlignIO->new(-file   => $inputfilename ,
-                -format => 'fasta');
-   $out = Bio::AlignIO->new(-file   => ">out.aln.pfam" ,
-                -format => 'pfam');
-
-   while ( my $aln = $in->next_aln() ) {
-       $out->write_aln($aln);
-   }
-</pre>
-
-<p>Les debe de resultar familiar, ¿verdad?. </p>
-
-</div>
-
-</section>
-<section data-transition="default" data-transition-speed="fast">
-<h3>BioPerl - cont.</h3>
-<div class="slideContent" >
-<h3>\( convert\_aln\_format\_batch\_bp.pl \) para interconversión de formatos</h3>
-
-<pre style=" background: hsl(30,80%,90%); font-size: 80%">
-#!/usr/bin/env perl
-# Use BioPerl's Bio::AlignIO to convert between multiple sequence alignment formats
-use strict;
-use warnings;
-use Bio::AlignIO;    # assumes the class in found in @INC or exported by $PERL5LIB       
-
-# 1) Declare variable, get input arguments from the command line and print help if needed
-
-if ($#ARGV < 3)
-{
-    print "Usage: $0 inputformat infile_ext outputformat outputfile_ext\n
-              Supported formats include:
-
-              bl2seq      Bl2seq Blast output
-              clustalw    clustalw (.aln) format
-              emboss      EMBOSS water and needle format
-              fasta       FASTA format
-              maf         Multiple Alignment Format
-              mase        mase (seaview) format
-              mega        MEGA format
-              meme        MEME format
-              msf         msf (GCG) format
-              nexus       Swofford et al NEXUS format
-              pfam        Pfam sequence alignment format
-              phylip      Felsenstein PHYLIP format
-              prodom      prodom (protein domain) format
-              psi         PSI?BLAST format
-              selex       selex (hmmer) format
-              stockholm   stockholm format\n\n\n";
-    exit;
-}    
-</pre>
-
-</div>
-
-</section>
-<section data-transition="default" data-transition-speed="fast">
-<h3>BioPerl - cont.</h3>
-<div class="slideContent" >
-<h3>\( convert\_aln\_format\_batch\_bp.pl \) para interconversión de formatos - cont.</h3>
-
-<pre style=" background: hsl(30,80%,90%); font-size: 85%">
-my($inputformat, $infile_ext, $outputformat, $outputfile_ext)=@ARGV;
-my @infiles = <*$infile_ext>;
-my($basename,$counter);
-
-
-# 2) Process all files in cwd having infile_ext, converting them from inputformat to outputformat 
-#    with the outputfile_ext provided at the command line
-
-foreach my $infile ( @infiles )
-{  
-    $basename = (split(/\./, $infile))[0]; 
-        
-    my $in  = Bio::AlignIO->new(-file => $basename . ".$infile_ext",   -format => $inputformat);
-    my $out = Bio::AlignIO->new(-file => ">$basename.$outputfile_ext", -format => $outputformat);
-
-    while ( my $aln = $in->next_aln() ) 
-    {
-            $out->write_aln($aln);
-    }
-    $counter++;
-
-}
-print "\n\t# I'm done: $counter $inputformat input files with $infile_ext extension were converted to $outputformat format with $outputfile_ext extension\n\n";
-</pre>
-
-</div>
-
-</section>
-<section data-transition="default" data-transition-speed="fast">
-<h3>BioPerl - cont.</h3>
-<div class="slideContent" >
-<h3>\( convert\_aln\_format\_batch\_bp.pl \) para interconversión de formatos - cont.</h3>
-
-<p>Y finalmente veamos cómo se usa:</p>
-
-<ul>
-<li>llamada sin argumentos para ver la ayuda:</li>
-</ul>
-
-<pre><code class="bash">. ./set_script_dir_by_hostname 
-$script_dir/convert_aln_format_batch_bp.pl
-</code></pre>
-
-<pre><code>Usage: /export/data/dbox/Dropbox/Cursos/perl4bioinfo/my_code/convert_aln_format_batch_bp.pl inputformat infile_ext outputformat outputfile_ext
-
-              Supported formats include:
-
-              bl2seq      Bl2seq Blast output
-              clustalw    clustalw (.aln) format
-              emboss      EMBOSS water and needle format
-              fasta       FASTA format
-              maf         Multiple Alignment Format
-              mase        mase (seaview) format
-              mega        MEGA format
-              meme        MEME format
-              msf         msf (GCG) format
-              nexus       Swofford et al NEXUS format
-              pfam        Pfam sequence alignment format
-              phylip      Felsenstein PHYLIP format
-              prodom      prodom (protein domain) format
-              psi         PSI?BLAST format
-              selex       selex (hmmer) format
-              stockholm   stockholm format
-</code></pre>
-
-</div>
-
-</section>
-<section data-transition="default" data-transition-speed="fast">
-<h3>BioPerl - cont.</h3>
-<div class="slideContent" >
-<h3>\( convert\_aln\_format\_batch\_bp.pl \) para interconversión de formatos - cont.</h3>
-
-<ul>
-<li>llamada con argumentos: convierte todos los archivos FASTA con terminación faa a formato
-PHYLIP con extensión phy</li>
-</ul>
-
-<pre><code class="bash">. ./set_script_dir_by_hostname 
-$script_dir/convert_aln_format_batch_bp.pl fasta faa phylip phy
-</code></pre>
-
-<pre><code>
-    # I&#39;m done: 3 fasta input files with faa extension were converted to phylip format with phy extension
-</code></pre>
-
-<ul>
-<li>y visualizar la salida:</li>
-</ul>
-
-<pre><code class="bash">head -3 *phy
-</code></pre>
-
-<pre><code>==&gt; GDP_12_prokEuc_cluoAln.phy &lt;==
- 12 234
-gpd1yeast/   IAKVVAENQN VKYLPGITLP DNLVANPDLI DSVKDVDIIV FNIPHQFLPR ICSQLKGHVD 
-gpdadrome/   IAKIVGANEN VKYLKGHKLP PNV-AVPDLV EAAKNADILI FVVPHQFIPN FCKQLLGKIK 
-
-==&gt; GDP_12_prokEuc_musAln.phy &lt;==
- 12 237
-gpd1yeast/   IAKVVAENQN VKYLPGITLP DNLVANPDL- --IDSVKDVD IIVFNIPHQF LPRICSQLKG 
-gpdacaeel/   IARIVGSTEN IKYLPGKVLP NNVVAVTDL- --VESCEGSN VLVFVVPHQF VKGICEKLVG 
-
-==&gt; GDP_12_prokEuc.phy &lt;==
- 12 234
-gpd1yeast/   IAKVVAENQN VKYLPGITLP DNLVANPDLI DSVKDVDIIV FNIPHQFLPR ICSQLKGHVD 
-gpdadrome/   IAKIVGANEN VKYLKGHKLP PN-VAVPDLV EAAKNADILI FVVPHQFIPN FCKQLLGKIK 
-</code></pre>
-
-</div>
-
-</section>
-<section data-transition="default" data-transition-speed="fast">
-<h3>BioPerl - cont.</h3>
-<div class="slideContent" >
-<h3>HOWTOs de \( Bio::Perl \) - un recurso muy útil para aprender a programar con este toolkit</h3>
+<h3>¿Dónde encuentro más información para aprender más \( Bio::Perl \)?</h3>
 
 <p>Para más ejemplos de uso de la clase <a href="https://bioperl.org/howtos/SeqIO_HOWTO.html">\( Bio::SeqIO \)</a>, vean 
 el siguiente <em>HOWTO</em> en la página de bioperl.org <a href="https://bioperl.org/howtos/">https://bioperl.org/howtos/</a></p>
@@ -3410,7 +3216,7 @@ $script_dir/run_phylo_pipeline1.pl
          and FastTree to infer phylogeny
 
   CWD:
-    /export/data/dbox/Dropbox/Cursos/perl4bioinfo    
+    /home/vinuesa/Cursos/perl4bioinfo    
 
 </code></pre>
 
@@ -3426,13 +3232,13 @@ $script_dir/run_phylo_pipeline1.pl
 <li>Va un ejemplo de corrida \( run\_phylo\_pipeline1.pl \) con argumentos</li>
 </ul>
 
-<pre><code class="bash">. ./set_script_dir_by_hostname 
+<pre><code class="bash">. ./set_script_dir_by_hostname
 $script_dir/run_phylo_pipeline1.pl GDP_12_prokEuc.faa aa clustalo
 </code></pre>
 
 <pre><code># sub run_clustalo is running /usr/local/bin/clustalo -i GDP_12_prokEuc.faa -o GDP_12_prokEuc_cluoAln.faa --force
 # run_clustalo() returned aligned outfile GDP_12_prokEuc_cluoAln.faa
-# sub run_FastTree is running: /usr/local/biotools/bin/FastTree -lg -gamma -quiet &lt; GDP_12_prokEuc_cluoAln.faa &gt; GDP_12_prokEuc_cluoAln_FTLGG.ph
+# sub run_FastTree is running: /usr/local/bin/FastTree -lg -gamma -quiet &lt; GDP_12_prokEuc_cluoAln.faa &gt; GDP_12_prokEuc_cluoAln_FTLGG.ph
 # run_clustalo() returned aligned outfile GDP_12_prokEuc_cluoAln_FTLGG.ph
 </code></pre>
 
@@ -3441,31 +3247,7 @@ $script_dir/run_phylo_pipeline1.pl GDP_12_prokEuc.faa aa clustalo
 <li>pueden visualizar y editar el árbol GDP_12_prokEuc_cluoAln_FTLGG.ph con \( figtree \)</li>
 </ul>
 
-</div>
-
-</section>
-<section data-transition="default" data-transition-speed="fast">
-<h3>Código en Perl para pan-genómica y filogenómica microbiana</h3>
-<div class="slideContent" >
-<h2>GET_HOMOLOGUES y GET_PHYLOMARKERS</h2>
-
-<p>Para finalizar, una sugerencia: </p>
-
-<p>si estás interesado en correr <strong>análisis de pan-genómica</strong>, 
-incluyendo el <strong>cálculo de clusters de genes core y accesorios</strong>, y/o en estimar 
-<strong>filogenias genómicas</strong> a partir de genes core o <strong>filogenias pan-genómicas</strong>, 
-quiero exploren <a href="https://github.com/eead-csic-compbio/get_homologues">GET_HOMOLOUGUES</a> y <a href="https://github.com/vinuesa/get_phylomarkers">GET_PHYLOMARKERS</a>, los cuales 
-podrán descargar desde ni repositorio <a href="https://github.com/vinuesa">GitHub</a>.</p>
-
-<p>Estos paquetes de software están bien documentados e incluyen tutorales, que puedes
-accesar aquí: </p>
-
-<ul>
-<li><a href="http://digital.csic.es/handle/10261/146411">GET_HOMOLOGUES</a></li>
-<li><a href="https://vinuesa.github.io/get_phylomarkers/#get_phylomarkers-tutorial">GET_PHYLOMARKERS</a></li>
-</ul>
-
-<p>Es todo, les deseamos que disfruten su preoceso de aprendizaje de programación en Perl!</p>
+<p>Es todo, les deseamos mucho éxito en su futuro como programadores de Perl!</p>
 
 </div>
 
