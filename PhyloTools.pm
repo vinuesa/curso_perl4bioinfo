@@ -25,7 +25,7 @@ use Exporter;
 my $muscle_bin   = '/usr/bin/muscle';
 my $clustalo_bin = '/usr/local/bin/clustalo';
 my $phyml_bin    = '/usr/local/bin/phyml';
-my $FastTree_bin = '/usr/local/biotools/bin/FastTree';
+my $FastTree_bin = '/usr/local/bin/FastTree';
 my @binaries = ($muscle_bin, $clustalo_bin, $FastTree_bin, $phyml_bin);
 
 foreach my $bin (@binaries)
